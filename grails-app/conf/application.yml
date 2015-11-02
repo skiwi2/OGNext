@@ -2,7 +2,7 @@
 grails:
     profile: web
     codegen:
-        defaultPackage: olog
+        defaultPackage: com.skiwi.olog
 info:
     app:
         name: '@info.app.name@'
@@ -115,3 +115,8 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+
+---
+grails:
+    gorm:
+        failOnError: true
