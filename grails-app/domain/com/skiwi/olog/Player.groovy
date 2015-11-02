@@ -5,4 +5,5 @@ class Player {
     }
 
     Integer playerId
+    String name
 }

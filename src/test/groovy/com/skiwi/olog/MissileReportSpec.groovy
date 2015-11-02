@@ -1,6 +1,5 @@
 package com.skiwi.olog
 
-import com.skiwi.olog.MissileReport
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
@@ -17,7 +16,7 @@ class MissileReportSpec extends Specification {
 
     void "save valid missile report"() {
         given: "a player"
-        def player = new Player(id: "103168")
+        def player = new Player(id: "103168", name: "skiwi")
 
         when: "missile report is valid"
         def missileReport = new MissileReport(player: player, key: "mr-en-135-b47906dc63fafa3c47185e09c23908945c802781")

@@ -16,7 +16,7 @@ class PlayerSpec extends Specification {
 
     void "save valid player"() {
         when: "player is valid"
-        def player = new Player(playerId: "103168")
+        def player = new Player(playerId: "103168", name: "skiwi")
 
         then: "player should be saved"
         player.save()

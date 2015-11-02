@@ -1,6 +1,5 @@
 package com.skiwi.olog
 
-import com.skiwi.olog.CombatReport
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
@@ -17,7 +16,7 @@ class CombatReportSpec extends Specification {
 
     void "save valid combat report"() {
         given: "a player"
-        def player = new Player(id: "103168")
+        def player = new Player(id: "103168", name: "skiwi")
 
         when: "combat report is valid"
         def combatReport = new CombatReport(player: player, key: "cr-en-135-3be2512d98e266343c100f71d6c14b7a68e639f4")

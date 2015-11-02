@@ -1,6 +1,5 @@
 package com.skiwi.olog
 
-import com.skiwi.olog.SpyReport
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
@@ -17,7 +16,7 @@ class SpyReportSpec extends Specification {
 
     void "save valid spy report"() {
         given: "a player"
-        def player = new Player(id: "103168")
+        def player = new Player(id: "103168", name: "skiwi")
 
         when: "spy report is valid"
         def spyReport = new SpyReport(player: player, key: "sr-en-135-73536e717b84e3ebd7cc6c415a3b3675cc1af166")
