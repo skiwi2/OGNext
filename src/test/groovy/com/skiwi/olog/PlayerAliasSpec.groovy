@@ -5,7 +5,6 @@ import spock.lang.Specification
 
 import java.time.Instant
 import java.time.temporal.ChronoUnit
-import java.time.temporal.TemporalUnit
 
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
@@ -59,5 +58,16 @@ class PlayerAliasSpec extends Specification {
         !new PlayerAlias(name: "testBeforeWithoutGap", begin: now.minus(4, ChronoUnit.HOURS), end: now).intervalIntersects(otherPlayerAlias)
         !new PlayerAlias(name: "testAfterWithoutGap", begin: now.plus(4, ChronoUnit.HOURS), end: now.plus(7, ChronoUnit.HOURS)).intervalIntersects(otherPlayerAlias)
         !new PlayerAlias(name: "testAfterWithGap", begin: now.plus(5, ChronoUnit.HOURS), end: now.plus(7, ChronoUnit.HOURS)).intervalIntersects(otherPlayerAlias)
+    }
+
+    void "player alias interval"() {
+        given: "a player alias"
+        def now = Instant.now()
+        def playerAlias = new PlayerAlias(name: "test", begin: now, end: now.plus(4, ChronoUnit.HOURS))
+
+        expect:
+        playerAlias.inInterval(now)
+        playerAlias.inInterval(now.plus(2, ChronoUnit.HOURS))
+        !playerAlias.inInterval(now.plus(4, ChronoUnit.HOURS))
     }
 }

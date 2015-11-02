@@ -14,4 +14,8 @@ class PlayerAlias {
     boolean intervalIntersects(PlayerAlias other) {
         begin < other.end && other.begin < end
     }
+
+    boolean inInterval(Instant instant) {
+        begin <= instant && instant < end
+    }
 }
