@@ -23,7 +23,7 @@ class PlayerSpec extends Specification {
 
     void "save valid player"() {
         when: "player is valid"
-        def player = new Player(playerId: "103168")
+        def player = new Player(playerId: 103168)
 
         then: "player should be saved"
         player.save()
@@ -31,8 +31,8 @@ class PlayerSpec extends Specification {
 
     void "save two valid players"() {
         when: "players have different playerId"
-        def player = new Player(playerId: "103168")
-        def player2 = new Player(playerId: "103169")
+        def player = new Player(playerId: 103168)
+        def player2 = new Player(playerId: 103169)
 
         then: "players should be saved"
         player.save()
@@ -41,8 +41,8 @@ class PlayerSpec extends Specification {
 
     void "sae two players with same playerId"() {
         when: "players have same playerId"
-        def player = new Player(playerId: "103168")
-        def player2 = new Player(playerId: "103168")
+        def player = new Player(playerId: 103168)
+        def player2 = new Player(playerId: 103168)
 
         then: "second player should not be saved"
         player.save(flush: true)
@@ -52,7 +52,7 @@ class PlayerSpec extends Specification {
     void "save valid player with single alias"() {
         when: "player has single alias"
         def now = Instant.now()
-        def player = new Player(playerId: "103168")
+        def player = new Player(playerId: 103168)
         player.addToAliases(new PlayerAlias(name: "skiwi", begin: Instant.ofEpochSecond(0), end: now.plus(50000, ChronoUnit.DAYS)))
 
         then: "player should be saved"
@@ -62,7 +62,7 @@ class PlayerSpec extends Specification {
     void "save valid player with non-intersecting aliases"() {
         when: "player has non-intersecting aliases"
         def now = Instant.now()
-        def player = new Player(playerId: "103168")
+        def player = new Player(playerId: 103168)
         player.addToAliases(new PlayerAlias(name: "skiwi", begin: Instant.ofEpochSecond(0), end: now))
         player.addToAliases(new PlayerAlias(name: "skiwi2", begin: now, end: now.plus(50000, ChronoUnit.DAYS)))
 
@@ -73,7 +73,7 @@ class PlayerSpec extends Specification {
     void "save invalid player with intersecting aliases"() {
         when: "player has intersecting aliases"
         def now = Instant.now()
-        def player = new Player(playerId: "103168")
+        def player = new Player(playerId: 103168)
         player.addToAliases(new PlayerAlias(name: "skiwi", begin: Instant.ofEpochSecond(0), end: now.plus(1, ChronoUnit.HOURS)))
         player.addToAliases(new PlayerAlias(name: "skiwi2", begin: now, end: now.plus(50000, ChronoUnit.DAYS)))
 
@@ -84,7 +84,7 @@ class PlayerSpec extends Specification {
     void "save valid player with same name again"() {
         when: "player has changed his name back again after having changed it"
         def now = Instant.now()
-        def player = new Player(playerId: "103168")
+        def player = new Player(playerId: 103168)
         player.addToAliases(new PlayerAlias(name: "skiwi", begin: Instant.ofEpochSecond(0), end: now))
         player.addToAliases(new PlayerAlias(name: "skiwi2", begin: now, end: now.plus(10, ChronoUnit.DAYS)))
         player.addToAliases(new PlayerAlias(name: "skiwi", begin: now.plus(10, ChronoUnit.DAYS), end: now.plus(50000, ChronoUnit.DAYS)))
