@@ -2,6 +2,8 @@ package com.skiwi.olog
 
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
+import grails.test.mixin.TestMixin
+import grails.test.mixin.domain.DomainClassUnitTestMixin
 import spock.lang.Specification
 
 import java.time.Instant
@@ -25,6 +27,26 @@ class PlayerSpec extends Specification {
 
         then: "player should be saved"
         player.save()
+    }
+
+    void "save two valid players"() {
+        when: "players have different playerId"
+        def player = new Player(playerId: "103168")
+        def player2 = new Player(playerId: "103169")
+
+        then: "players should be saved"
+        player.save()
+        player2.save()
+    }
+
+    void "sae two players with same playerId"() {
+        when: "players have same playerId"
+        def player = new Player(playerId: "103168")
+        def player2 = new Player(playerId: "103168")
+
+        then: "second player should not be saved"
+        player.save(flush: true)
+        !player2.save(failOnError: false)
     }
 
     void "save valid player with single alias"() {

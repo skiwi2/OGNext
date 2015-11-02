@@ -2,6 +2,7 @@ package com.skiwi.olog
 
 class Player {
     static constraints = {
+        playerId unique: true
         aliases validator: { aliases, object ->
             if (!aliases) {
                 return true
