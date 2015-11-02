@@ -36,7 +36,7 @@ class PlayerAliasSpec extends Specification {
     }
 
     void "player alias intersects"() {
-        given:
+        given: "a player alias"
         def now = Instant.now()
         def otherPlayerAlias = new PlayerAlias(name: "test", begin: now, end:  now.plus(4, ChronoUnit.HOURS))
 
@@ -46,14 +46,7 @@ class PlayerAliasSpec extends Specification {
         new PlayerAlias(name: "testEqual", begin:  now, end:  now.plus(4, ChronoUnit.HOURS)).intervalIntersects(otherPlayerAlias)
         new PlayerAlias(name: "testWithin", begin: now.plus(1, ChronoUnit.HOURS), end: now.plus(3, ChronoUnit.HOURS)).intervalIntersects(otherPlayerAlias)
         new PlayerAlias(name: "testEncloses", begin: now.minus(1, ChronoUnit.HOURS), end: now.plus(5, ChronoUnit.HOURS)).intervalIntersects(otherPlayerAlias)
-    }
 
-    void "player alias does not intersect"() {
-        given:
-        def now = Instant.now()
-        def otherPlayerAlias = new PlayerAlias(name: "test", begin: now, end:  now.plus(4, ChronoUnit.HOURS))
-
-        expect:
         !new PlayerAlias(name: "testBeforeWithGap", begin: now.minus(4, ChronoUnit.HOURS), end: now.minus(1, ChronoUnit.HOURS)).intervalIntersects(otherPlayerAlias)
         !new PlayerAlias(name: "testBeforeWithoutGap", begin: now.minus(4, ChronoUnit.HOURS), end: now).intervalIntersects(otherPlayerAlias)
         !new PlayerAlias(name: "testAfterWithoutGap", begin: now.plus(4, ChronoUnit.HOURS), end: now.plus(7, ChronoUnit.HOURS)).intervalIntersects(otherPlayerAlias)
