@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 OLog
 ====
 
@@ -26,7 +26,3 @@ How to contribute
 This is a rapidly changing work in progress. That means pull requests are in danger of becoming obsolete before they arrive.
 
 Find us in the [OLog chat](http://chat.stackexchange.com/rooms/30740/olog-ogame-logger-and-personal-assistant) or open a ticket for feature requests.
-=======
-# OLog
-OLog
->>>>>>> 7e83e9fd1a045430ea110202a8f6cd82aa83efa4
