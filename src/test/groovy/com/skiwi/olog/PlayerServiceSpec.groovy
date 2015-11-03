@@ -7,7 +7,6 @@ import spock.lang.Specification
 
 import java.time.Instant
 import java.time.temporal.ChronoUnit
-import java.util.stream.Stream
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
@@ -26,9 +25,9 @@ class PlayerServiceSpec extends Specification {
     def cleanup() {
     }
 
-    void "test get player"() {
+    void "test get or create player"() {
         when: "get non-existing player"
-        def createdPlayer = service.getPlayer(playerId, playerName)
+        def createdPlayer = service.getOrCreatePlayer(playerId, playerName)
 
         then: "player should be created"
         createdPlayer
@@ -37,7 +36,7 @@ class PlayerServiceSpec extends Specification {
         Player.findByPlayerId(playerId) == createdPlayer
 
         when: "get existing player"
-        def existingPlayer = service.getPlayer(playerId, playerName)
+        def existingPlayer = service.getOrCreatePlayer(playerId, playerName)
 
         then: "player should exist"
         existingPlayer
