@@ -8,20 +8,31 @@ import spock.lang.Specification
  */
 @TestFor(RecycleReport)
 class RecycleReportSpec extends Specification {
+    Player player
+    def key = "rr-en-135-3105606a1fdb509f9f51459b5ddf0d36afc8a074"
+
     def setup() {
+        player = new Player(id: 103168)
     }
 
     def cleanup() {
     }
 
     void "save valid recycle report"() {
-        given: "a player"
-        def player = new Player(id: 103168)
-
         when: "recycle report is valid"
-        def recycleReport = new RecycleReport(player: player, key: "rr-en-135-3105606a1fdb509f9f51459b5ddf0d36afc8a074")
+        def recycleReport = new RecycleReport(player: player, key: key)
 
         then: "recycle report should be saved"
         recycleReport.save()
+    }
+
+    void "key should be unique"() {
+        when: "recycle reports have the same key"
+        def recycleReport = new RecycleReport(player: player, key: key)
+        def recycleReport2 = new RecycleReport(player: player, key: key)
+
+        then: "second recycle report should not be saved"
+        recycleReport.save(flush: true)
+        !recycleReport2.save(failOnError: false)
     }
 }

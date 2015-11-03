@@ -20,59 +20,100 @@ class ReportKeyServiceSpec extends Specification {
     def cleanup() {
     }
 
-    void "test add spy report"() {
+    void "test add or get spy report"() {
         given: "a spy report key"
         def key = "sr-en-135-73536e717b84e3ebd7cc6c415a3b3675cc1af166"
 
         when: "add spy report"
-        def spyReport = service.addSpyReport(player, key)
+        def spyReport = service.addOrGetSpyReport(player, key)
 
         then: "spy report should be added"
         spyReport
         spyReport.player == player
         spyReport.key == key
         SpyReport.findByKey(key) == spyReport
+
+        when: "add spy report with same key again"
+        def sameSpyReport = service.addOrGetSpyReport(player, key)
+
+        then: "spy report should not be added"
+        SpyReport.countByKey(key) == 1
     }
 
-    void "test add combat report"() {
+    void "test add or get combat report"() {
         given: "a combat report key"
         def key = "cr-en-135-3be2512d98e266343c100f71d6c14b7a68e639f4"
 
         when: "add combat report"
-        def combatReport = service.addCombatReport(player, key)
+        def combatReport = service.addOrGetCombatReport(player, key)
 
         then: "combat report should be added"
         combatReport
         combatReport.player == player
         combatReport.key == key
         CombatReport.findByKey(key) == combatReport
+
+        when: "add combat report with same key again"
+        def sameCombatReport = service.addOrGetCombatReport(player, key)
+
+        then: "combat report should not be added"
+        CombatReport.countByKey(key) == 1
     }
 
-    void "test add recycle report"() {
+    void "test add or get recycle report"() {
         given: "a recycle report key"
         def key = "rr-en-135-3105606a1fdb509f9f51459b5ddf0d36afc8a074"
 
         when: "add recycle report"
-        def recycleReport = service.addRecycleReport(player, key)
+        def recycleReport = service.addOrGetRecycleReport(player, key)
 
         then: "recycle report should be added"
         recycleReport
         recycleReport.player == player
         recycleReport.key == key
         RecycleReport.findByKey(key) == recycleReport
+
+        when: "add recycle report with same key again"
+        def sameRecycleReport = service.addOrGetRecycleReport(player, key)
+
+        then: "recycle report should not be added"
+        RecycleReport.countByKey(key) == 1
     }
 
-    void "test add missile report"() {
+    void "test add or get missile report"() {
         given: "a missile report key"
         def key = "mr-en-135-b47906dc63fafa3c47185e09c23908945c802781"
 
         when: "add missile report"
-        def missileReport = service.addMissileReport(player, key)
+        def missileReport = service.addOrGetMissileReport(player, key)
 
         then: "missile report should be added"
         missileReport
         missileReport.player == player
         missileReport.key == key
         MissileReport.findByKey(key) == missileReport
+
+        when: "add missile report with same key again"
+        def sameMissileReport = service.addOrGetMissileReport(player, key)
+
+        then: "missile report should not be added"
+        MissileReport.countByKey(key) == 1
+    }
+
+    void "test all types of reports with same key"() {
+        given: "a key that is the same for every report"
+        def key = "testkey"
+
+        when: "reports are valid"
+        def spyReport = service.addOrGetSpyReport(player, key)
+        def combatReport = service.addOrGetCombatReport(player, key)
+        def recycleReport = service.addOrGetRecycleReport(player, key)
+        def missileReport = service.addOrGetMissileReport(player, key)
+
+        then: "all reports should be saved"
+        spyReport.save(flush: true)
+        combatReport.save(flush: true)
+        recycleReport.save(flush: true)
+        missileReport.save()
     }
 }

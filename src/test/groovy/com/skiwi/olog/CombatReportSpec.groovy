@@ -8,20 +8,31 @@ import spock.lang.Specification
  */
 @TestFor(CombatReport)
 class CombatReportSpec extends Specification {
+    Player player
+    def key = "cr-en-135-3be2512d98e266343c100f71d6c14b7a68e639f4"
+
     def setup() {
+        player = new Player(id: 103168)
     }
 
     def cleanup() {
     }
 
     void "save valid combat report"() {
-        given: "a player"
-        def player = new Player(id: 103168)
-
         when: "combat report is valid"
-        def combatReport = new CombatReport(player: player, key: "cr-en-135-3be2512d98e266343c100f71d6c14b7a68e639f4")
+        def combatReport = new CombatReport(player: player, key: key)
 
         then: "combat report should be saved"
         combatReport.save()
+    }
+
+    void "key should be unique"() {
+        when: "combat reports have the same key"
+        def combatReport = new CombatReport(player: player, key: key)
+        def combatReport2 = new CombatReport(player: player, key: key)
+
+        then: "second combat report should not be saved"
+        combatReport.save(flush: true)
+        !combatReport2.save(failOnError: false)
     }
 }
