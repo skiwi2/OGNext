@@ -39,7 +39,7 @@ class PlayerSpec extends Specification {
         player2.save()
     }
 
-    void "sae two players with same playerId"() {
+    void "save two players with same playerId"() {
         when: "players have same playerId"
         def player = new Player(playerId: 103168)
         def player2 = new Player(playerId: 103168)
