@@ -4,6 +4,7 @@ import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin
 import grails.test.mixin.domain.DomainClassUnitTestMixin
+import grails.test.mixin.support.GrailsUnitTestMixin
 import spock.lang.Specification
 
 import java.time.Instant
@@ -14,8 +15,16 @@ import java.time.temporal.ChronoUnit
  */
 @TestFor(Player)
 @Mock([PlayerAlias])
+@TestMixin(GrailsUnitTestMixin)
 class PlayerSpec extends Specification {
+    PlayerService playerService
+
+    static doWithSpring = {
+        playerService(PlayerService)
+    }
+
     def setup() {
+        playerService = grailsApplication.mainContext.getBean("playerService")
     }
 
     def cleanup() {
@@ -91,5 +100,21 @@ class PlayerSpec extends Specification {
 
         then: "player should be saved"
         player.save()
+    }
+
+    void "test current name"() {
+        given: "a player with a name"
+        def player = playerService.getOrCreatePlayer(103168, "skiwi")
+
+        expect:
+        player.currentName == "skiwi"
+    }
+
+    void "test name at instant"() {
+        given: "a player with a name"
+        def player = playerService.getOrCreatePlayer(103168, "skiwi")
+
+        expect:
+        player.getNameAt(Instant.now().plus(4, ChronoUnit.HOURS)) == "skiwi"
     }
 }
