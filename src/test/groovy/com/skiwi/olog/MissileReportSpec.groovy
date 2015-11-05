@@ -8,11 +8,10 @@ import spock.lang.Specification
  */
 @TestFor(MissileReport)
 class MissileReportSpec extends Specification {
-    Player player
+    def player = new Player(id: 103168)
     def key = "mr-en-135-b47906dc63fafa3c47185e09c23908945c802781"
 
     def setup() {
-        player = new Player(id: 103168)
     }
 
     def cleanup() {

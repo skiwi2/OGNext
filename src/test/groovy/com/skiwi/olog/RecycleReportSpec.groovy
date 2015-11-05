@@ -8,11 +8,10 @@ import spock.lang.Specification
  */
 @TestFor(RecycleReport)
 class RecycleReportSpec extends Specification {
-    Player player
+    def player = new Player(id: 103168)
     def key = "rr-en-135-3105606a1fdb509f9f51459b5ddf0d36afc8a074"
 
     def setup() {
-        player = new Player(id: 103168)
     }
 
     def cleanup() {

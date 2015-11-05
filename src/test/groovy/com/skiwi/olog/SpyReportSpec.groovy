@@ -8,11 +8,10 @@ import spock.lang.Specification
  */
 @TestFor(SpyReport)
 class SpyReportSpec extends Specification {
-    Player player
+    def player = new Player(id: 103168)
     def key = "sr-en-135-73536e717b84e3ebd7cc6c415a3b3675cc1af166"
 
     def setup() {
-        player = new Player(id: 103168)
     }
 
     def cleanup() {
