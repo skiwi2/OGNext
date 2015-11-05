@@ -38,6 +38,7 @@ class ReportKeyServiceSpec extends Specification {
 
         then: "spy report should not be added"
         SpyReport.countByKey(key) == 1
+        spyReport == sameSpyReport
     }
 
     void "test add or get combat report"() {
@@ -58,6 +59,7 @@ class ReportKeyServiceSpec extends Specification {
 
         then: "combat report should not be added"
         CombatReport.countByKey(key) == 1
+        combatReport == sameCombatReport
     }
 
     void "test add or get recycle report"() {
@@ -78,6 +80,7 @@ class ReportKeyServiceSpec extends Specification {
 
         then: "recycle report should not be added"
         RecycleReport.countByKey(key) == 1
+        recycleReport == sameRecycleReport
     }
 
     void "test add or get missile report"() {
@@ -98,6 +101,7 @@ class ReportKeyServiceSpec extends Specification {
 
         then: "missile report should not be added"
         MissileReport.countByKey(key) == 1
+        missileReport == sameMissileReport
     }
 
     void "test all types of reports with same key"() {
