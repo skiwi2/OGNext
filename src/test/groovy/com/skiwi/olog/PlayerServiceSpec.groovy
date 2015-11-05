@@ -32,7 +32,7 @@ class PlayerServiceSpec extends Specification {
         then: "player should be created"
         createdPlayer
         createdPlayer.playerId == playerId
-        service.getPlayerAlias(createdPlayer, now).name == playerName
+        createdPlayer.currentName == playerName
         Player.findByPlayerId(playerId) == createdPlayer
 
         when: "get existing player"
@@ -52,7 +52,7 @@ class PlayerServiceSpec extends Specification {
         then: "player should be created"
         createdPlayer
         createdPlayer.playerId == playerId
-        service.getPlayerAlias(createdPlayer, Instant.now()).name == playerName
+        createdPlayer.currentName == playerName
         Player.findByPlayerId(playerId) == createdPlayer
 
         when: "create other player with same playerId"
@@ -73,9 +73,9 @@ class PlayerServiceSpec extends Specification {
 
         then: "player does not have a new alias"
         player.aliases.size() == 1
-        service.getPlayerAlias(player, now.minus(1, ChronoUnit.HOURS)).name == playerName
-        service.getPlayerAlias(player, now).name == playerName
-        service.getPlayerAlias(player, now.plus(1, ChronoUnit.HOURS)).name == playerName
+        player.getNameAt(now.minus(1, ChronoUnit.HOURS)) == playerName
+        player.getNameAt(now) == playerName
+        player.getNameAt(now.plus(1, ChronoUnit.HOURS)) == playerName
 
         when: "player has been seen with a different name"
         def updateInstant = now.minus(2, ChronoUnit.HOURS)
