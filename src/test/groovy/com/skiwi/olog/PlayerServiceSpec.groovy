@@ -41,7 +41,7 @@ class PlayerServiceSpec extends Specification {
         then: "player should exist"
         existingPlayer
         existingPlayer.playerId == playerId
-        service.getPlayerAlias(existingPlayer, now).name == playerName
+        existingPlayer.currentName == playerName
         Player.findByPlayerId(playerId) == existingPlayer
     }
 
