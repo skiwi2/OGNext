@@ -7,12 +7,12 @@ import java.time.temporal.ChronoUnit
 
 @Transactional
 class PlayerService {
-    Player getOrCreatePlayer(Integer playerId, String name) {
-        Player.findByPlayerId(playerId) ?: createPlayer(playerId, name)
+    Player getOrCreatePlayer(Universe universe, Integer playerId, String name) {
+        Player.findByUniverseAndPlayerId(universe, playerId) ?: createPlayer(universe, playerId, name)
     }
 
-    Player createPlayer(Integer playerId, String name) {
-        def player = new Player(playerId: playerId)
+    Player createPlayer(Universe universe, Integer playerId, String name) {
+        def player = new Player(universe: universe, playerId: playerId)
         player.addToAliases(new PlayerAlias(name: name, begin: Instant.ofEpochMilli(0), end: Instant.now().plus(50000, ChronoUnit.DAYS)))
         player.save()
     }

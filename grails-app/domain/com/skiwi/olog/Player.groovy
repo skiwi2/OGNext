@@ -6,7 +6,7 @@ class Player {
     def playerService
 
     static constraints = {
-        playerId unique: true
+        playerId unique: "universe"
         aliases validator: { aliases, object ->
             if (!aliases) {
                 return true
@@ -18,6 +18,7 @@ class Player {
 
     static hasMany = [aliases: PlayerAlias]
 
+    Universe universe
     Integer playerId
     List<PlayerAlias> aliases
 

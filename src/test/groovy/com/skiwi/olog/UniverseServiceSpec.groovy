@@ -2,19 +2,25 @@ package com.skiwi.olog
 
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
-import org.hibernate.FetchMode
+import grails.test.mixin.TestMixin
+import grails.test.mixin.support.GrailsUnitTestMixin
 import spock.lang.Specification
 
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(UniverseService)
-@Mock([Universe, ServerService, Server])
+@Mock([Universe, Server])
+@TestMixin(GrailsUnitTestMixin)
 class UniverseServiceSpec extends Specification {
     def serverCountryCode = "en"
     def server = new Server(countryCode: serverCountryCode)
     def universeId = 1
     def universeName = "1"
+
+    static doWithSpring = {
+        serverService(ServerService)
+    }
 
     def setup() {
     }

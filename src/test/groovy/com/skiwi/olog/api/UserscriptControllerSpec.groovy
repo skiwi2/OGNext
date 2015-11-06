@@ -12,18 +12,20 @@ import spock.lang.Specification
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(UserscriptController)
-@Mock([Player, PlayerAlias, SpyReport, CombatReport, RecycleReport, MissileReport])
+@Mock([Player, PlayerAlias, SpyReport, CombatReport, RecycleReport, MissileReport, UniverseService, Server, Universe, ServerService, ReportKeyService])
 @TestMixin(GrailsUnitTestMixin)
 class UserscriptControllerSpec extends Specification {
+    UniverseService universeService
     PlayerService playerService
 
     static doWithSpring = {
         playerService(PlayerService)
-        reportKeyService(ReportKeyService)
+        universeService(UniverseService)
     }
 
     def setup() {
         playerService = grailsApplication.mainContext.getBean("playerService")
+        universeService = grailsApplication.mainContext.getBean("universeService")
     }
 
     def cleanup() {
@@ -67,7 +69,8 @@ class UserscriptControllerSpec extends Specification {
 
         then: "keys should be persisted"
         response.json.result.success == true
-        def player = playerService.getOrCreatePlayer(103168, "skiwi")
+        def universe = universeService.getOrCreateUniverse("en", 135, "???")
+        def player = playerService.getOrCreatePlayer(universe, 103168, "skiwi")
         SpyReport.findByKeyAndPlayer("sr-key-1", player)
         SpyReport.findByKeyAndPlayer("sr-key-2", player)
         CombatReport.findByKeyAndPlayer("cr-key-1", player)
