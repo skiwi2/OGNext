@@ -12,7 +12,7 @@ import spock.lang.Specification
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(UserscriptController)
-@Mock([Player, PlayerAlias, SpyReport, CombatReport, RecycleReport, MissileReport, UniverseService, Server, Universe, ServerService, ReportKeyService])
+@Mock([Player, PlayerAlias, SpyReport, CombatReport, RecycleReport, MissileReport, UniverseService, ServerGroup, Universe, ServerGroupService, ReportKeyService])
 @TestMixin(GrailsUnitTestMixin)
 class UserscriptControllerSpec extends Specification {
     UniverseService universeService

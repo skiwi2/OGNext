@@ -4,7 +4,6 @@ import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
-import grails.test.mixin.web.ControllerUnitTestMixin
 import spock.lang.Specification
 
 import java.time.Instant
@@ -14,7 +13,7 @@ import java.time.temporal.ChronoUnit
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
 @TestFor(Player)
-@Mock([PlayerAlias, Server, Universe])
+@Mock([PlayerAlias, ServerGroup, Universe])
 @TestMixin(GrailsUnitTestMixin)
 class PlayerSpec extends Specification {
     PlayerService playerService
@@ -23,15 +22,15 @@ class PlayerSpec extends Specification {
 
     static doWithSpring = {
         playerService(PlayerService)
-        serverService(ServerService)
+        serverGroupService(ServerGroupService)
         universeService(UniverseService)
     }
 
     def setup() {
         playerService = grailsApplication.mainContext.getBean("playerService")
-        def serverService = grailsApplication.mainContext.getBean("serverService")
+        def serverGroupService = grailsApplication.mainContext.getBean("serverGroupService")
         universeService = grailsApplication.mainContext.getBean("universeService")
-        universeService.serverService = serverService
+        universeService.serverGroupService = serverGroupService
         universe = universeService.getOrCreateUniverse("en", 1, "1")
     }
 

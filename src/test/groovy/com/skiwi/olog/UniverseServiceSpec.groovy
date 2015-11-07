@@ -10,16 +10,16 @@ import spock.lang.Specification
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(UniverseService)
-@Mock([Universe, Server])
+@Mock([Universe, ServerGroup])
 @TestMixin(GrailsUnitTestMixin)
 class UniverseServiceSpec extends Specification {
-    def serverCountryCode = "en"
-    def server = new Server(countryCode: serverCountryCode)
+    def serverGroupCountryCode = "en"
+    def serverGroup = new ServerGroup(countryCode: serverGroupCountryCode)
     def universeId = 1
     def universeName = "1"
 
     static doWithSpring = {
-        serverService(ServerService)
+        serverGroupService(ServerGroupService)
     }
 
     def setup() {
@@ -28,105 +28,105 @@ class UniverseServiceSpec extends Specification {
     def cleanup() {
     }
 
-    void "test get or create universe given server"() {
+    void "test get or create universe given server group"() {
         when: "get non-existing universe"
-        def createdUniverse = service.getOrCreateUniverse(server, universeId, universeName)
+        def createdUniverse = service.getOrCreateUniverse(serverGroup, universeId, universeName)
 
         then: "universe should be created"
         createdUniverse
-        createdUniverse.server == server
+        createdUniverse.serverGroup == serverGroup
         createdUniverse.universeId == universeId
         createdUniverse.name == universeName
-        Universe.findByServerAndUniverseId(server, universeId) == createdUniverse
+        Universe.findByServerGroupAndUniverseId(serverGroup, universeId) == createdUniverse
 
         when: "get existing universe"
-        def existingUniverse = service.getOrCreateUniverse(server, universeId, universeName)
+        def existingUniverse = service.getOrCreateUniverse(serverGroup, universeId, universeName)
 
         then: "universe should exist"
         existingUniverse
-        existingUniverse.server == server
+        existingUniverse.serverGroup == serverGroup
         existingUniverse.universeId == universeId
         existingUniverse.name == universeName
-        Universe.findByServerAndUniverseId(server, universeId) == existingUniverse
+        Universe.findByServerGroupAndUniverseId(serverGroup, universeId) == existingUniverse
     }
 
-    void "test get or create universe given server country code"() {
+    void "test get or create universe given server group country code"() {
         when: "get non-existing universe"
-        def createdUniverse = service.getOrCreateUniverse(serverCountryCode, universeId, universeName)
+        def createdUniverse = service.getOrCreateUniverse(serverGroupCountryCode, universeId, universeName)
 
         then: "universe should be created"
         createdUniverse
-        createdUniverse.server.countryCode == serverCountryCode
+        createdUniverse.serverGroup.countryCode == serverGroupCountryCode
         createdUniverse.universeId == universeId
         createdUniverse.name == universeName
         Universe.createCriteria().get {
-            server {
-                eq "countryCode", serverCountryCode
+            serverGroup {
+                eq "countryCode", serverGroupCountryCode
             }
             eq "universeId", universeId
         } == createdUniverse
 
         when: "get existing universe"
-        def existingUniverse = service.getOrCreateUniverse(serverCountryCode, universeId, universeName)
+        def existingUniverse = service.getOrCreateUniverse(serverGroupCountryCode, universeId, universeName)
 
         then: "universe should exist"
         existingUniverse
-        existingUniverse.server.countryCode == serverCountryCode
+        existingUniverse.serverGroup.countryCode == serverGroupCountryCode
         existingUniverse.universeId == universeId
         existingUniverse.name == universeName
         Universe.createCriteria().get {
-            server {
-                eq "countryCode", serverCountryCode
+            serverGroup {
+                eq "countryCode", serverGroupCountryCode
             }
             eq "universeId", universeId
         } == existingUniverse
     }
 
-    void "test get or create universe without name given server"() {
+    void "test get or create universe without name given server group"() {
         when: "get non-existing universe"
-        def createdUniverse = service.getOrCreateUniverse(server, universeId)
+        def createdUniverse = service.getOrCreateUniverse(serverGroup, universeId)
 
         then: "universe should be created"
         createdUniverse
-        createdUniverse.server == server
+        createdUniverse.serverGroup == serverGroup
         createdUniverse.universeId == universeId
-        Universe.findByServerAndUniverseId(server, universeId) == createdUniverse
+        Universe.findByServerGroupAndUniverseId(serverGroup, universeId) == createdUniverse
 
         when: "get existing universe"
-        def existingUniverse = service.getOrCreateUniverse(server, universeId)
+        def existingUniverse = service.getOrCreateUniverse(serverGroup, universeId)
 
         then: "universe should exist"
         existingUniverse
-        existingUniverse.server == server
+        existingUniverse.serverGroup == serverGroup
         existingUniverse.universeId == universeId
-        Universe.findByServerAndUniverseId(server, universeId) == existingUniverse
+        Universe.findByServerGroupAndUniverseId(serverGroup, universeId) == existingUniverse
     }
 
-    void "test get or create universe without name given server country code"() {
+    void "test get or create universe without name given server group country code"() {
         when: "get non-existing universe"
-        def createdUniverse = service.getOrCreateUniverse(serverCountryCode, universeId)
+        def createdUniverse = service.getOrCreateUniverse(serverGroupCountryCode, universeId)
 
         then: "universe should be created"
         createdUniverse
-        createdUniverse.server.countryCode == serverCountryCode
+        createdUniverse.serverGroup.countryCode == serverGroupCountryCode
         createdUniverse.universeId == universeId
         Universe.createCriteria().get {
-            server {
-                eq "countryCode", serverCountryCode
+            serverGroup {
+                eq "countryCode", serverGroupCountryCode
             }
             eq "universeId", universeId
         } == createdUniverse
 
         when: "get existing universe"
-        def existingUniverse = service.getOrCreateUniverse(serverCountryCode, universeId)
+        def existingUniverse = service.getOrCreateUniverse(serverGroupCountryCode, universeId)
 
         then: "universe should exist"
         existingUniverse
-        existingUniverse.server.countryCode == serverCountryCode
+        existingUniverse.serverGroup.countryCode == serverGroupCountryCode
         existingUniverse.universeId == universeId
         Universe.createCriteria().get {
-            server {
-                eq "countryCode", serverCountryCode
+            serverGroup {
+                eq "countryCode", serverGroupCountryCode
             }
             eq "universeId", universeId
         } == existingUniverse

@@ -12,7 +12,7 @@ import java.time.temporal.ChronoUnit
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(PlayerService)
-@Mock([Player, PlayerAlias, Universe, Server, ServerService])
+@Mock([Player, PlayerAlias, Universe, ServerGroup, ServerGroupService])
 class PlayerServiceSpec extends Specification {
     def playerId = 103168
     def playerName = "skiwi"

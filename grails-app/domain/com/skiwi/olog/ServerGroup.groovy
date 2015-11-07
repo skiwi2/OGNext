@@ -1,6 +1,6 @@
 package com.skiwi.olog
 
-class Server {
+class ServerGroup {
     static constraints = {
         countryCode unique: true
     }

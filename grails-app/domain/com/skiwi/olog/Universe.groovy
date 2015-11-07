@@ -2,11 +2,11 @@ package com.skiwi.olog
 
 class Universe {
     static constraints = {
-        universeId unique: "server"
-        name unique: "server", nullable: true
+        universeId unique: "serverGroup"
+        name unique: "serverGroup", nullable: true
     }
 
-    Server server
+    ServerGroup serverGroup
     Integer universeId
     String name
 }

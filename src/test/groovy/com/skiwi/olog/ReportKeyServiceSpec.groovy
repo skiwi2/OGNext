@@ -8,15 +8,15 @@ import spock.lang.Specification
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(ReportKeyService)
-@Mock([SpyReport, CombatReport, RecycleReport, MissileReport, Player, PlayerAlias, Server, Universe])
+@Mock([SpyReport, CombatReport, RecycleReport, MissileReport, Player, PlayerAlias, ServerGroup, Universe])
 class ReportKeyServiceSpec extends Specification {
     Player player
 
     def setup() {
         def playerService = mockService(PlayerService)
         def universeService = mockService(UniverseService)
-        def serverService = mockService(ServerService)
-        universeService.serverService = serverService
+        def serverGroupService = mockService(ServerGroupService)
+        universeService.serverGroupService = serverGroupService
         def universe = universeService.getOrCreateUniverse("en", 1, "1")
         player = playerService.createPlayer(universe, 103168, "skiwi")
     }
