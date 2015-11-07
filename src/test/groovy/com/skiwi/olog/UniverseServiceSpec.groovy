@@ -81,4 +81,54 @@ class UniverseServiceSpec extends Specification {
             eq "universeId", universeId
         } == existingUniverse
     }
+
+    void "test get or create universe without name given server"() {
+        when: "get non-existing universe"
+        def createdUniverse = service.getOrCreateUniverse(server, universeId)
+
+        then: "universe should be created"
+        createdUniverse
+        createdUniverse.server == server
+        createdUniverse.universeId == universeId
+        Universe.findByServerAndUniverseId(server, universeId) == createdUniverse
+
+        when: "get existing universe"
+        def existingUniverse = service.getOrCreateUniverse(server, universeId)
+
+        then: "universe should exist"
+        existingUniverse
+        existingUniverse.server == server
+        existingUniverse.universeId == universeId
+        Universe.findByServerAndUniverseId(server, universeId) == existingUniverse
+    }
+
+    void "test get or create universe without name given server country code"() {
+        when: "get non-existing universe"
+        def createdUniverse = service.getOrCreateUniverse(serverCountryCode, universeId)
+
+        then: "universe should be created"
+        createdUniverse
+        createdUniverse.server.countryCode == serverCountryCode
+        createdUniverse.universeId == universeId
+        Universe.createCriteria().get {
+            server {
+                eq "countryCode", serverCountryCode
+            }
+            eq "universeId", universeId
+        } == createdUniverse
+
+        when: "get existing universe"
+        def existingUniverse = service.getOrCreateUniverse(serverCountryCode, universeId)
+
+        then: "universe should exist"
+        existingUniverse
+        existingUniverse.server.countryCode == serverCountryCode
+        existingUniverse.universeId == universeId
+        Universe.createCriteria().get {
+            server {
+                eq "countryCode", serverCountryCode
+            }
+            eq "universeId", universeId
+        } == existingUniverse
+    }
 }

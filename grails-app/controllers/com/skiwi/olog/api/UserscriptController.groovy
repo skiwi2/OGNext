@@ -14,7 +14,7 @@ class UserscriptController {
 
         def serverCountryCode = json.server
         def universeId = json.universe.toInteger()
-        def universe = universeService.getOrCreateUniverse(serverCountryCode, universeId, "???")
+        def universe = universeService.getOrCreateUniverse(serverCountryCode, universeId)
 
         def playerId = json.playerId.toInteger()
         def playerName = json.playerName

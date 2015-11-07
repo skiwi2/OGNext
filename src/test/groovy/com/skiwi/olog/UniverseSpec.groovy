@@ -20,6 +20,12 @@ class UniverseSpec extends Specification {
 
         then: "universe should be saved"
         universe.save()
+
+        when: "universe has no name"
+        def universe2 = new Universe(server: new Server(countryCode: "en"), universeId: 1)
+
+        then: "universe should also be saved"
+        universe2.save()
     }
 
     void "save two universes with same universeId on same server"() {
