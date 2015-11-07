@@ -4,6 +4,9 @@
     <title>Spy reports - OLog</title>
 </head>
 <body>
-    <%= "test" %>
+    <p><b>Spy Reports</b></p>
+    <g:each in="${spyReports}">
+        ${it.key}<br />
+    </g:each>
 </body>
 </html>
