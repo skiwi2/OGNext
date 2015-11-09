@@ -34,7 +34,7 @@ class UserscriptControllerSpec extends Specification {
     def "post keys"() {
         when: "post keys request has been made"
         request.json = [
-            server: "en",
+            serverGroup: "en",
             universe: 135,
             playerId: 103168,
             playerName: "skiwi",

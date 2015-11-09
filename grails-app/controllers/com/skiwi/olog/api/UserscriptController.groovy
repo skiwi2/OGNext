@@ -12,9 +12,9 @@ class UserscriptController {
     def keys() {
         def json = request.JSON
 
-        def serverCountryCode = json.server
+        def serverGroupCountryCode = json.serverGroup
         def universeId = json.universe.toInteger()
-        def universe = universeService.getOrCreateUniverse(serverCountryCode, universeId)
+        def universe = universeService.getOrCreateUniverse(serverGroupCountryCode, universeId)
 
         def playerId = json.playerId.toInteger()
         def playerName = json.playerName
