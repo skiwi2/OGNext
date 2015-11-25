@@ -8,7 +8,7 @@ import spock.lang.Specification
  */
 @TestFor(CombatReport)
 class CombatReportSpec extends Specification {
-    def player = new Player(id: 103168)
+    def player = new Player(playerId: 103168)
     def key = "cr-en-135-3be2512d98e266343c100f71d6c14b7a68e639f4"
 
     def setup() {
