@@ -5,30 +5,18 @@ import grails.transaction.Transactional
 @Transactional
 class ReportKeyService {
     SpyReport addOrGetSpyReport(Player player, String reportKey) {
-        SpyReport.findByKey(reportKey) ?: {
-            def spyReport = new SpyReport(player: player, key: reportKey)
-            spyReport.save()
-        }()
+        SpyReport.findOrSaveByPlayerAndKey(player, reportKey)
     }
 
     CombatReport addOrGetCombatReport(Player player, String reportKey) {
-        CombatReport.findByKey(reportKey) ?: {
-            def combatReport = new CombatReport(player: player, key: reportKey)
-            combatReport.save()
-        }()
+        CombatReport.findOrSaveByPlayerAndKey(player, reportKey)
     }
 
     RecycleReport addOrGetRecycleReport(Player player, String reportKey) {
-        RecycleReport.findByKey(reportKey) ?: {
-            def recycleReport = new RecycleReport(player: player, key: reportKey)
-            recycleReport.save()
-        }()
+        RecycleReport.findOrSaveByPlayerAndKey(player, reportKey)
     }
 
     MissileReport addOrGetMissileReport(Player player, String reportKey) {
-        MissileReport.findByKey(reportKey) ?: {
-            def missileReport = new MissileReport(player: player, key: reportKey)
-            missileReport.save()
-        }()
+        MissileReport.findOrSaveByPlayerAndKey(player, reportKey)
     }
 }
