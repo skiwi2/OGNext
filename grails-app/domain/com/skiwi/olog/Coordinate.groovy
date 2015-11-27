@@ -10,8 +10,4 @@ class Coordinate {
     Integer galaxy
     Integer solarSystem
     Integer position
-
-    def beforeValidate() {
-        println "Validating $galaxy:$solarSystem:$position"
-    }
 }
