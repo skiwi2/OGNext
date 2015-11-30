@@ -10,6 +10,8 @@ import spock.lang.Specification
 @TestFor(CoordinateService)
 @Mock(Coordinate)
 class CoordinateServiceSpec extends Specification {
+    def serverGroup = new ServerGroup(countryCode: "en")
+    def universe = new Universe(universeId: 135, serverGroup: serverGroup)
     def galaxy = 2
     def solarSystem = 122
     def position = 12
@@ -22,23 +24,25 @@ class CoordinateServiceSpec extends Specification {
 
     void "test get or create coordinate"() {
         when: "get non-existing coordinate"
-        def createdCoordinate = service.getOrCreateCoordinate(galaxy, solarSystem, position)
+        def createdCoordinate = service.getOrCreateCoordinate(universe, galaxy, solarSystem, position)
 
         then: "coordinate should be created"
         createdCoordinate
+        createdCoordinate.universe == universe
         createdCoordinate.galaxy == galaxy
         createdCoordinate.solarSystem == solarSystem
         createdCoordinate.position == position
-        Coordinate.findByGalaxyAndSolarSystemAndPosition(galaxy, solarSystem, position) == createdCoordinate
+        Coordinate.findByUniverseAndGalaxyAndSolarSystemAndPosition(universe, galaxy, solarSystem, position) == createdCoordinate
 
         when: "get existing coordinate"
-        def existingCoordinate = service.getOrCreateCoordinate(galaxy, solarSystem, position)
+        def existingCoordinate = service.getOrCreateCoordinate(universe, galaxy, solarSystem, position)
 
         then: "coordinate should exist"
         existingCoordinate
+        existingCoordinate.universe == universe
         existingCoordinate.galaxy == galaxy
         existingCoordinate.solarSystem == solarSystem
         existingCoordinate.position == position
-        Coordinate.findByGalaxyAndSolarSystemAndPosition(galaxy, solarSystem, position) == existingCoordinate
+        Coordinate.findByUniverseAndGalaxyAndSolarSystemAndPosition(universe, galaxy, solarSystem, position) == existingCoordinate
     }
 }

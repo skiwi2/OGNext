@@ -4,7 +4,7 @@ import grails.transaction.Transactional
 
 @Transactional
 class CoordinateService {
-    Coordinate getOrCreateCoordinate(int galaxy, int solarSystem, int position) {
-        Coordinate.findOrSaveByGalaxyAndSolarSystemAndPosition(galaxy, solarSystem, position)
+    Coordinate getOrCreateCoordinate(Universe universe, int galaxy, int solarSystem, int position) {
+        Coordinate.findOrSaveByUniverseAndGalaxyAndSolarSystemAndPosition(universe, galaxy, solarSystem, position)
     }
 }

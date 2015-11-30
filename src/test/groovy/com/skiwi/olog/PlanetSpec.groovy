@@ -6,18 +6,34 @@ import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
 import spock.lang.Specification
 
+import java.time.Instant
+import java.time.temporal.ChronoUnit
+
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
 @TestFor(Planet)
-@Mock(Coordinate)
+@Mock([Coordinate, PlanetAlias, PlanetLocation])
 @TestMixin(GrailsUnitTestMixin)
 class PlanetSpec extends Specification {
+    PlanetService planetService
+    CoordinateService coordinateService
+
     def serverGroup = new ServerGroup(countryCode: "en")
     def universe = new Universe(serverGroup: serverGroup, universeId: 135)
+    def universe2 = new Universe(serverGroup: serverGroup, universeId: 136)
     def player = new Player(universe: universe, playerId: 103168)
+    def player2 = new Player(universe: universe2, playerId: 103168)
+
+    static doWithSpring = {
+        planetService(PlanetService)
+        coordinateService(CoordinateService)
+    }
 
     def setup() {
+        planetService = grailsApplication.mainContext.getBean("planetService")
+        coordinateService = grailsApplication.mainContext.getBean("coordinateService")
+        planetService.coordinateService = coordinateService
     }
 
     def cleanup() {
@@ -25,7 +41,7 @@ class PlanetSpec extends Specification {
 
     void "save valid planet"() {
         when: "planet is valid"
-        def planet = new Planet(player: player, coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12))
+        def planet = new Planet(player: player, planetId: 1000)
 
         then: "planet should be saved"
         planet.save()
@@ -33,7 +49,7 @@ class PlanetSpec extends Specification {
 
     void "universe equals player universe when updating"() {
         when: "planet is valid"
-        def planet = new Planet(player: player, coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12))
+        def planet = new Planet(player: player, planetId: 1000)
         planet.save()
 
         then: "universe should be equal to player universe"
@@ -57,12 +73,20 @@ class PlanetSpec extends Specification {
         planet.universe == oldUniverse
     }
 
-    void "save valid planets on same coordinates but in different universes"() {
-        when: "planets are valid on the same coordinates but in different universes"
-        def universe2 = new Universe(serverGroup: serverGroup, universeId: 136)
-        def player2 = new Player(universe: universe2, playerId: 103168)
-        def planet = new Planet(player: player, coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12))
-        def planet2 = new Planet(player: player2, coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12))
+    void "save two planets with same planetId in same universe"() {
+        when: "planets have same planetId in same universe"
+        def planet = new Planet(player: player, planetId: 1000)
+        def planet2 = new Planet(player: player, planetId: 1000)
+
+        then: "second planet should not be saved"
+        planet.save(flush: true)
+        !planet2.save(failOnError: false)
+    }
+
+    void "save two planets with same planetId in different universe"() {
+        when: "planets have same planetId in different universe"
+        def planet = new Planet(player: player, planetId: 1000)
+        def planet2 = new Planet(player: player2, planetId: 1000)
 
         then: "both planets should be saved"
         planet.save()
@@ -71,21 +95,131 @@ class PlanetSpec extends Specification {
 
     void "save valid planets belonging to same player"() {
         when: "planets are valid and belong to same player"
-        def planet = new Planet(player: player, coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12))
-        def planet2 = new Planet(player: player, coordinate: new Coordinate(galaxy: 2, solarSystem: 153, position: 8))
+        def planet = new Planet(player: player, planetId: 1000)
+        def planet2 = new Planet(player: player, planetId: 1001)
 
         then: "both planets should be saved"
         planet.save()
         planet2.save()
     }
 
-    void "save invalid planets on same coordinates"() {
-        when: "planets are invalid because they are on the same coordinates"
-        def planet = new Planet(player: player, coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12))
-        def planet2 = new Planet(player: player, coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12))
+    void "save valid planet with single alias"() {
+        when: "planet has single alias"
+        def now = Instant.now()
+        def planet = new Planet(player: player, planetId: 1000)
+        planet.addToAliases(new PlanetAlias(name: "Homeworld", begin: Instant.ofEpochSecond(0), end: now.plus(50000, ChronoUnit.DAYS)))
 
-        then: "saving should fail"
-        planet.save(flush: true)
-        !planet2.save(failOnError: false)
+        then: "planet should be saved"
+        planet.save()
+    }
+
+    void "save valid planet with non-intersecting aliases"() {
+        when: "planet has non-intersecting aliases"
+        def now = Instant.now()
+        def planet = new Planet(player: player, planetId: 1000)
+        planet.addToAliases(new PlanetAlias(name: "Homeworld", begin: Instant.ofEpochSecond(0), end: now))
+        planet.addToAliases(new PlanetAlias(name: "Homeworld2", begin: now, end: now.plus(50000, ChronoUnit.DAYS)))
+
+        then: "planet should be saved"
+        planet.save()
+    }
+
+    void "save invalid planet with intersecting aliases"() {
+        when: "planet has intersecting aliases"
+        def now = Instant.now()
+        def planet = new Planet(player: player, planetId: 1000)
+        planet.addToAliases(new PlanetAlias(name: "Homeworld", begin: Instant.ofEpochSecond(0), end: now.plus(1, ChronoUnit.HOURS)))
+        planet.addToAliases(new PlanetAlias(name: "Homeworld2", begin: now, end: now.plus(50000, ChronoUnit.DAYS)))
+
+        then: "planet should not be saved"
+        !planet.save(failOnError: false)
+    }
+
+    void "save valid planet with same name again"() {
+        when: "planet has changed its name back again after having changed it"
+        def now = Instant.now()
+        def planet = new Planet(player: player, planetId: 1000)
+        planet.addToAliases(new PlanetAlias(name: "Homeworld", begin: Instant.ofEpochSecond(0), end: now))
+        planet.addToAliases(new PlanetAlias(name: "Homeworld2", begin: now, end: now.plus(10, ChronoUnit.DAYS)))
+        planet.addToAliases(new PlanetAlias(name: "Homeworld", begin: now.plus(10, ChronoUnit.DAYS), end: now.plus(50000, ChronoUnit.DAYS)))
+
+        then: "planet should be saved"
+        planet.save()
+    }
+
+    void "test current name"() {
+        given: "a planet with a name"
+        def planet = planetService.createPlanet(player, 1000, 2, 122, 12, "Homeworld")
+
+        expect:
+        planet.currentName == "Homeworld"
+    }
+
+    void "test name at instant"() {
+        given: "a planet with a name"
+        def planet = planetService.createPlanet(player, 1000, 2, 122, 12, "Homeworld")
+
+        expect:
+        planet.getNameAt(Instant.now().plus(4, ChronoUnit.HOURS)) == "Homeworld"
+    }
+
+    void "save valid planet with single location"() {
+        when: "planet has single location"
+        def now = Instant.now()
+        def planet = new Planet(player: player, planetId: 1000)
+        planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12), begin: Instant.ofEpochSecond(0), end: now.plus(50000, ChronoUnit.DAYS)))
+
+        then: "planet should be saved"
+        planet.save()
+    }
+
+    void "save valid planet with non-intersecting locationes"() {
+        when: "planet has non-intersecting locations"
+        def now = Instant.now()
+        def planet = new Planet(player: player, planetId: 1000)
+        planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12), begin: Instant.ofEpochSecond(0), end: now))
+        planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 123, position: 12), begin: now, end: now.plus(50000, ChronoUnit.DAYS)))
+
+        then: "planet should be saved"
+        planet.save()
+    }
+
+    void "save invalid planet with intersecting locations"() {
+        when: "planet has intersecting locations"
+        def now = Instant.now()
+        def planet = new Planet(player: player, planetId: 1000)
+        planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12), begin: Instant.ofEpochSecond(0), end: now.plus(1, ChronoUnit.HOURS)))
+        planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 123, position: 12), begin: now, end: now.plus(50000, ChronoUnit.DAYS)))
+
+        then: "planet should not be saved"
+        !planet.save(failOnError: false)
+    }
+
+    void "save valid planet with same coordinate again"() {
+        when: "planet has changed its coordinate back again after having changed it"
+        def now = Instant.now()
+        def planet = new Planet(player: player, planetId: 1000)
+        planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12), begin: Instant.ofEpochSecond(0), end: now))
+        planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 123, position: 12), begin: now, end: now.plus(10, ChronoUnit.DAYS)))
+        planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12), begin: now.plus(10, ChronoUnit.DAYS), end: now.plus(50000, ChronoUnit.DAYS)))
+
+        then: "planet should be saved"
+        planet.save()
+    }
+
+    void "test current coordinate"() {
+        given: "a planet with a coordinate"
+        def planet = planetService.createPlanet(player, 1000, 2, 122, 12, "Homeworld")
+
+        expect:
+        planet.currentCoordinate == coordinateService.getOrCreateCoordinate(universe, 2, 122, 12)
+    }
+
+    void "test coordinate at instant"() {
+        given: "a planet with a coordinate"
+        def planet = planetService.createPlanet(player, 1000, 2, 122, 12, "Homeworld")
+
+        expect:
+        planet.getCoordinateAt(Instant.now().plus(4, ChronoUnit.HOURS)) == coordinateService.getOrCreateCoordinate(universe, 2, 122, 12)
     }
 }

@@ -8,6 +8,9 @@ import spock.lang.Specification
  */
 @TestFor(Coordinate)
 class CoordinateSpec extends Specification {
+    def serverGroup = new ServerGroup(countryCode: "en")
+    def universe = new Universe(universeId: 135, serverGroup: serverGroup)
+
     def setup() {
     }
 
@@ -16,18 +19,18 @@ class CoordinateSpec extends Specification {
 
     void "save coordinates"() {
         expect:
-        new Coordinate(galaxy: 2, solarSystem: 122, position: 12).save(failOnError: false)
+        new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 12).save(failOnError: false)
 
-        new Coordinate(galaxy: 1, solarSystem: 1, position: 1).save(failOnError: false)
-        new Coordinate(galaxy: 9, solarSystem: 1, position: 1).save(failOnError: false)
-        new Coordinate(galaxy: 1, solarSystem: 499, position: 1).save(failOnError: false)
-        new Coordinate(galaxy: 1, solarSystem: 1, position: 15).save(failOnError: false)
+        new Coordinate(universe: universe, galaxy: 1, solarSystem: 1, position: 1).save(failOnError: false)
+        new Coordinate(universe: universe, galaxy: 9, solarSystem: 1, position: 1).save(failOnError: false)
+        new Coordinate(universe: universe, galaxy: 1, solarSystem: 499, position: 1).save(failOnError: false)
+        new Coordinate(universe: universe, galaxy: 1, solarSystem: 1, position: 15).save(failOnError: false)
 
-        !new Coordinate(galaxy: 0, solarSystem: 122, position: 12).save(failOnError: false)
-        !new Coordinate(galaxy: 10, solarSystem: 122, position: 12).save(failOnError: false)
-        !new Coordinate(galaxy: 2, solarSystem: 0, position: 12).save(failOnError: false)
-        !new Coordinate(galaxy: 2, solarSystem: 500, position: 12).save(failOnError: false)
-        !new Coordinate(galaxy: 2, solarSystem: 122, position: 0).save(failOnError: false)
-        !new Coordinate(galaxy: 2, solarSystem: 122, position: 16).save(failOnError: false)
+        !new Coordinate(universe: universe, galaxy: 0, solarSystem: 122, position: 12).save(failOnError: false)
+        !new Coordinate(universe: universe, galaxy: 10, solarSystem: 122, position: 12).save(failOnError: false)
+        !new Coordinate(universe: universe, galaxy: 2, solarSystem: 0, position: 12).save(failOnError: false)
+        !new Coordinate(universe: universe, galaxy: 2, solarSystem: 500, position: 12).save(failOnError: false)
+        !new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 0).save(failOnError: false)
+        !new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 16).save(failOnError: false)
     }
 }
