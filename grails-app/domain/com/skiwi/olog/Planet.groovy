@@ -16,8 +16,9 @@ class Planet {
             }
             def addedLocation = locations[-1]
             locations[0..<-1].every { !it.intervalIntersects(addedLocation) } &&
-                Planet.findAllByUniverse(object.universe).locations.flatten().stream()
-                    .filter({location -> location != addedLocation})
+                Planet.findAllByUniverse(object.universe).stream()
+                    .filter({ it != object })
+                    .flatMap({ it.locations.stream() })
                     .filter({location -> location.coordinate == addedLocation.coordinate})
                     .allMatch { !it.intervalIntersects(addedLocation) }
         }
