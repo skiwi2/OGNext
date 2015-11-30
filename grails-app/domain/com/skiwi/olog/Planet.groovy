@@ -15,7 +15,11 @@ class Planet {
                 return true
             }
             def addedLocation = locations[-1]
-            locations[0..<-1].every { !it.intervalIntersects(addedLocation) }
+            locations[0..<-1].every { !it.intervalIntersects(addedLocation) } &&
+                Planet.findAllByUniverse(object.universe).locations.flatten().stream()
+                    .filter({location -> location != addedLocation})
+                    .filter({location -> location.coordinate == addedLocation.coordinate})
+                    .allMatch { !it.intervalIntersects(addedLocation) }
         }
         aliases validator: { aliases, object ->
             if (!aliases) {
