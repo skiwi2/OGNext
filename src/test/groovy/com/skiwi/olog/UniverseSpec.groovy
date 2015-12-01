@@ -59,4 +59,17 @@ class UniverseSpec extends Specification {
         universe.save()
         universe2.save()
     }
+
+    void "test equals and hash code"() {
+        given:
+        def serverGroup = new ServerGroup(countryCode: "en")
+        def serverGroup2 = new ServerGroup(countryCode: "nl")
+
+        expect:
+        new Universe(serverGroup: serverGroup, universeId: 135) == new Universe(serverGroup: serverGroup, universeId: 135)
+        new Universe(serverGroup: serverGroup, universeId: 135) != new Universe(serverGroup: serverGroup2, universeId: 135)
+        new Universe(serverGroup: serverGroup, universeId: 135) != new Universe(serverGroup: serverGroup, universeId: 136)
+
+        new Universe(serverGroup: serverGroup, universeId: 135, name: "test1") == new Universe(serverGroup: serverGroup, universeId: 135, name: "test2")
+    }
 }

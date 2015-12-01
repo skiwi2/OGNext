@@ -31,4 +31,10 @@ class ServerGroupSpec extends Specification {
         serverGroup.save(flush: true)
         !serverGroup2.save(failOnError: false)
     }
+
+    void "test equals and hash code"() {
+        expect:
+        new ServerGroup(countryCode: "en") == new ServerGroup(countryCode: "en")
+        new ServerGroup(countryCode: "en") != new ServerGroup(countryCode: "nl")
+    }
 }
