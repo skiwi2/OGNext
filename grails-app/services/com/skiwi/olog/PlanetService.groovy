@@ -14,7 +14,7 @@ class PlanetService {
     }
 
     Planet createPlanet(Player player, Integer planetId, int galaxy, int solarSystem, int position, String name) {
-        def coordinate = coordinateService.getOrCreateCoordinate(player.universe, galaxy, solarSystem, position)
+        def coordinate = coordinateService.getCoordinate(player.universe, galaxy, solarSystem, position)
         def planet = new Planet(player: player, planetId: planetId)
         planet.addToLocations(new PlanetLocation(coordinate: coordinate, begin: Instant.ofEpochMilli(0), end: Instant.now().plus(50000, ChronoUnit.DAYS)))
         planet.addToAliases(new PlanetAlias(name: name, begin: Instant.ofEpochMilli(0), end: Instant.now().plus(50000, ChronoUnit.DAYS)))
@@ -24,7 +24,7 @@ class PlanetService {
     void storePlanetLocation(Planet planet, int galaxy, int solarSystem, int position, Instant instant) {
         int index = planet.locations.findIndexOf { it.inInterval(instant) }
         def planetLocation = planet.locations[index]
-        def coordinate = coordinateService.getOrCreateCoordinate(planet.universe, galaxy, solarSystem, position)
+        def coordinate = coordinateService.getCoordinate(planet.universe, galaxy, solarSystem, position)
         if (planetLocation.coordinate != coordinate) {
             def oldEnd = planetLocation.end
             planetLocation.end = instant

@@ -97,7 +97,7 @@ class PlanetServiceSpec extends Specification {
         given: "a planet"
         def planet = service.createPlanet(player, planetId, galaxy, solarSystem, position, planetName)
         def planetCoordinate = planet.currentCoordinate
-        def newPlanetCoordinate = coordinateService.getOrCreateCoordinate(universe, galaxy, solarSystem + 1, position)
+        def newPlanetCoordinate = coordinateService.getCoordinate(universe, galaxy, solarSystem + 1, position)
 
         when: "planet has been seen with same location"
         service.storePlanetLocation(planet, galaxy, solarSystem, position, now)

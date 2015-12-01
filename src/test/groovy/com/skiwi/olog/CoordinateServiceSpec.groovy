@@ -22,9 +22,9 @@ class CoordinateServiceSpec extends Specification {
     def cleanup() {
     }
 
-    void "test get or create coordinate"() {
+    void "test get coordinate"() {
         when: "get non-existing coordinate"
-        def createdCoordinate = service.getOrCreateCoordinate(universe, galaxy, solarSystem, position)
+        def createdCoordinate = service.getCoordinate(universe, galaxy, solarSystem, position)
 
         then: "coordinate should be created"
         createdCoordinate
@@ -35,7 +35,7 @@ class CoordinateServiceSpec extends Specification {
         Coordinate.findByUniverseAndGalaxyAndSolarSystemAndPosition(universe, galaxy, solarSystem, position) == createdCoordinate
 
         when: "get existing coordinate"
-        def existingCoordinate = service.getOrCreateCoordinate(universe, galaxy, solarSystem, position)
+        def existingCoordinate = service.getCoordinate(universe, galaxy, solarSystem, position)
 
         then: "coordinate should exist"
         existingCoordinate

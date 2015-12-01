@@ -167,7 +167,7 @@ class PlanetSpec extends Specification {
         def planet = planetService.createPlanet(player, 1000, 2, 122, 12, "Homeworld")
 
         expect:
-        planet.currentCoordinate == coordinateService.getOrCreateCoordinate(universe, 2, 122, 12)
+        planet.currentCoordinate == coordinateService.getCoordinate(universe, 2, 122, 12)
     }
 
     void "test coordinate at instant"() {
@@ -175,7 +175,7 @@ class PlanetSpec extends Specification {
         def planet = planetService.createPlanet(player, 1000, 2, 122, 12, "Homeworld")
 
         expect:
-        planet.getCoordinateAt(Instant.now().plus(4, ChronoUnit.HOURS)) == coordinateService.getOrCreateCoordinate(universe, 2, 122, 12)
+        planet.getCoordinateAt(Instant.now().plus(4, ChronoUnit.HOURS)) == coordinateService.getCoordinate(universe, 2, 122, 12)
     }
 
     void "save valid planet with single alias"() {
