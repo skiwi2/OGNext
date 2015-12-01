@@ -19,6 +19,7 @@ class PlayerSpec extends Specification {
     PlayerService playerService
     UniverseService universeService
     Universe universe
+    Universe universe2
 
     static doWithSpring = {
         playerService(PlayerService)
@@ -32,6 +33,7 @@ class PlayerSpec extends Specification {
         universeService = grailsApplication.mainContext.getBean("universeService")
         universeService.serverGroupService = serverGroupService
         universe = universeService.getUniverse("en", 1)
+        universe2 = universeService.getUniverse("en", 2)
     }
 
     def cleanup() {
@@ -135,5 +137,18 @@ class PlayerSpec extends Specification {
 
         expect:
         player.getNameAt(Instant.now().plus(4, ChronoUnit.HOURS)) == "skiwi"
+    }
+
+    void "test equals and hash code"() {
+        given:
+        def playerAlias = new PlayerAlias(name: "skiwi", begin: Instant.ofEpochSecond(0), end:  Instant.now().plus(50000, ChronoUnit.DAYS))
+        def playerAlias2 = new PlayerAlias(name: "skiwi2", begin: Instant.ofEpochSecond(0), end:  Instant.now().plus(50000, ChronoUnit.DAYS))
+
+        expect:
+        new Player(universe: universe, playerId: 103168) == new Player(universe: universe, playerId: 103168)
+        new Player(universe: universe, playerId: 103168) != new Player(universe: universe2, playerId: 103168)
+        new Player(universe: universe, playerId: 103168) != new Player(universe: universe, playerId: 103169)
+
+        new Player(universe: universe, playerId: 103168).addToAliases(playerAlias) == new Player(universe: universe, playerId: 103168).addToAliases(playerAlias2)
     }
 }

@@ -1,7 +1,10 @@
 package com.skiwi.olog
 
+import groovy.transform.EqualsAndHashCode
+
 import java.time.Instant
 
+@EqualsAndHashCode(includes = ["universe", "playerId"])
 class Player {
     def playerService
 

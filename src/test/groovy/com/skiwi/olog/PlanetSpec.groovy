@@ -237,4 +237,23 @@ class PlanetSpec extends Specification {
         expect:
         planet.getNameAt(Instant.now().plus(4, ChronoUnit.HOURS)) == "Homeworld"
     }
+
+    void "test equals and hash code"() {
+        given:
+        def coordinate = new Coordinate(universe: universe, galaxy:  2, solarSystem: 122, position: 12)
+        def coordinate2 = new Coordinate(universe: universe, galaxy:  2, solarSystem: 123, position: 12)
+        def planetLocation = new PlanetLocation(coordinate: coordinate, begin:  Instant.ofEpochSecond(0), end: Instant.now().plus(50000, ChronoUnit.DAYS))
+        def planetLocation2 = new PlanetLocation(coordinate: coordinate2, begin:  Instant.ofEpochSecond(0), end: Instant.now().plus(50000, ChronoUnit.DAYS))
+        def planetAlias = new PlanetAlias(name: "Homeworld", begin: Instant.ofEpochSecond(0), end: Instant.now().plus(50000, ChronoUnit.DAYS))
+        def planetAlias2 = new PlanetAlias(name: "Homeworld2", begin: Instant.ofEpochSecond(0), end: Instant.now().plus(50000, ChronoUnit.DAYS))
+
+        expect:
+        new Planet(player: player, universe: universe, planetId: 1000) == new Planet(player: player, universe: universe, planetId: 1000)
+        new Planet(player: player, universe: universe, planetId: 1000) != new Planet(player: player2, universe: universe, planetId: 1000)
+        new Planet(player: player, universe: universe, planetId: 1000) != new Planet(player: player, universe: universe2, planetId: 1000)
+        new Planet(player: player, universe: universe, planetId: 1000) != new Planet(player: player, universe: universe, planetId: 1001)
+
+        new Planet(player: player, universe: universe, planetId: 1000).addToLocations(planetLocation) == new Planet(player: player, universe: universe, planetId: 1000).addToLocations(planetLocation2)
+        new Planet(player: player, universe: universe, planetId: 1000).addToAliases(planetAlias) == new Planet(player: player, universe: universe, planetId: 1000).addToAliases(planetAlias2)
+    }
 }
