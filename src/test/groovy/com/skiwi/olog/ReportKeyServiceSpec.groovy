@@ -24,12 +24,12 @@ class ReportKeyServiceSpec extends Specification {
     def cleanup() {
     }
 
-    void "test add or get spy report"() {
+    void "test add spy report"() {
         given: "a spy report key"
         def key = "sr-en-135-73536e717b84e3ebd7cc6c415a3b3675cc1af166"
 
         when: "add spy report"
-        def spyReport = service.addOrGetSpyReport(player, key)
+        def spyReport = service.addSpyReport(player, key)
 
         then: "spy report should be added"
         spyReport
@@ -38,19 +38,19 @@ class ReportKeyServiceSpec extends Specification {
         SpyReport.findByKey(key) == spyReport
 
         when: "add spy report with same key again"
-        def sameSpyReport = service.addOrGetSpyReport(player, key)
+        def sameSpyReport = service.addSpyReport(player, key)
 
         then: "spy report should not be added"
         SpyReport.countByKey(key) == 1
         spyReport == sameSpyReport
     }
 
-    void "test add or get combat report"() {
+    void "test add combat report"() {
         given: "a combat report key"
         def key = "cr-en-135-3be2512d98e266343c100f71d6c14b7a68e639f4"
 
         when: "add combat report"
-        def combatReport = service.addOrGetCombatReport(player, key)
+        def combatReport = service.addCombatReport(player, key)
 
         then: "combat report should be added"
         combatReport
@@ -59,19 +59,19 @@ class ReportKeyServiceSpec extends Specification {
         CombatReport.findByKey(key) == combatReport
 
         when: "add combat report with same key again"
-        def sameCombatReport = service.addOrGetCombatReport(player, key)
+        def sameCombatReport = service.addCombatReport(player, key)
 
         then: "combat report should not be added"
         CombatReport.countByKey(key) == 1
         combatReport == sameCombatReport
     }
 
-    void "test add or get recycle report"() {
+    void "test add recycle report"() {
         given: "a recycle report key"
         def key = "rr-en-135-3105606a1fdb509f9f51459b5ddf0d36afc8a074"
 
         when: "add recycle report"
-        def recycleReport = service.addOrGetRecycleReport(player, key)
+        def recycleReport = service.addRecycleReport(player, key)
 
         then: "recycle report should be added"
         recycleReport
@@ -80,19 +80,19 @@ class ReportKeyServiceSpec extends Specification {
         RecycleReport.findByKey(key) == recycleReport
 
         when: "add recycle report with same key again"
-        def sameRecycleReport = service.addOrGetRecycleReport(player, key)
+        def sameRecycleReport = service.addRecycleReport(player, key)
 
         then: "recycle report should not be added"
         RecycleReport.countByKey(key) == 1
         recycleReport == sameRecycleReport
     }
 
-    void "test add or get missile report"() {
+    void "test add missile report"() {
         given: "a missile report key"
         def key = "mr-en-135-b47906dc63fafa3c47185e09c23908945c802781"
 
         when: "add missile report"
-        def missileReport = service.addOrGetMissileReport(player, key)
+        def missileReport = service.addMissileReport(player, key)
 
         then: "missile report should be added"
         missileReport
@@ -101,7 +101,7 @@ class ReportKeyServiceSpec extends Specification {
         MissileReport.findByKey(key) == missileReport
 
         when: "add missile report with same key again"
-        def sameMissileReport = service.addOrGetMissileReport(player, key)
+        def sameMissileReport = service.addMissileReport(player, key)
 
         then: "missile report should not be added"
         MissileReport.countByKey(key) == 1
@@ -113,10 +113,10 @@ class ReportKeyServiceSpec extends Specification {
         def key = "testkey"
 
         when: "reports are valid"
-        def spyReport = service.addOrGetSpyReport(player, key)
-        def combatReport = service.addOrGetCombatReport(player, key)
-        def recycleReport = service.addOrGetRecycleReport(player, key)
-        def missileReport = service.addOrGetMissileReport(player, key)
+        def spyReport = service.addSpyReport(player, key)
+        def combatReport = service.addCombatReport(player, key)
+        def recycleReport = service.addRecycleReport(player, key)
+        def missileReport = service.addMissileReport(player, key)
 
         then: "all reports should be saved"
         spyReport.save(flush: true)

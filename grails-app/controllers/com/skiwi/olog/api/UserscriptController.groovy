@@ -20,10 +20,10 @@ class UserscriptController {
         def playerName = json.playerName
         def player = playerService.getOrCreatePlayer(universe, playerId, playerName)
 
-        json.reportKeys.sr.each { reportKeyService.addOrGetSpyReport(player, it) }
-        json.reportKeys.cr.each { reportKeyService.addOrGetCombatReport(player, it) }
-        json.reportKeys.rr.each { reportKeyService.addOrGetRecycleReport(player, it) }
-        json.reportKeys.mr.each { reportKeyService.addOrGetMissileReport(player, it) }
+        json.reportKeys.sr.each { reportKeyService.addSpyReport(player, it) }
+        json.reportKeys.cr.each { reportKeyService.addCombatReport(player, it) }
+        json.reportKeys.rr.each { reportKeyService.addRecycleReport(player, it) }
+        json.reportKeys.mr.each { reportKeyService.addMissileReport(player, it) }
 
         render(contentType: "application/json") {
             result(success: true)
