@@ -81,13 +81,13 @@ class PlayerServiceSpec extends Specification {
         Player.findByUniverseAndPlayerId(universe2, playerId) == otherPlayer
     }
 
-    void "test update player name and get player alias"() {
+    void "test store player name and get player alias"() {
         given: "a player"
         def player = service.createPlayer(universe, playerId, playerName)
         def newPlayerName = "skiwi2"
 
         when: "player has been seen with same name"
-        service.updatePlayerName(player, playerName, now)
+        service.storePlayerName(player, playerName, now)
 
         then: "player does not have a new alias"
         player.aliases.size() == 1
@@ -97,7 +97,7 @@ class PlayerServiceSpec extends Specification {
 
         when: "player has been seen with a different name"
         def updateInstant = now.minus(2, ChronoUnit.HOURS)
-        service.updatePlayerName(player, newPlayerName, updateInstant)
+        service.storePlayerName(player, newPlayerName, updateInstant)
 
         then: "player has a new alias"
         player.aliases.size() == 2

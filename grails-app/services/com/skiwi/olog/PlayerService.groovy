@@ -17,7 +17,7 @@ class PlayerService {
         player.save()
     }
 
-    void updatePlayerName(Player player, String name, Instant instant) {
+    void storePlayerName(Player player, String name, Instant instant) {
         int index = player.aliases.findIndexOf { it.inInterval(instant) }
         def playerAlias = player.aliases[index]
         if (playerAlias.name != name) {
