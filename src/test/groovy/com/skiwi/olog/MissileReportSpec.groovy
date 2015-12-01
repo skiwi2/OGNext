@@ -9,7 +9,9 @@ import spock.lang.Specification
 @TestFor(MissileReport)
 class MissileReportSpec extends Specification {
     def player = new Player(playerId: 103168)
+    def player2 = new Player(playerId: 103169)
     def key = "mr-en-135-b47906dc63fafa3c47185e09c23908945c802781"
+    def key2 = "mr-en-136-b47906dc63fafa3c47185e09c23908945c802781"
 
     def setup() {
     }
@@ -33,5 +35,12 @@ class MissileReportSpec extends Specification {
         then: "second missile report should not be saved"
         missileReport.save(flush: true)
         !missileReport2.save(failOnError: false)
+    }
+
+    void "test equals and hash code"() {
+        expect:
+        new MissileReport(player: player, key: key) == new MissileReport(player: player, key: key)
+        new MissileReport(player: player, key: key) != new MissileReport(player: player2, key: key)
+        new MissileReport(player: player, key: key) != new MissileReport(player: player, key: key2)
     }
 }

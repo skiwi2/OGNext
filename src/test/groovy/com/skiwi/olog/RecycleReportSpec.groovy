@@ -9,7 +9,9 @@ import spock.lang.Specification
 @TestFor(RecycleReport)
 class RecycleReportSpec extends Specification {
     def player = new Player(playerId: 103168)
+    def player2 = new Player(playerId: 103169)
     def key = "rr-en-135-3105606a1fdb509f9f51459b5ddf0d36afc8a074"
+    def key2 = "rr-en-136-3105606a1fdb509f9f51459b5ddf0d36afc8a074"
 
     def setup() {
     }
@@ -33,5 +35,12 @@ class RecycleReportSpec extends Specification {
         then: "second recycle report should not be saved"
         recycleReport.save(flush: true)
         !recycleReport2.save(failOnError: false)
+    }
+
+    void "test equals and hash code"() {
+        expect:
+        new RecycleReport(player: player, key: key) == new RecycleReport(player: player, key: key)
+        new RecycleReport(player: player, key: key) != new RecycleReport(player: player2, key: key)
+        new RecycleReport(player: player, key: key) != new RecycleReport(player: player, key: key2)
     }
 }

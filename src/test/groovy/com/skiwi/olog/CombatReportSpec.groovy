@@ -9,7 +9,9 @@ import spock.lang.Specification
 @TestFor(CombatReport)
 class CombatReportSpec extends Specification {
     def player = new Player(playerId: 103168)
+    def player2 = new Player(playerId: 103169)
     def key = "cr-en-135-3be2512d98e266343c100f71d6c14b7a68e639f4"
+    def key2 = "cr-en-136-3be2512d98e266343c100f71d6c14b7a68e639f4"
 
     def setup() {
     }
@@ -33,5 +35,12 @@ class CombatReportSpec extends Specification {
         then: "second combat report should not be saved"
         combatReport.save(flush: true)
         !combatReport2.save(failOnError: false)
+    }
+
+    void "test equals and hash code"() {
+        expect:
+        new CombatReport(player: player, key: key) == new CombatReport(player: player, key: key)
+        new CombatReport(player: player, key: key) != new CombatReport(player: player2, key: key)
+        new CombatReport(player: player, key: key) != new CombatReport(player: player, key: key2)
     }
 }

@@ -9,7 +9,9 @@ import spock.lang.Specification
 @TestFor(SpyReport)
 class SpyReportSpec extends Specification {
     def player = new Player(playerId: 103168)
+    def player2 = new Player(playerId: 103169)
     def key = "sr-en-135-73536e717b84e3ebd7cc6c415a3b3675cc1af166"
+    def key2 = "sr-en-136-73536e717b84e3ebd7cc6c415a3b3675cc1af166"
 
     def setup() {
     }
@@ -33,5 +35,12 @@ class SpyReportSpec extends Specification {
         then: "second spy report should not be saved"
         spyReport.save(flush: true)
         !spyReport2.save(failOnError: false)
+    }
+
+    void "test equals and hash code"() {
+        expect:
+        new SpyReport(player: player, key: key) == new SpyReport(player: player, key: key)
+        new SpyReport(player: player, key: key) != new SpyReport(player: player2, key: key)
+        new SpyReport(player: player, key: key) != new SpyReport(player: player, key: key2)
     }
 }
