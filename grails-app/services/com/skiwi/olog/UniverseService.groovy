@@ -14,6 +14,6 @@ class UniverseService {
     }
 
     Universe getOrCreateUniverse(String serverGroupCountryCode, Integer universeId, String name = null) {
-        getOrCreateUniverse(serverGroupService.getOrCreateServerGroup(serverGroupCountryCode), universeId, name)
+        getOrCreateUniverse(serverGroupService.getServerGroup(serverGroupCountryCode), universeId, name)
     }
 }

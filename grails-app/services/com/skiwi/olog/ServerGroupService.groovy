@@ -4,7 +4,7 @@ import grails.transaction.Transactional
 
 @Transactional
 class ServerGroupService {
-    ServerGroup getOrCreateServerGroup(String countryCode) {
+    ServerGroup getServerGroup(String countryCode) {
         ServerGroup.findOrSaveByCountryCode(countryCode)
     }
 }

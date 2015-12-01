@@ -18,9 +18,9 @@ class ServerGroupServiceSpec extends Specification {
     def cleanup() {
     }
 
-    void "test get or create server group"() {
+    void "test get server group"() {
         when: "get non-existing serverGroup"
-        def createdServerGroup = service.getOrCreateServerGroup(serverGroupCountryCode)
+        def createdServerGroup = service.getServerGroup(serverGroupCountryCode)
 
         then: "serverGroup group should be created"
         createdServerGroup
@@ -28,7 +28,7 @@ class ServerGroupServiceSpec extends Specification {
         ServerGroup.findByCountryCode(serverGroupCountryCode) == createdServerGroup
 
         when: "get existing serverGroup group"
-        def existingServerGroup = service.getOrCreateServerGroup(serverGroupCountryCode)
+        def existingServerGroup = service.getServerGroup(serverGroupCountryCode)
 
         then: "serverGroup group should exist"
         existingServerGroup
