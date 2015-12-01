@@ -6,14 +6,11 @@ import grails.transaction.Transactional
 class UniverseService {
     def serverGroupService
 
-    Universe getOrCreateUniverse(ServerGroup serverGroup, Integer universeId, String name = null) {
-        Universe.findByServerGroupAndUniverseId(serverGroup, universeId) ?: {
-            def universe = new Universe(serverGroup: serverGroup, universeId: universeId, name: name)
-            universe.save()
-        }()
+    Universe getUniverse(ServerGroup serverGroup, Integer universeId) {
+        Universe.findOrSaveByServerGroupAndUniverseId(serverGroup, universeId)
     }
 
-    Universe getOrCreateUniverse(String serverGroupCountryCode, Integer universeId, String name = null) {
-        getOrCreateUniverse(serverGroupService.getServerGroup(serverGroupCountryCode), universeId, name)
+    Universe getUniverse(String serverGroupCountryCode, Integer universeId) {
+        getUniverse(serverGroupService.getServerGroup(serverGroupCountryCode), universeId)
     }
 }

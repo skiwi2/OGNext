@@ -16,7 +16,6 @@ class UniverseServiceSpec extends Specification {
     def serverGroupCountryCode = "en"
     def serverGroup = new ServerGroup(countryCode: serverGroupCountryCode)
     def universeId = 1
-    def universeName = "1"
 
     static doWithSpring = {
         serverGroupService(ServerGroupService)
@@ -28,63 +27,9 @@ class UniverseServiceSpec extends Specification {
     def cleanup() {
     }
 
-    void "test get or create universe given server group"() {
+    void "test get universe given server group"() {
         when: "get non-existing universe"
-        def createdUniverse = service.getOrCreateUniverse(serverGroup, universeId, universeName)
-
-        then: "universe should be created"
-        createdUniverse
-        createdUniverse.serverGroup == serverGroup
-        createdUniverse.universeId == universeId
-        createdUniverse.name == universeName
-        Universe.findByServerGroupAndUniverseId(serverGroup, universeId) == createdUniverse
-
-        when: "get existing universe"
-        def existingUniverse = service.getOrCreateUniverse(serverGroup, universeId, universeName)
-
-        then: "universe should exist"
-        existingUniverse
-        existingUniverse.serverGroup == serverGroup
-        existingUniverse.universeId == universeId
-        existingUniverse.name == universeName
-        Universe.findByServerGroupAndUniverseId(serverGroup, universeId) == existingUniverse
-    }
-
-    void "test get or create universe given server group country code"() {
-        when: "get non-existing universe"
-        def createdUniverse = service.getOrCreateUniverse(serverGroupCountryCode, universeId, universeName)
-
-        then: "universe should be created"
-        createdUniverse
-        createdUniverse.serverGroup.countryCode == serverGroupCountryCode
-        createdUniverse.universeId == universeId
-        createdUniverse.name == universeName
-        Universe.createCriteria().get {
-            serverGroup {
-                eq "countryCode", serverGroupCountryCode
-            }
-            eq "universeId", universeId
-        } == createdUniverse
-
-        when: "get existing universe"
-        def existingUniverse = service.getOrCreateUniverse(serverGroupCountryCode, universeId, universeName)
-
-        then: "universe should exist"
-        existingUniverse
-        existingUniverse.serverGroup.countryCode == serverGroupCountryCode
-        existingUniverse.universeId == universeId
-        existingUniverse.name == universeName
-        Universe.createCriteria().get {
-            serverGroup {
-                eq "countryCode", serverGroupCountryCode
-            }
-            eq "universeId", universeId
-        } == existingUniverse
-    }
-
-    void "test get or create universe without name given server group"() {
-        when: "get non-existing universe"
-        def createdUniverse = service.getOrCreateUniverse(serverGroup, universeId)
+        def createdUniverse = service.getUniverse(serverGroup, universeId)
 
         then: "universe should be created"
         createdUniverse
@@ -93,7 +38,7 @@ class UniverseServiceSpec extends Specification {
         Universe.findByServerGroupAndUniverseId(serverGroup, universeId) == createdUniverse
 
         when: "get existing universe"
-        def existingUniverse = service.getOrCreateUniverse(serverGroup, universeId)
+        def existingUniverse = service.getUniverse(serverGroup, universeId)
 
         then: "universe should exist"
         existingUniverse
@@ -102,9 +47,9 @@ class UniverseServiceSpec extends Specification {
         Universe.findByServerGroupAndUniverseId(serverGroup, universeId) == existingUniverse
     }
 
-    void "test get or create universe without name given server group country code"() {
+    void "test get universe given server group country code"() {
         when: "get non-existing universe"
-        def createdUniverse = service.getOrCreateUniverse(serverGroupCountryCode, universeId)
+        def createdUniverse = service.getUniverse(serverGroupCountryCode, universeId)
 
         then: "universe should be created"
         createdUniverse
@@ -118,7 +63,7 @@ class UniverseServiceSpec extends Specification {
         } == createdUniverse
 
         when: "get existing universe"
-        def existingUniverse = service.getOrCreateUniverse(serverGroupCountryCode, universeId)
+        def existingUniverse = service.getUniverse(serverGroupCountryCode, universeId)
 
         then: "universe should exist"
         existingUniverse

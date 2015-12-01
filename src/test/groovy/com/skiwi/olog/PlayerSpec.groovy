@@ -31,7 +31,7 @@ class PlayerSpec extends Specification {
         def serverGroupService = grailsApplication.mainContext.getBean("serverGroupService")
         universeService = grailsApplication.mainContext.getBean("universeService")
         universeService.serverGroupService = serverGroupService
-        universe = universeService.getOrCreateUniverse("en", 1, "1")
+        universe = universeService.getUniverse("en", 1)
     }
 
     def cleanup() {
@@ -67,8 +67,8 @@ class PlayerSpec extends Specification {
 
     void "save two players with same playerId in different universes"() {
         when: "players have same playerId in different universes"
-        def universe1 = universeService.getOrCreateUniverse("en", 1, "1")
-        def universe2 = universeService.getOrCreateUniverse("en", 2, "2")
+        def universe1 = universeService.getUniverse("en", 1)
+        def universe2 = universeService.getUniverse("en", 2)
         def player = new Player(universe: universe1, playerId: 103168)
         def player2 = new Player(universe: universe2, playerId: 103168)
 

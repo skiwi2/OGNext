@@ -17,7 +17,7 @@ class ReportKeyServiceSpec extends Specification {
         def universeService = mockService(UniverseService)
         def serverGroupService = mockService(ServerGroupService)
         universeService.serverGroupService = serverGroupService
-        def universe = universeService.getOrCreateUniverse("en", 1, "1")
+        def universe = universeService.getUniverse("en", 1)
         player = playerService.createPlayer(universe, 103168, "skiwi")
     }
 

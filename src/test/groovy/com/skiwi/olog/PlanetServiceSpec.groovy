@@ -30,8 +30,8 @@ class PlanetServiceSpec extends Specification {
     def setup() {
         def universeService = mockService(UniverseService)
         def playerService = mockService(PlayerService)
-        universe = universeService.getOrCreateUniverse("en", 135)
-        universe2 = universeService.getOrCreateUniverse("en", 136)
+        universe = universeService.getUniverse("en", 135)
+        universe2 = universeService.getUniverse("en", 136)
         player = playerService.createPlayer(universe, 103168, "skiwi")
         player2 = playerService.createPlayer(universe2, 103168, "skiwi2")
         now = Instant.now()

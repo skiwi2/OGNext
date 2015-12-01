@@ -69,7 +69,7 @@ class UserscriptControllerSpec extends Specification {
 
         then: "keys should be persisted"
         response.json.result.success == true
-        def universe = universeService.getOrCreateUniverse("en", 135, "???")
+        def universe = universeService.getUniverse("en", 135)
         def player = playerService.getOrCreatePlayer(universe, 103168, "skiwi")
         SpyReport.findByKeyAndPlayer("sr-key-1", player)
         SpyReport.findByKeyAndPlayer("sr-key-2", player)

@@ -22,8 +22,8 @@ class PlayerServiceSpec extends Specification {
 
     def setup() {
         def universeService = mockService(UniverseService)
-        universe = universeService.getOrCreateUniverse("en", 1, "1")
-        universe2 = universeService.getOrCreateUniverse("en", 2, "2")
+        universe = universeService.getUniverse("en", 1)
+        universe2 = universeService.getUniverse("en", 2)
         now = Instant.now()
     }
 
