@@ -10,6 +10,7 @@ import spock.lang.Specification
 class CoordinateSpec extends Specification {
     def serverGroup = new ServerGroup(countryCode: "en")
     def universe = new Universe(universeId: 135, serverGroup: serverGroup)
+    def universe2 = new Universe(universeId: 136, serverGroup: serverGroup)
 
     def setup() {
     }
@@ -32,5 +33,13 @@ class CoordinateSpec extends Specification {
         !new Coordinate(universe: universe, galaxy: 2, solarSystem: 500, position: 12).save(failOnError: false)
         !new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 0).save(failOnError: false)
         !new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 16).save(failOnError: false)
+    }
+
+    void "test equals and hash code"() {
+        new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 12) == new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 12)
+        new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 12) != new Coordinate(universe: universe2, galaxy: 2, solarSystem: 122, position: 12)
+        new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 12) != new Coordinate(universe: universe, galaxy: 3, solarSystem: 122, position: 12)
+        new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 12) != new Coordinate(universe: universe, galaxy: 2, solarSystem: 123, position: 12)
+        new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 12) != new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 13)
     }
 }

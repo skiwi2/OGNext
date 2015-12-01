@@ -2,7 +2,7 @@ package com.skiwi.olog
 
 import groovy.transform.EqualsAndHashCode
 
-@EqualsAndHashCode
+@EqualsAndHashCode(includes = ["universe", "galaxy", "solarSystem", "position"])
 class Coordinate {
     static constraints = {
         universe unique: ["galaxy", "solarSystem", "position"]
