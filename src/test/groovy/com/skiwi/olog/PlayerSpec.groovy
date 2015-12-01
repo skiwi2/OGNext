@@ -123,7 +123,7 @@ class PlayerSpec extends Specification {
 
     void "test current name"() {
         given: "a player with a name"
-        def player = playerService.getOrCreatePlayer(universe, 103168, "skiwi")
+        def player = playerService.createPlayer(universe, 103168, "skiwi")
 
         expect:
         player.currentName == "skiwi"
@@ -131,7 +131,7 @@ class PlayerSpec extends Specification {
 
     void "test name at instant"() {
         given: "a player with a name"
-        def player = playerService.getOrCreatePlayer(universe, 103168, "skiwi")
+        def player = playerService.createPlayer(universe, 103168, "skiwi")
 
         expect:
         player.getNameAt(Instant.now().plus(4, ChronoUnit.HOURS)) == "skiwi"

@@ -18,7 +18,7 @@ class UserscriptController {
 
         def playerId = json.playerId.toInteger()
         def playerName = json.playerName
-        def player = playerService.getOrCreatePlayer(universe, playerId, playerName)
+        def player = playerService.findPlayer(universe, playerId) ?: playerService.createPlayer(universe, playerId, playerName)
 
         json.reportKeys.sr.each { reportKeyService.addSpyReport(player, it) }
         json.reportKeys.cr.each { reportKeyService.addCombatReport(player, it) }

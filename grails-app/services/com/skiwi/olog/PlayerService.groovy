@@ -7,8 +7,8 @@ import java.time.temporal.ChronoUnit
 
 @Transactional
 class PlayerService {
-    Player getOrCreatePlayer(Universe universe, Integer playerId, String name) {
-        Player.findByUniverseAndPlayerId(universe, playerId) ?: createPlayer(universe, playerId, name)
+    Player findPlayer(Universe universe, Integer playerId) {
+        Player.findByUniverseAndPlayerId(universe, playerId)
     }
 
     Player createPlayer(Universe universe, Integer playerId, String name) {

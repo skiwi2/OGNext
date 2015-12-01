@@ -30,26 +30,22 @@ class PlayerServiceSpec extends Specification {
     def cleanup() {
     }
 
-    void "test get or create player"() {
-        when: "get non-existing player"
-        def createdPlayer = service.getOrCreatePlayer(universe, playerId, playerName)
+    void "test find player"() {
+        when: "player does not exist"
+        def nonExistingPlayer = service.findPlayer(universe, playerId)
 
-        then: "player should be created"
-        createdPlayer
-        createdPlayer.universe == universe
-        createdPlayer.playerId == playerId
-        createdPlayer.currentName == playerName
-        Player.findByUniverseAndPlayerId(universe, playerId) == createdPlayer
+        then: "null should be returned"
+        !nonExistingPlayer
 
-        when: "get existing player"
-        def existingPlayer = service.getOrCreatePlayer(universe, playerId, playerName)
+        when: "player gets created"
+        service.createPlayer(universe, playerId, playerName)
+        def player = service.findPlayer(universe, playerId)
 
-        then: "player should exist"
-        existingPlayer
-        existingPlayer.universe == universe
-        existingPlayer.playerId == playerId
-        existingPlayer.currentName == playerName
-        Player.findByUniverseAndPlayerId(universe, playerId) == existingPlayer
+        then: "player should be returned"
+        player
+        player.universe == universe
+        player.playerId == playerId
+        player.currentName == playerName
     }
 
     void "test create player"() {
