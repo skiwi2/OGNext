@@ -101,3 +101,11 @@ task generateResources {
     writer.println("commitHash=$commitHash")
     writer.close()
 }
+
+war.doLast {
+    def uncommittedChanges = "git status --porcelain".execute().text
+    if (uncommittedChanges) {
+        println "WARNING: You have built a WAR with uncommitted changes, did you forget to commit before building?"
+        println "You might have a wrong commit hash in the WAR at this moment."
+    }
+}
