@@ -1,3 +1,9 @@
+import java.nio.charset.StandardCharsets
+import java.nio.file.Files
+import java.nio.file.OpenOption
+import java.nio.file.Paths
+import java.nio.file.StandardOpenOption
+
 buildscript {
     ext {
         grailsVersion = project.grailsVersion
@@ -38,6 +44,14 @@ assets {
     minifyCss = true
 }
 
+def generatedResources = "$buildDir/generated-resources/main"
+
+sourceSets {
+    main {
+        output.dir(generatedResources, builtBy: "generateResources")
+    }
+}
+
 repositories {
     mavenLocal()
     maven { url "https://repo.grails.org/grails/core" }
@@ -76,4 +90,14 @@ dependencies {
 
 task wrapper(type: Wrapper) {
     gradleVersion = gradleWrapperVersion
+}
+
+task generateResources {
+    def commitHash = "git rev-parse HEAD".execute().text
+
+    def infoPath = Paths.get(generatedResources).resolve("info.properties")
+    def writer = Files.newBufferedWriter(infoPath, StandardCharsets.UTF_8, [StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING] as OpenOption[])
+    writer.println("version=$version")
+    writer.println("commitHash=$commitHash")
+    writer.close()
 }
