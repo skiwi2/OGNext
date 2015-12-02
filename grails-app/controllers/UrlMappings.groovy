@@ -4,6 +4,7 @@ class UrlMappings {
         "/api/userscript/$action/$id?" (controller: "userscript")
 
         "/spyreport/$serverGroupCountryCode/$universeId/$playerId/$action?/$id?" (controller: "spyReport")
+        "/info/$action?/$id?" (controller: "info")
 
         "/"(view:"/index")
         "500"(view:'/error')
