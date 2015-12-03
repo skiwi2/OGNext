@@ -93,13 +93,24 @@ task wrapper(type: Wrapper) {
 }
 
 task generateResources {
-    def commitHash = "git rev-parse HEAD".execute().text
+    def commitHash = "git rev-parse HEAD".execute().text.trim()
+    def uncommittedChanges = ("git status --porcelain".execute().text.trim()) ? "true" : "false"
 
     def infoPath = Paths.get(generatedResources).resolve("info.properties")
-    def writer = Files.newBufferedWriter(infoPath, StandardCharsets.UTF_8, [StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING] as OpenOption[])
-    writer.println("version=$version")
-    writer.println("commitHash=$commitHash")
-    writer.close()
+    def infoWriter = Files.newBufferedWriter(infoPath, StandardCharsets.UTF_8, [StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING] as OpenOption[])
+    infoWriter.withWriter { writer ->
+        writer.println("version=$version")
+        writer.println("commitHash=$commitHash")
+        writer.println("uncommittedChanges=$uncommittedChanges")
+    }
+
+    def gitDiffPath = Paths.get(generatedResources).resolve("gitdiff.txt")
+    Files.deleteIfExists(gitDiffPath)
+    if (uncommittedChanges) {
+        def gitDiff = "git diff HEAD".execute().text
+        def diffWriter = Files.newBufferedWriter(gitDiffPath, StandardCharsets.UTF_8, StandardOpenOption.CREATE_NEW)
+        diffWriter.withWriter { it.print(gitDiff) }
+    }
 }
 
 war.doLast {
