@@ -9,6 +9,11 @@ OLog mainly consists of two parts. You are currently looking at the server part.
 Clone the repository, checkout the develop tree and you got yourself your own OLog server.
 Once it runs, use the OLog userscript to send data to the server.
 
+Requirements
+------------
+
+- [Grails 3](https://grails.org/download.html) - Easy to install using SDKMAN
+
 Working in an IDE
 -----------------
 
