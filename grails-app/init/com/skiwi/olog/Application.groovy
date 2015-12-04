@@ -1,4 +1,4 @@
-package olog
+package com.skiwi.olog
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration
