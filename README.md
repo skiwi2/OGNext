@@ -9,6 +9,13 @@ OLog mainly consists of two parts. You are currently looking at the server part.
 Clone the repository, checkout the develop tree and you got yourself your own OLog server.
 Once it runs, use the OLog userscript to send data to the server.
 
+Working in an IDE
+-----------------
+
+You can import the project in IntelliJ by opening `build.gradle`.
+
+Note: there may be [some quirks](https://github.com/libgdx/libgdx/wiki/Gradle-and-Intellij-IDEA) with Gradle.
+
 Build, run and deploy
 ---------------------
 
