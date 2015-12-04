@@ -1,4 +1,3 @@
-
 OLog
 ====
 
@@ -11,7 +10,7 @@ Clone the repository, checkout the develop tree and you got yourself your own OL
 Once it runs, use the OLog userscript to send data to the server.
 
 Build, run and deploy
------------
+---------------------
 
 To compile the server fresh from the source and run, the following will suffice:
 
@@ -21,7 +20,7 @@ To deploy the server in environments like Tomcat, you'll need a WAR file.
 
     grails war
 
-By default the WAR will be build in `/build/libs/` as `OLog-*.war`, where * is the current version.
+By default the WAR will be build in `/build/libs/` as `OLog-*.war`, where `*` is the current version.
 
 In Tomcat, deploy the WAR in the `webapps` folder. By default, the WAR will be extracted to a `OLog-*` directory.
 
