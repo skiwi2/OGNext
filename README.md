@@ -35,10 +35,14 @@ When run from the source, the server is available by default at `localhost:8080`
 
 When deployed, the server is available at `localhost:8080/OLog-*`.
 
-Unit tests
-----------
+Run unit tests
+--------------
 
-Unit tests are still being worked on.
+Run unit tests with:
+
+    grails test-app
+
+*Note: unit tests are still being worked on.*
 
 How to contribute
 -----------------
