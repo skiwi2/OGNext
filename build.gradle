@@ -96,7 +96,10 @@ task generateResources {
     def commitHash = "git rev-parse HEAD".execute().text.trim()
     def uncommittedChanges = ("git status --porcelain".execute().text.trim()) ? "true" : "false"
 
-    def infoPath = Paths.get(generatedResources).resolve("info.properties")
+    def generatedResourcesPath = Paths.get(generatedResources)
+    Files.createDirectories(generatedResourcesPath)
+
+    def infoPath = generatedResourcesPath.resolve("info.properties")
     def infoWriter = Files.newBufferedWriter(infoPath, StandardCharsets.UTF_8, [StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING] as OpenOption[])
     infoWriter.withWriter { writer ->
         writer.println("version=$version")
@@ -104,7 +107,7 @@ task generateResources {
         writer.println("uncommittedChanges=$uncommittedChanges")
     }
 
-    def gitDiffPath = Paths.get(generatedResources).resolve("gitdiff.txt")
+    def gitDiffPath = generatedResourcesPath.resolve("gitdiff.txt")
     Files.deleteIfExists(gitDiffPath)
     if (uncommittedChanges) {
         def gitDiff = "git diff HEAD".execute().text
