@@ -72,6 +72,7 @@ hibernate:
         use_second_level_cache: true
         use_query_cache: false
         region.factory_class: 'org.hibernate.cache.ehcache.EhCacheRegionFactory'
+    naming_strategy: com.skiwi.olog.hibernate.PrefixNamingStrategy
 
 endpoints:
     jmx:
