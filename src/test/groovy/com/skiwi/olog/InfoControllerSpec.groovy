@@ -8,15 +8,11 @@ import spock.lang.Specification
  */
 @TestFor(InfoController)
 class InfoControllerSpec extends Specification {
-
     def setup() {
     }
 
     def cleanup() {
     }
 
-    void "test something"() {
-        expect: "fix me"
-        true == false
-    }
+    //TODO write tests
 }
