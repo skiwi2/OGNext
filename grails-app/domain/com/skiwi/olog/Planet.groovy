@@ -40,6 +40,9 @@ class Planet {
     List<PlanetLocation> locations
     List<PlanetAlias> aliases
 
+    Date dateCreated
+    Date lastUpdated
+
     static hasMany = [
         locations: PlanetLocation,
         aliases: PlanetAlias

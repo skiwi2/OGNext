@@ -12,4 +12,7 @@ class Universe {
     ServerGroup serverGroup
     Integer universeId
     String name
+
+    Date dateCreated
+    Date lastUpdated
 }

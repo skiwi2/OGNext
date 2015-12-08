@@ -12,6 +12,9 @@ class PlanetLocation {
     Instant begin
     Instant end
 
+    Date dateCreated
+    Date lastUpdated
+
     boolean intervalIntersects(PlanetLocation other) {
         begin < other.end && other.begin < end
     }

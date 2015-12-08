@@ -11,6 +11,9 @@ class PlayerAlias {
     Instant begin
     Instant end
 
+    Date dateCreated
+    Date lastUpdated
+
     boolean intervalIntersects(PlayerAlias other) {
         begin < other.end && other.begin < end
     }

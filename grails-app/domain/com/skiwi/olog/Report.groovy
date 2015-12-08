@@ -9,4 +9,7 @@ abstract class Report {
 
     Player player
     String key
+
+    Date dateCreated
+    Date lastUpdated
 }

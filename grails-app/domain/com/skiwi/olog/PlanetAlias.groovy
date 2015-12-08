@@ -11,6 +11,9 @@ class PlanetAlias {
     Instant begin
     Instant end
 
+    Date dateCreated
+    Date lastUpdated
+
     boolean intervalIntersects(PlanetAlias other) {
         begin < other.end && other.begin < end
     }

@@ -15,4 +15,7 @@ class Coordinate {
     Integer galaxy
     Integer solarSystem
     Integer position
+
+    Date dateCreated
+    Date lastUpdated
 }

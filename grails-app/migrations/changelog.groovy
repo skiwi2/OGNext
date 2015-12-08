@@ -307,4 +307,5 @@ databaseChangeLog = {
     changeSet(author: "Beheerder (generated)", id: "1449264449541-30") {
         addForeignKeyConstraint(baseColumnNames: "col_server_group_id", baseTableName: "table_universe", constraintName: "FK_qlddsfijvbixd61n7gibdtckn", deferrable: "false", initiallyDeferred: "false", referencedColumnNames: "col_id", referencedTableName: "table_server_group")
     }
+    include file: 'added-created-updated-fields.groovy'
 }

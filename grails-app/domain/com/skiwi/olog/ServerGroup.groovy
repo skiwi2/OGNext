@@ -9,4 +9,7 @@ class ServerGroup {
     }
 
     String countryCode
+
+    Date dateCreated
+    Date lastUpdated
 }

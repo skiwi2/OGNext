@@ -25,6 +25,9 @@ class Player {
     Integer playerId
     List<PlayerAlias> aliases
 
+    Date dateCreated
+    Date lastUpdated
+
     String getCurrentName() {
         getNameAt(Instant.now())
     }
