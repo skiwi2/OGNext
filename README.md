@@ -21,6 +21,11 @@ You can import the project in IntelliJ by opening `build.gradle`.
 
 Note: there may be [some quirks](https://github.com/libgdx/libgdx/wiki/Gradle-and-Intellij-IDEA) with Gradle.
 
+Database
+--------
+
+To succesfully store and retrieve data a [PostgreSQL](http://www.postgresql.org/) database is required.
+
 Build, run and deploy
 ---------------------
 
@@ -32,9 +37,54 @@ To deploy the server in environments like Tomcat, you'll need a WAR file.
 
     grails war
 
-By default the WAR will be build in `/build/libs/` as `OLog-*.war`, where `*` is the current version.
+By default the WAR will be build in `build/libs/` as `OLog-*.war`, where `*` is the current version.
 
 In Tomcat, deploy the WAR in the `webapps` folder. By default, the WAR will be extracted to a `OLog-*` directory.
+
+Create a new YML in a location of your choosing named `olog-config.yml` and give it the following content:
+
+    dataSource:
+        dbCreate: none
+        url: "jdbc:postgresql://localhost:5432/postgresdb"
+        driverClassName: org.postgresql.Driver
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        username: postgresuser
+        password: passwd
+        properties:
+            jmxEnabled: true
+            initialSize: 5
+            maxActive: 50
+            minIdle: 5
+            maxIdle: 25
+            maxWait: 10000
+            maxAge: 600000
+            timeBetweenEvictionRunsMillis: 5000
+            minEvictableIdleTimeMillis: 60000
+            validationQuery: SELECT 1
+            validationQueryTimeout: 3
+            validationInterval: 15000
+            testOnBorrow: true
+            testWhileIdle: true
+            testOnReturn: false
+            jdbcInterceptors: ConnectionState
+            defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+       
+    grails:
+        plugin:
+            databasemigration:
+                updateOnStart: true
+                updateOnStartFileNames: "changelog.groovy"
+                changelogLocation: ""
+
+Where `postgresdb` is your database name, `postgresuser` your database username and `passwd` the username's password.
+
+Create a new XML in `tomcat/conf/Catalina/localhost` named `OLog-*.war` and give it the following content:
+
+    <Context>
+        <Environment name="applicationYmlPath" value="**/olog-config.yml" type="java.lang.String" />
+    </Context>
+
+Where `**` is the location of your YML.
 
 When run from the source, the server is available by default at `localhost:8080`.
 
