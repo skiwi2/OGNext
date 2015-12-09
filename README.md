@@ -14,24 +14,35 @@ Requirements
 
 - [Grails 3](https://grails.org/download.html) - Easy to install using SDKMAN
 
-Working in an IDE
------------------
+- [PostgreSQL](http://www.postgresql.org/) database
 
-You can import the project in IntelliJ by opening `build.gradle`.
+Development
+-----------
 
-Note: there may be [some quirks](https://github.com/libgdx/libgdx/wiki/Gradle-and-Intellij-IDEA) with Gradle.
-
-Database
---------
-
-To succesfully store and retrieve data a [PostgreSQL](http://www.postgresql.org/) database is required.
-
-Build, run and deploy
----------------------
-
-To compile the server fresh from the source and run, the following will suffice:
+Once you've set-up a database, running a development server is quite easy:
 
     grails run-app
+
+When run from the source, the server is available by default at `localhost:8080`.
+
+If you have made changes to the domain, as temporary workaround copy the `dataSource` config in your external config file to be under:
+ 
+    environments:
+        production:
+            dataSource:
+ 
+in your `application.yml` file, such that if you create migrations for a PostgreSQL database, then the "fake" production database is also set to PostgreSQL.
+ 
+Then run:
+
+    grails prod dbm-gorm-diff describewhatyoudid.groovy --add
+
+Deployment
+----------
+
+Additional requirement when deploying a server:
+
+- [Tomcat](https://tomcat.apache.org/) or similar
 
 To deploy the server in environments like Tomcat, you'll need a WAR file.
 
@@ -85,8 +96,6 @@ Create a new XML in `tomcat/conf/Catalina/localhost` named `OLog-*.war` and give
     </Context>
 
 Where `**` is the location of your YML.
-
-When run from the source, the server is available by default at `localhost:8080`.
 
 When deployed, the server is available at `localhost:8080/OLog-*`.
 
