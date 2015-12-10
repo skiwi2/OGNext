@@ -6,7 +6,7 @@ Getting started
 
 OLog mainly consists of two parts. You are currently looking at the server part.
 
-Clone the repository, checkout the develop tree and you got yourself your own OLog server.
+Clone the repository, checkout the develop tree and you've got yourself your own OLog server.
 Once it runs, use the OLog userscript to send data to the server.
 
 Requirements
@@ -14,7 +14,11 @@ Requirements
 
 - [Grails 3](https://grails.org/download.html) - Easy to install using SDKMAN
 
+- Java 8 - [JRE](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) if you just want to run your own OLog server, [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) if you also want to contribute to the development
+
 - [PostgreSQL](http://www.postgresql.org/) database
+
+OLog has been tested to work with Grails 3.0.9, Java 8u45 and PostgreSQL 9.4. We **strongly** recommend you to use the newest versions though for enhanced security.
 
 Development
 -----------
@@ -25,13 +29,13 @@ Once you've set-up a database, running a development server is quite easy:
 
 When run from the source, the server is available by default at `localhost:8080`.
 
-If you have made changes to the domain, as temporary workaround copy the `dataSource` config in your external config file to be under:
+If you have made any changes to the domain classes, then you will need to update the database migrations file, as temporary workaround copy the `dataSource` config in your external config file to be at:
  
     environments:
         production:
             dataSource:
  
-in your `application.yml` file, such that if you create migrations for a PostgreSQL database, then the "fake" production database is also set to PostgreSQL.
+in your `application.yml` file, such that when you create migrations for a PostgreSQL database, then the there is a production database available. Please note that this database should be up and running.
  
 Then run:
 
@@ -43,6 +47,8 @@ Deployment
 Additional requirement when deploying a server:
 
 - [Tomcat](https://tomcat.apache.org/) or similar
+
+OLog has been tested to both work with Tomcat 7 and Tomcat 8.
 
 To deploy the server in environments like Tomcat, you'll need a WAR file.
 
@@ -56,11 +62,11 @@ Create a new YML in a location of your choosing named `olog-config.yml` and give
 
     dataSource:
         dbCreate: none
-        url: "jdbc:postgresql://localhost:5432/postgresdb"
+        url: "jdbc:postgresql://localhost:5432/ologdb"
         driverClassName: org.postgresql.Driver
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        username: postgresuser
-        password: passwd
+        username: ologuser
+        password: ologpassword
         properties:
             jmxEnabled: true
             initialSize: 5
@@ -86,16 +92,30 @@ Create a new YML in a location of your choosing named `olog-config.yml` and give
                 updateOnStart: true
                 updateOnStartFileNames: "changelog.groovy"
                 changelogLocation: ""
+                
+You **need** to modify the following values:
 
-Where `postgresdb` is your database name, `postgresuser` your database username and `passwd` the username's password.
+ - `ologdb` (in `url`) - this is the database name
+ - `ologuser` - this is the database user, be sure to give it permissions to create tables and modify them
+ - `ologpassword` - this is the password for the database user
+ 
+You **must not** modify the following values:
 
-Create a new XML in `tomcat/conf/Catalina/localhost` named `OLog-*.war` and give it the following content:
+ - `dbCreate: none`
+ - `driverClassName: org.postgresql.Driver`
+ - `dialect: org.hibernate.dialect.PostgreSQLDialect`
+ 
+You may modify anything else, please look at [the Grails documentation](http://grails.github.io/grails-doc/latest/guide/conf.html#dataSource) to do so.
+
+You can also disable `grails.plugin.databasemigration.updateOnStart`, but then you will need to update the database yourself any time the domain classes have changes, this is not recommended.
+
+Then create a new XML in `tomcat/conf/Catalina/localhost` named `OLog-*.war` and give it the following content (where `*` is still the OLog version):
 
     <Context>
         <Environment name="applicationYmlPath" value="**/olog-config.yml" type="java.lang.String" />
     </Context>
 
-Where `**` is the location of your YML.
+Where `**` is the directory in which your YML file is located.
 
 When deployed, the server is available at `localhost:8080/OLog-*`.
 
