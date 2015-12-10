@@ -18,7 +18,9 @@ Requirements
 
 - [PostgreSQL](http://www.postgresql.org/) database
 
-OLog has been tested to work with Grails 3.0.9, Java 8u45 and PostgreSQL 9.4. We **strongly** recommend you to use the newest versions though for enhanced security.
+- [Git](https://git-scm.com/downloads) should be available on the command line
+
+OLog has been tested to work with Grails 3.0.9, Java 8u45, PostgreSQL 9.4 and Git 1.8.5.2. We **strongly** recommend you to use the newest versions though for enhanced security.
 
 Development
 -----------
