@@ -24,7 +24,7 @@ plugins {
     id "io.spring.dependency-management" version "0.5.2.RELEASE"
 }
 
-version "0.2"
+version "0.3-SNAPSHOT"
 group "com.skiwi.olog"
 
 apply plugin: "spring-boot"
