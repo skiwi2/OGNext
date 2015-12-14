@@ -1,6 +1,19 @@
 OLog
 ====
 
+What is OLog?
+-------------
+
+OLog is planning to be the next big support tool for OGame.
+
+- Store reports (combat, espionage, harvest and missile)
+- Easily accessible universe overview
+- Search for players and possible targets
+- Simplify the calculation of whether a recently spied upon planet is profitable to attack
+- Recommendations on fleet ratio and consistency when targeting a specific planet
+
+All by making as much use as possible of the official OGame API.
+
 Getting started
 ---------------
 
