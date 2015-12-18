@@ -32,6 +32,7 @@ class Planet {
             def addedAlias = aliases[-1]
             aliases[0..<-1].every { !it.intervalIntersects(addedAlias) }
         }
+        dateDeleted nullable: true
     }
 
     Player player
@@ -39,6 +40,8 @@ class Planet {
     Integer planetId
     List<PlanetLocation> locations
     List<PlanetAlias> aliases
+    Boolean deleted = false
+    Date dateDeleted
 
     Date dateCreated
     Date lastUpdated

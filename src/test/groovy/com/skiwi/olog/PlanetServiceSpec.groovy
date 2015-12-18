@@ -147,4 +147,29 @@ class PlanetServiceSpec extends Specification {
         service.getPlanetAlias(planet, now.minus(4, ChronoUnit.HOURS)).end == updateInstant
         service.getPlanetAlias(planet, now.minus(2, ChronoUnit.HOURS)).begin == updateInstant
     }
+
+    void "test delete planet"() {
+        given: "a planet"
+        def planet = service.createPlanet(player, planetId, galaxy, solarSystem, position, planetName)
+
+        when: "planet gets deleted"
+        service.deletePlanet(planet)
+
+        then: "planet should be be marked as deleted"
+        planet.deleted
+        planet.dateDeleted
+        service.getPlanetLocation(planet, now)
+        service.getPlanetAlias(planet, now)
+        !service.getPlanetLocation(planet, now.plus(1, ChronoUnit.MINUTES))
+        !service.getPlanetAlias(planet, now.plus(1, ChronoUnit.MINUTES))
+        Planet.findByPlayerAndPlanetId(player, planetId) == planet
+
+        when: "non-existing planet gets deleted"
+        def oldDateDeleted = planet.dateDeleted
+        service.deletePlanet(planet)
+
+        then: "nothing should happen"
+        noExceptionThrown()
+        planet.dateDeleted == oldDateDeleted
+    }
 }

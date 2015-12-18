@@ -46,6 +46,24 @@ class PlanetService {
         }
     }
 
+    void deletePlanet(Planet planet) {
+        if (planet.deleted) {
+            return
+        }
+
+        def now = Instant.now()
+
+        int locationIndex = planet.locations.findIndexOf { it.inInterval(now) }
+        planet.locations[locationIndex].end = now
+
+        int aliasIndex = planet.aliases.findIndexOf { it.inInterval(now) }
+        planet.aliases[aliasIndex].end = now
+
+        planet.deleted = true
+        planet.dateDeleted = Date.from(now)
+        planet.save()
+    }
+
     PlanetAlias getPlanetAlias(Planet planet, Instant instant) {
         planet.aliases.find { it.inInterval(instant) }
     }
