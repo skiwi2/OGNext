@@ -71,4 +71,21 @@ class PlanetService {
     PlanetLocation getPlanetLocation(Planet planet, Instant instant) {
         planet.locations.find { it.inInterval(instant) }
     }
+
+    List<Planet> findCurrentPlanetsOfPlayer(Player player) {
+        Planet.findAllByPlayerAndDeleted(player, false)
+    }
+
+    List<Planet> findPlanetsOfPlayer(Player player, Instant instant) {
+        Planet.createCriteria().list {
+            eq "player", player
+            or {
+                eq "deleted", false
+                and {
+                    eq "deleted", true
+                    gt "dateDeleted", Date.from(instant)
+                }
+            }
+        }
+    }
 }

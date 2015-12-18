@@ -172,4 +172,82 @@ class PlanetServiceSpec extends Specification {
         noExceptionThrown()
         planet.dateDeleted == oldDateDeleted
     }
+
+    void "test find current planets of player"() {
+        when: "list planets of player when there are none"
+        def emptyPlanets = service.findCurrentPlanetsOfPlayer(player)
+
+        then: "list should be empty"
+        emptyPlanets.empty
+
+        when: "planets are added"
+        def planet = service.createPlanet(player, planetId, galaxy, solarSystem, position, planetName)
+        def planet2 = service.createPlanet(player, planetId + 1, galaxy + 1, solarSystem + 1, position + 1, planetName + "2")
+        def planets = service.findCurrentPlanetsOfPlayer(player)
+
+        then: "list should contain the added planets"
+        planets.size() == 2
+        planets.toSet() == [planet, planet2].toSet()
+
+        when: "planet of another player is added"
+        service.createPlanet(player2, planetId, galaxy, solarSystem, position, planetName)
+        def samePlanets = service.findCurrentPlanetsOfPlayer(player)
+
+        then: "list should not be changed"
+        samePlanets == planets
+
+        when: "planet gets deleted"
+        service.deletePlanet(planet2)
+        def newPlanets = service.findCurrentPlanetsOfPlayer(player)
+
+        then: "planet should no longer be in the list"
+        newPlanets.size() == 1
+        newPlanets == [planet]
+    }
+
+    void "test find planets of player"() {
+        when: "list planets of player when there are none"
+        def emptyPlanets = service.findPlanetsOfPlayer(player, now)
+
+        then: "list should be empty"
+        emptyPlanets.empty
+
+        when: "planets are added"
+        def planet = service.createPlanet(player, planetId, galaxy, solarSystem, position, planetName)
+        def planet2 = service.createPlanet(player, planetId + 1, galaxy + 1, solarSystem + 1, position + 1, planetName + "2")
+        def planets = service.findPlanetsOfPlayer(player, now)
+
+        then: "list should contain the added planets"
+        planets.size() == 2
+        planets.toSet() == [planet, planet2].toSet()
+
+        when: "planet of another player is added"
+        service.createPlanet(player2, planetId, galaxy, solarSystem, position, planetName)
+        def samePlanets = service.findPlanetsOfPlayer(player, now)
+
+        then: "list should not be changed"
+        samePlanets == planets
+
+        when: "planet gets deleted"
+        service.deletePlanet(planet2)
+        def newPlanets = service.findPlanetsOfPlayer(player, now.plus(1, ChronoUnit.MINUTES))
+
+        then: "planet should no longer be in the list"
+        newPlanets.size() == 1
+        newPlanets == [planet]
+
+        when: "planet is not yet deleted"
+        def notYetDeletedPlanets = service.findPlanetsOfPlayer(player, now.minus(1, ChronoUnit.HOURS))
+
+        then: "planet should not be deleted in the past"
+        notYetDeletedPlanets.size() == 2
+        notYetDeletedPlanets.toSet() == [planet, planet2].toSet()
+
+        when: "planet is already deleted"
+        def alreadyDeletedPlanets = service.findPlanetsOfPlayer(player, now.plus(1, ChronoUnit.HOURS))
+
+        then: "planet should already be deleted in the future"
+        alreadyDeletedPlanets.size() == 1
+        alreadyDeletedPlanets == [planet]
+    }
 }
