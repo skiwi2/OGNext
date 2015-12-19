@@ -57,11 +57,11 @@ class UserscriptController {
             if (planet) {
                 planetService.storePlanetLocation(planet, galaxy, solarSystem, position, Instant.now())
                 planetService.storePlanetName(planet, name, Instant.now())
+                sentPlanets << planet
             }
             else {
-                planet = planetService.createPlanet(player, planetId, galaxy, solarSystem, position, name)
+                sentPlanets << planetService.createPlanet(player, planetId, galaxy, solarSystem, position, name)
             }
-            sentPlanets += planet
         }
 
         def deletedPlanets = planetService.findCurrentPlanetsOfPlayer(player).toSet() - sentPlanets
