@@ -37,8 +37,6 @@ class UserscriptController {
     def planets() {
         def json = request.JSON
 
-        println json
-
         def serverGroupCountryCode = json.serverGroup
         def universeId = json.universe.toInteger()
         def universe = universeService.getUniverse(serverGroupCountryCode, universeId)
