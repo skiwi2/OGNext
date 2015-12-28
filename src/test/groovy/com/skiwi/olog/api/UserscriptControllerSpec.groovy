@@ -17,7 +17,7 @@ import java.time.temporal.ChronoUnit
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(UserscriptController)
-@Mock([Player, PlayerAlias, SpyReport, CombatReport, RecycleReport, MissileReport, UniverseService, ServerGroup, Universe, ServerGroupService, ReportKeyService, Planet, PlanetService, CoordinateService, Coordinate, PlanetLocation, PlanetAlias])
+@Mock([Player, PlayerAlias, SpyReport, CombatReport, RecycleReport, MissileReport, UniverseService, ServerGroup, Universe, ServerGroupService, ReportKeyService, Planet, PlanetService, CoordinateService, Coordinate, PlanetLocation, PlanetAlias, Researches, ResearchesService])
 @TestMixin(GrailsUnitTestMixin)
 class UserscriptControllerSpec extends Specification {
     UniverseService universeService
@@ -25,6 +25,7 @@ class UserscriptControllerSpec extends Specification {
     PlanetService planetService
 
     static doWithSpring = {
+        researchesService(ResearchesService)
         playerService(PlayerService)
         universeService(UniverseService)
         planetService(PlanetService)
@@ -33,6 +34,8 @@ class UserscriptControllerSpec extends Specification {
 
     def setup() {
         playerService = grailsApplication.mainContext.getBean("playerService")
+        def researchesService = grailsApplication.mainContext.getBean("researchesService")
+        playerService.researchesService = researchesService
         universeService = grailsApplication.mainContext.getBean("universeService")
         planetService = grailsApplication.mainContext.getBean("planetService")
     }

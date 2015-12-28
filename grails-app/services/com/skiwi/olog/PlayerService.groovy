@@ -7,12 +7,15 @@ import java.time.temporal.ChronoUnit
 
 @Transactional
 class PlayerService {
+    def researchesService
+
     Player findPlayer(Universe universe, Integer playerId) {
         Player.findByUniverseAndPlayerId(universe, playerId)
     }
 
     Player createPlayer(Universe universe, Integer playerId, String name) {
-        def player = new Player(universe: universe, playerId: playerId)
+        def researches = researchesService.createDefaultResearches()
+        def player = new Player(universe: universe, playerId: playerId, researches: researches)
         player.addToAliases(new PlayerAlias(name: name, begin: Instant.ofEpochMilli(0), end: Instant.now().plus(50000, ChronoUnit.DAYS)))
         player.save()
     }

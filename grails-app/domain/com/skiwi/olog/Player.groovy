@@ -25,6 +25,8 @@ class Player {
     Integer playerId
     List<PlayerAlias> aliases
 
+    Researches researches
+
     Date dateCreated
     Date lastUpdated
 

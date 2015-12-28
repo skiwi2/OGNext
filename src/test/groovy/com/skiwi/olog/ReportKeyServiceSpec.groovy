@@ -8,7 +8,7 @@ import spock.lang.Specification
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(ReportKeyService)
-@Mock([SpyReport, CombatReport, RecycleReport, MissileReport, Player, PlayerAlias, ServerGroup, Universe])
+@Mock([SpyReport, CombatReport, RecycleReport, MissileReport, Player, PlayerAlias, ServerGroup, Universe, Researches, ResearchesService])
 class ReportKeyServiceSpec extends Specification {
     Player player
 
