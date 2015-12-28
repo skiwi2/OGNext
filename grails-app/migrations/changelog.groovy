@@ -309,4 +309,5 @@ databaseChangeLog = {
     }
     include file: 'added-created-updated-fields.groovy'
     include file: 'added-planet-deleted-fields.groovy'
+    include file: 'added-researches-object.groovy'
 }
