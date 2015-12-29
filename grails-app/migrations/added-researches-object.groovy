@@ -73,6 +73,14 @@ databaseChangeLog = {
             column(name: "col_weapons_technology", type: "INT4") {
                 constraints(nullable: "false")
             }
+
+            column(name: "col_date_created", type: "timestamp") {
+                constraints(nullable: "false")
+            }
+
+            column(name: "col_last_updated", type: "timestamp") {
+                constraints(nullable: "false")
+            }
         }
     }
 
@@ -113,8 +121,10 @@ inserted_researches AS (
         col_graviton_technology,
         col_weapons_technology,
         col_shielding_technology,
-        col_armour_technology)
-    SELECT player_id, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+        col_armour_technology,
+        col_date_created,
+        col_last_updated)
+    SELECT player_id, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
     FROM null_researches RETURNING temp_col_player_id AS player_id, col_id AS researches_id
     )
 UPDATE table_player

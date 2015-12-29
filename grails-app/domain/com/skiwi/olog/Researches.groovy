@@ -36,4 +36,7 @@ class Researches {
     Integer weaponsTechnology
     Integer shieldingTechnology
     Integer armourTechnology
+
+    Date dateCreated
+    Date lastUpdated
 }
