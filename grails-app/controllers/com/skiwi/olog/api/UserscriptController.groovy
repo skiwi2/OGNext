@@ -7,10 +7,12 @@ class UserscriptController {
     def playerService
     def reportKeyService
     def planetService
+    def researchesService
 
     static allowedMethods = [
         keys: "POST",
-        planets: "POST"
+        planets: "POST",
+        researches: "POST"
     ]
 
     def keys() {
@@ -66,6 +68,26 @@ class UserscriptController {
 
         def deletedPlanets = planetService.findCurrentPlanetsOfPlayer(player).toSet() - sentPlanets
         deletedPlanets.each { planetService.deletePlanet(it) }
+
+        render(contentType: "application/json") {
+            result(success: true)
+        }
+    }
+
+    def researches() {
+        def json = request.JSON
+
+        def serverGroupCountryCode = json.serverGroup
+        def universeId = json.universe.toInteger()
+        def universe = universeService.getUniverse(serverGroupCountryCode, universeId)
+
+        def playerId = json.playerId.toInteger()
+        def playerName = json.playerName
+        def player = playerService.findPlayer(universe, playerId) ?: playerService.createPlayer(universe, playerId, playerName)
+
+        def researchMap = json.researches.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
+        def researchLevels = [113, 120, 121, 114, 122, 115, 117, 118, 106, 108, 124, 123, 199, 109, 110, 111].collect { researchMap[it] }
+        researchesService.updatePlayerResearches(player, *researchLevels)
 
         render(contentType: "application/json") {
             result(success: true)

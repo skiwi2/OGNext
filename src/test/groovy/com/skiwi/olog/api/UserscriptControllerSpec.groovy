@@ -208,6 +208,58 @@ class UserscriptControllerSpec extends Specification {
         planetService.findPlanet(universe, 33649830) in planetService.findCurrentPlanetsOfPlayer(player)
     }
 
+    void "post researches"() {
+        when: "post researches request has been made"
+        request.json = [
+            serverGroup: "en",
+            universe: "136",
+            playerId: "100153",
+            playerName: "skiwi",
+            researches: [
+                [id: "113", level: "6"],
+                [id: "120", level: "10"],
+                [id: "121", level: "5"],
+                [id: "114", level: "3"],
+                [id: "122", level: "0"],
+                [id: "115", level: "7"],
+                [id: "117", level: "5"],
+                [id: "118", level: "3"],
+                [id: "106", level: "6"],
+                [id: "108", level: "7"],
+                [id: "124", level: "5"],
+                [id: "123", level: "0"],
+                [id: "199", level: "0"],
+                [id: "109", level: "9"],
+                [id: "110", level: "7"],
+                [id: "111", level: "8"],
+            ]
+        ] as JSON
+        request.method = "POST"
+        request.contentType = "text/json"
+        controller.researches()
+
+        then: "researches should be persisted"
+        response.json.result.success == true
+        def universe = universeService.getUniverse("en", 136)
+        def player = playerService.findPlayer(universe, 100153)
+        player.researches.energyTechnology == 6
+        player.researches.laserTechnology == 10
+        player.researches.ionTechnology == 5
+        player.researches.hyperspaceTechnology == 3
+        player.researches.plasmaTechnology == 0
+        player.researches.combustionDrive == 7
+        player.researches.impulseDrive == 5
+        player.researches.hyperspaceDrive == 3
+        player.researches.espionageTechnology == 6
+        player.researches.computerTechnology == 7
+        player.researches.astrophysics == 5
+        player.researches.intergalacticResearchNetwork == 0
+        player.researches.gravitonTechnology == 0
+        player.researches.weaponsTechnology == 9
+        player.researches.shieldingTechnology == 7
+        player.researches.armourTechnology == 8
+    }
+
     void planetMatches(Player player, Integer planetId, String name, int galaxy, int solarSystem, int position) {
         def planet = Planet.findByPlayerAndPlanetId(player, planetId)
         def now = Instant.now()
