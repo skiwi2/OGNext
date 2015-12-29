@@ -85,6 +85,9 @@ databaseChangeLog = {
             column(name: "temp_col_player_id", type: "int8")
         }
 
+        //select all players where researches is null
+        //for those players, create an entry in the researches table
+        //update those players such that that researches id is set
         sql("""
 WITH null_researches AS (
     SELECT col_id AS player_id
