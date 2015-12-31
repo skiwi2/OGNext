@@ -99,3 +99,7 @@ environments:
 grails:
     gorm:
         failOnError: true
+
+endpoints:
+    info:
+        enabled: false
