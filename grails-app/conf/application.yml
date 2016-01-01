@@ -2,7 +2,7 @@
 grails:
     profile: web
     codegen:
-        defaultPackage: com.skiwi.olog
+        defaultPackage: com.ognext
 info:
     app:
         name: '@info.app.name@'
@@ -72,7 +72,7 @@ hibernate:
         use_second_level_cache: true
         use_query_cache: false
         region.factory_class: 'org.hibernate.cache.ehcache.EhCacheRegionFactory'
-    naming_strategy: com.skiwi.olog.hibernate.PrefixNamingStrategy
+    naming_strategy: com.ognext.hibernate.PrefixNamingStrategy
 
 endpoints:
     jmx:

@@ -1,4 +1,4 @@
-import com.skiwi.olog.beans.InfoBean
+import com.ognext.beans.InfoBean
 import org.grails.io.support.ClassPathResource
 
 // Place your Spring DSL code here
