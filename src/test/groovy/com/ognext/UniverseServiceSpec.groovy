@@ -1,9 +1,5 @@
 package com.ognext
 
-import com.ognext.ServerGroup
-import com.ognext.ServerGroupService
-import com.ognext.Universe
-import com.ognext.UniverseService
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin

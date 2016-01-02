@@ -1,10 +1,5 @@
 package com.ognext
 
-import com.ognext.Planet
-import com.ognext.PlanetAlias
-import com.ognext.PlanetLocation
-import com.ognext.Player
-import com.ognext.Universe
 import grails.transaction.Transactional
 
 import java.time.Instant

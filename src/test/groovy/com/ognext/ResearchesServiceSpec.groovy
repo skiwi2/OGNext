@@ -1,14 +1,5 @@
 package com.ognext
 
-import com.ognext.Player
-import com.ognext.PlayerAlias
-import com.ognext.PlayerService
-import com.ognext.Researches
-import com.ognext.ResearchesService
-import com.ognext.ServerGroup
-import com.ognext.ServerGroupService
-import com.ognext.Universe
-import com.ognext.UniverseService
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import spock.lang.Specification

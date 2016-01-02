@@ -1,10 +1,5 @@
 package com.ognext
 
-import com.ognext.CombatReport
-import com.ognext.MissileReport
-import com.ognext.Player
-import com.ognext.RecycleReport
-import com.ognext.SpyReport
 import grails.transaction.Transactional
 
 @Transactional

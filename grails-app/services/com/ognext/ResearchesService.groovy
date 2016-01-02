@@ -1,7 +1,5 @@
 package com.ognext
 
-import com.ognext.Player
-import com.ognext.Researches
 import grails.transaction.Transactional
 
 @Transactional

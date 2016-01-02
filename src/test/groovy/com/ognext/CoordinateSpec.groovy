@@ -1,8 +1,5 @@
 package com.ognext
 
-import com.ognext.Coordinate
-import com.ognext.ServerGroup
-import com.ognext.Universe
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 

@@ -1,7 +1,5 @@
 package com.ognext
 
-import com.ognext.MissileReport
-import com.ognext.Player
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 

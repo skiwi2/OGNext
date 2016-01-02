@@ -1,6 +1,5 @@
 package com.ognext
 
-import com.ognext.ServerGroup
 import grails.transaction.Transactional
 
 @Transactional

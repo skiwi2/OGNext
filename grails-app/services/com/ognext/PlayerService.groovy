@@ -1,8 +1,5 @@
 package com.ognext
 
-import com.ognext.Player
-import com.ognext.PlayerAlias
-import com.ognext.Universe
 import grails.transaction.Transactional
 
 import java.time.Instant

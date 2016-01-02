@@ -1,14 +1,5 @@
 package com.ognext
 
-import com.ognext.Coordinate
-import com.ognext.CoordinateService
-import com.ognext.Planet
-import com.ognext.PlanetAlias
-import com.ognext.PlanetLocation
-import com.ognext.PlanetService
-import com.ognext.Player
-import com.ognext.ServerGroup
-import com.ognext.Universe
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import grails.test.mixin.TestMixin

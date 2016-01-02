@@ -1,7 +1,5 @@
 package com.ognext
 
-import com.ognext.Player
-import com.ognext.RecycleReport
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 

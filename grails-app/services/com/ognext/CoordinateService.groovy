@@ -1,7 +1,5 @@
 package com.ognext
 
-import com.ognext.Coordinate
-import com.ognext.Universe
 import grails.transaction.Transactional
 
 @Transactional

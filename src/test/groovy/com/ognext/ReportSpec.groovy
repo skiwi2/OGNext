@@ -1,6 +1,5 @@
 package com.ognext
 
-import com.ognext.Report
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
