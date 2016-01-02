@@ -12,6 +12,7 @@ import java.time.temporal.ChronoUnit
 
 @Transactional
 class PlanetService {
+    def buildingsService
     def coordinateService
 
     Planet findPlanet(Universe universe, Integer planetId) {
@@ -19,8 +20,9 @@ class PlanetService {
     }
 
     Planet createPlanet(Player player, Integer planetId, int galaxy, int solarSystem, int position, String name) {
+        def buildings = buildingsService.createDefaultBuildings()
         def coordinate = coordinateService.getCoordinate(player.universe, galaxy, solarSystem, position)
-        def planet = new Planet(player: player, planetId: planetId)
+        def planet = new Planet(player: player, planetId: planetId, buildings: buildings)
         planet.addToLocations(new PlanetLocation(coordinate: coordinate, begin: Instant.ofEpochMilli(0), end: Instant.now().plus(50000, ChronoUnit.DAYS)))
         planet.addToAliases(new PlanetAlias(name: name, begin: Instant.ofEpochMilli(0), end: Instant.now().plus(50000, ChronoUnit.DAYS)))
         planet.save()

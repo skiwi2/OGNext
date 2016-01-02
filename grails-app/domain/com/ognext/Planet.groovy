@@ -43,6 +43,8 @@ class Planet {
     Boolean deleted = false
     Date dateDeleted
 
+    Buildings buildings
+
     Date dateCreated
     Date lastUpdated
 

@@ -1,5 +1,7 @@
 package com.ognext.api
 
+import com.ognext.Buildings
+import com.ognext.BuildingsService
 import com.ognext.CombatReport
 import com.ognext.Coordinate
 import com.ognext.CoordinateService
@@ -34,7 +36,7 @@ import java.time.temporal.ChronoUnit
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(UserscriptController)
-@Mock([Player, PlayerAlias, SpyReport, CombatReport, RecycleReport, MissileReport, UniverseService, ServerGroup, Universe, ServerGroupService, ReportKeyService, Planet, PlanetService, CoordinateService, Coordinate, PlanetLocation, PlanetAlias, Researches, ResearchesService])
+@Mock([Player, PlayerAlias, SpyReport, CombatReport, RecycleReport, MissileReport, UniverseService, ServerGroup, Universe, ServerGroupService, ReportKeyService, Planet, PlanetService, CoordinateService, Coordinate, PlanetLocation, PlanetAlias, Researches, ResearchesService, Buildings, BuildingsService])
 @TestMixin(GrailsUnitTestMixin)
 class UserscriptControllerSpec extends Specification {
     UniverseService universeService
@@ -45,6 +47,7 @@ class UserscriptControllerSpec extends Specification {
         researchesService(ResearchesService)
         playerService(PlayerService)
         universeService(UniverseService)
+        buildingsService(BuildingsService)
         planetService(PlanetService)
         coordinateService(CoordinateService)
     }
@@ -55,6 +58,8 @@ class UserscriptControllerSpec extends Specification {
         playerService.researchesService = researchesService
         universeService = grailsApplication.mainContext.getBean("universeService")
         planetService = grailsApplication.mainContext.getBean("planetService")
+        def buildingsService = grailsApplication.mainContext.getBean("buildingsService")
+        planetService.buildingsService = buildingsService
     }
 
     def cleanup() {
