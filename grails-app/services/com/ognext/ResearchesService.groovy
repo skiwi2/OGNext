@@ -7,8 +7,8 @@ import grails.transaction.Transactional
 @Transactional
 class ResearchesService {
     Researches createDefaultResearches() {
-        def research = new Researches(energyTechnology: 0, laserTechnology: 0, ionTechnology: 0, hyperspaceTechnology: 0, plasmaTechnology: 0, combustionDrive: 0, impulseDrive: 0, hyperspaceDrive: 0, espionageTechnology: 0, computerTechnology: 0, astrophysics: 0, intergalacticResearchNetwork: 0, gravitonTechnology: 0, weaponsTechnology: 0, shieldingTechnology: 0, armourTechnology: 0)
-        research.save()
+        def researches = new Researches(energyTechnology: 0, laserTechnology: 0, ionTechnology: 0, hyperspaceTechnology: 0, plasmaTechnology: 0, combustionDrive: 0, impulseDrive: 0, hyperspaceDrive: 0, espionageTechnology: 0, computerTechnology: 0, astrophysics: 0, intergalacticResearchNetwork: 0, gravitonTechnology: 0, weaponsTechnology: 0, shieldingTechnology: 0, armourTechnology: 0)
+        researches.save()
     }
 
     void updatePlayerResearches(Player player, Integer energyTechnology, Integer laserTechnology, Integer ionTechnology, Integer hyperspaceTechnology, Integer plasmaTechnology, Integer combustionDrive, Integer impulseDrive, Integer hyperspaceDrive, Integer espionageTechnology, Integer computerTechnology, Integer astrophysics, Integer intergalacticResearchNetwork, Integer gravitonTechnology, Integer weaponsTechnology, Integer shieldingTechnology, Integer armourTechnology) {
