@@ -13,7 +13,9 @@ class UserscriptController {
     static allowedMethods = [
         keys: "POST",
         planets: "POST",
-        researches: "POST"
+        researches: "POST",
+        resourceBuildings: "POST",
+        facilityBuildings: "POST"
     ]
 
     def keys() {
