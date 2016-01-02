@@ -8,6 +8,7 @@ class UserscriptController {
     def reportKeyService
     def planetService
     def researchesService
+    def buildingsService
 
     static allowedMethods = [
         keys: "POST",
@@ -88,6 +89,60 @@ class UserscriptController {
         def researchMap = json.researches.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
         def researchLevels = [113, 120, 121, 114, 122, 115, 117, 118, 106, 108, 124, 123, 199, 109, 110, 111].collect { researchMap[it] }
         researchesService.updatePlayerResearches(player, *researchLevels)
+
+        render(contentType: "application/json") {
+            result(success: true)
+        }
+    }
+
+    def resourceBuildings() {
+        def json = request.JSON
+
+        def serverGroupCountryCode = json.serverGroup
+        def universeId = json.universe.toInteger()
+        def universe = universeService.getUniverse(serverGroupCountryCode, universeId)
+
+        def playerId = json.playerId.toInteger()
+        def playerName = json.playerName
+        def player = playerService.findPlayer(universe, playerId) ?: playerService.createPlayer(universe, playerId, playerName)
+
+        def planetId = json.planetId.toInteger()
+        def planetName = json.planetName
+        def planetGalaxy = json.planetGalaxy.toInteger()
+        def planetSolarSystem = json.planetSolarSystem.toInteger()
+        def planetPosition = json.planetPosition.toInteger()
+        def planet = planetService.findPlanet(universe, planetId) ?: planetService.createPlanet(player, planetId, planetGalaxy, planetSolarSystem, planetPosition, planetName)
+
+        def buildingMap = json.buildings.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
+        def buildingLevels = [1, 2, 3, 4, 12, 212, 22, 23, 24].collect { buildingMap[it] }
+        buildingsService.updatePlanetResourceBuildings(planet, *buildingLevels)
+
+        render(contentType: "application/json") {
+            result(success: true)
+        }
+    }
+
+    def facilityBuildings() {
+        def json = request.JSON
+
+        def serverGroupCountryCode = json.serverGroup
+        def universeId = json.universe.toInteger()
+        def universe = universeService.getUniverse(serverGroupCountryCode, universeId)
+
+        def playerId = json.playerId.toInteger()
+        def playerName = json.playerName
+        def player = playerService.findPlayer(universe, playerId) ?: playerService.createPlayer(universe, playerId, playerName)
+
+        def planetId = json.planetId.toInteger()
+        def planetName = json.planetName
+        def planetGalaxy = json.planetGalaxy.toInteger()
+        def planetSolarSystem = json.planetSolarSystem.toInteger()
+        def planetPosition = json.planetPosition.toInteger()
+        def planet = planetService.findPlanet(universe, planetId) ?: planetService.createPlanet(player, planetId, planetGalaxy, planetSolarSystem, planetPosition, planetName)
+
+        def buildingMap = json.buildings.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
+        def buildingLevels = [14, 21, 31, 34, 44, 15, 33].collect { buildingMap[it] }
+        buildingsService.updatePlanetFacilityBuildings(planet, *buildingLevels)
 
         render(contentType: "application/json") {
             result(success: true)

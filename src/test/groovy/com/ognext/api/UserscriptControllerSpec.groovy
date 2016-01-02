@@ -253,7 +253,7 @@ class UserscriptControllerSpec extends Specification {
                 [id: "199", level: "0"],
                 [id: "109", level: "9"],
                 [id: "110", level: "7"],
-                [id: "111", level: "8"],
+                [id: "111", level: "8"]
             ]
         ] as JSON
         request.method = "POST"
@@ -280,6 +280,88 @@ class UserscriptControllerSpec extends Specification {
         player.researches.weaponsTechnology == 9
         player.researches.shieldingTechnology == 7
         player.researches.armourTechnology == 8
+    }
+
+    void "post resource buildings"() {
+        when: "post resource buildings request has been made"
+        request.json = [
+            serverGroup: "en",
+            universe: "136",
+            playerId: "100153",
+            playerName: "skiwi",
+            planetId: "33623391",
+            planetName: "Homeworld",
+            planetGalaxy: "1",
+            planetSolarSystem: "204",
+            planetPosition: "8",
+            buildings: [
+                [id: "1", level: "20"],
+                [id: "2", level: "18"],
+                [id: "3", level: "11"],
+                [id: "4", level: "20"],
+                [id: "12", level: "0"],
+                [id: "212", level: "0"],
+                [id: "22", level: "6"],
+                [id: "23", level: "4"],
+                [id: "24", level: "4"]
+            ]
+        ] as JSON
+        request.method = "POST"
+        request.contentType = "text/json"
+        controller.resourceBuildings()
+
+        then: "resource buildings should be persisted"
+        response.json.result.success == true
+        def universe = universeService.getUniverse("en", 136)
+        def planet = planetService.findPlanet(universe, 33623391)
+        planet.buildings.metalMine == 20
+        planet.buildings.crystalMine == 18
+        planet.buildings.deuteriumSynthesizer == 11
+        planet.buildings.solarPlant == 20
+        planet.buildings.fusionReactor == 0
+        planet.buildings.solarSatellite == 0
+        planet.buildings.metalStorage == 6
+        planet.buildings.crystalStorage == 4
+        planet.buildings.deuteriumTank == 4
+    }
+
+    void "post facility buildings"() {
+        when: "post facility buildings request has been made"
+        request.json = [
+            serverGroup: "en",
+            universe: "136",
+            playerId: "100153",
+            playerName: "skiwi",
+            planetId: "33623391",
+            planetName: "Homeworld",
+            planetGalaxy: "1",
+            planetSolarSystem: "204",
+            planetPosition: "8",
+            buildings: [
+                [id: "14", level: "7"],
+                [id: "21", level: "8"],
+                [id: "31", level: "7"],
+                [id: "34", level: "0"],
+                [id: "44", level: "2"],
+                [id: "15", level: "0"],
+                [id: "33", level: "0"]
+            ]
+        ] as JSON
+        request.method = "POST"
+        request.contentType = "text/json"
+        controller.facilityBuildings()
+
+        then: "facility buildings should be persisted"
+        response.json.result.success == true
+        def universe = universeService.getUniverse("en", 136)
+        def planet = planetService.findPlanet(universe, 33623391)
+        planet.buildings.roboticsFactory == 7
+        planet.buildings.shipyard == 8
+        planet.buildings.researchLab == 7
+        planet.buildings.allianceDepot == 0
+        planet.buildings.missileSilo == 2
+        planet.buildings.naniteFactory == 0
+        planet.buildings.fusionReactor == 0
     }
 
     void planetMatches(Player player, Integer planetId, String name, int galaxy, int solarSystem, int position) {
