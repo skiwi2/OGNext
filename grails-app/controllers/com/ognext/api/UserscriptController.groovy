@@ -9,13 +9,15 @@ class UserscriptController {
     def planetService
     def researchesService
     def buildingsService
+    def defencesService
 
     static allowedMethods = [
         keys: "POST",
         planets: "POST",
         researches: "POST",
         resourceBuildings: "POST",
-        facilityBuildings: "POST"
+        facilityBuildings: "POST",
+        defences: "POST"
     ]
 
     def keys() {
@@ -145,6 +147,33 @@ class UserscriptController {
         def buildingMap = json.buildings.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
         def buildingLevels = [14, 21, 31, 34, 44, 15, 33].collect { buildingMap[it] }
         buildingsService.updatePlanetFacilityBuildings(planet, *buildingLevels)
+
+        render(contentType: "application/json") {
+            result(success: true)
+        }
+    }
+
+    def defences() {
+        def json = request.JSON
+
+        def serverGroupCountryCode = json.serverGroup
+        def universeId = json.universe.toInteger()
+        def universe = universeService.getUniverse(serverGroupCountryCode, universeId)
+
+        def playerId = json.playerId.toInteger()
+        def playerName = json.playerName
+        def player = playerService.findPlayer(universe, playerId) ?: playerService.createPlayer(universe, playerId, playerName)
+
+        def planetId = json.planetId.toInteger()
+        def planetName = json.planetName
+        def planetGalaxy = json.planetGalaxy.toInteger()
+        def planetSolarSystem = json.planetSolarSystem.toInteger()
+        def planetPosition = json.planetPosition.toInteger()
+        def planet = planetService.findPlanet(universe, planetId) ?: planetService.createPlanet(player, planetId, planetGalaxy, planetSolarSystem, planetPosition, planetName)
+
+        def defencesMap = json.defences.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
+        def defencesNumbers = [401, 402, 403, 404, 405, 406, 407, 408, 502, 503].collect { defencesMap[it] }
+        defencesService.updatePlanetDefences(planet, *defencesNumbers)
 
         render(contentType: "application/json") {
             result(success: true)

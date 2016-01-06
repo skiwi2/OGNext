@@ -369,6 +369,51 @@ class UserscriptControllerSpec extends Specification {
         planet.buildings.fusionReactor == 0
     }
 
+    void "post defences"() {
+        when: "post defences request has been made"
+        request.json = [
+            serverGroup: "en",
+            universe: "136",
+            playerId: "100153",
+            playerName: "skiwi",
+            planetId: "33623391",
+            planetName: "Homeworld",
+            planetGalaxy: "1",
+            planetSolarSystem: "204",
+            planetPosition: "8",
+            defences: [
+                [id: "401", level: "69"],
+                [id: "402", level: "158"],
+                [id: "403", level: "12"],
+                [id: "404", level: "14"],
+                [id: "405", level: "0"],
+                [id: "406", level: "1"],
+                [id: "407", level: "1"],
+                [id: "408", level: "1"],
+                [id: "502", level: "20"],
+                [id: "503", level: "0"]
+            ]
+        ] as JSON
+        request.method = "POST"
+        request.contentType = "text/json"
+        controller.defences()
+
+        then: "defences should be persisted"
+        response.json.result.success == true
+        def universe = universeService.getUniverse("en", 136)
+        def planet = planetService.findPlanet(universe, 33623391)
+        planet.defences.rocketLauncher == 69
+        planet.defences.lightLaser == 158
+        planet.defences.heavyLaser == 12
+        planet.defences.gaussCannon == 14
+        planet.defences.ionCannon == 0
+        planet.defences.plasmaTurret == 1
+        planet.defences.smallShieldDome == 1
+        planet.defences.largeShieldDome == 1
+        planet.defences.antiBallisticMissiles == 20
+        planet.defences.interplanetaryMissiles == 0
+    }
+
     void planetMatches(Player player, Integer planetId, String name, int galaxy, int solarSystem, int position) {
         def planet = Planet.findByPlayerAndPlanetId(player, planetId)
         def now = Instant.now()
