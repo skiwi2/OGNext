@@ -5,6 +5,8 @@ import com.ognext.BuildingsService
 import com.ognext.CombatReport
 import com.ognext.Coordinate
 import com.ognext.CoordinateService
+import com.ognext.Defences
+import com.ognext.DefencesService
 import com.ognext.MissileReport
 import com.ognext.Planet
 import com.ognext.PlanetAlias
@@ -36,7 +38,7 @@ import java.time.temporal.ChronoUnit
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(UserscriptController)
-@Mock([Player, PlayerAlias, SpyReport, CombatReport, RecycleReport, MissileReport, UniverseService, ServerGroup, Universe, ServerGroupService, ReportKeyService, Planet, PlanetService, CoordinateService, Coordinate, PlanetLocation, PlanetAlias, Researches, ResearchesService, Buildings, BuildingsService])
+@Mock([Player, PlayerAlias, SpyReport, CombatReport, RecycleReport, MissileReport, UniverseService, ServerGroup, Universe, ServerGroupService, ReportKeyService, Planet, PlanetService, CoordinateService, Coordinate, PlanetLocation, PlanetAlias, Researches, ResearchesService, Buildings, BuildingsService, Defences, DefencesService])
 @TestMixin(GrailsUnitTestMixin)
 class UserscriptControllerSpec extends Specification {
     UniverseService universeService
@@ -48,6 +50,7 @@ class UserscriptControllerSpec extends Specification {
         playerService(PlayerService)
         universeService(UniverseService)
         buildingsService(BuildingsService)
+        defencesService(DefencesService)
         planetService(PlanetService)
         coordinateService(CoordinateService)
     }
@@ -60,6 +63,8 @@ class UserscriptControllerSpec extends Specification {
         planetService = grailsApplication.mainContext.getBean("planetService")
         def buildingsService = grailsApplication.mainContext.getBean("buildingsService")
         planetService.buildingsService = buildingsService
+        def defencesService = grailsApplication.mainContext.getBean("defencesService")
+        planetService.defencesService = defencesService
     }
 
     def cleanup() {

@@ -311,4 +311,5 @@ databaseChangeLog = {
     include file: 'added-planet-deleted-fields.groovy'
     include file: 'added-researches-object.groovy'
     include file: 'added-buildings-object.groovy'
+    include file: 'added-defences-object.groovy'
 }

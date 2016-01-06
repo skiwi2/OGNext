@@ -44,6 +44,7 @@ class Planet {
     Date dateDeleted
 
     Buildings buildings
+    Defences defences
 
     Date dateCreated
     Date lastUpdated
