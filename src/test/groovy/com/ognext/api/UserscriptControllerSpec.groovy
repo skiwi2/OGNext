@@ -7,6 +7,8 @@ import com.ognext.Coordinate
 import com.ognext.CoordinateService
 import com.ognext.Defences
 import com.ognext.DefencesService
+import com.ognext.Fleet
+import com.ognext.FleetService
 import com.ognext.MissileReport
 import com.ognext.Planet
 import com.ognext.PlanetAlias
@@ -38,7 +40,7 @@ import java.time.temporal.ChronoUnit
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(UserscriptController)
-@Mock([Player, PlayerAlias, SpyReport, CombatReport, RecycleReport, MissileReport, UniverseService, ServerGroup, Universe, ServerGroupService, ReportKeyService, Planet, PlanetService, CoordinateService, Coordinate, PlanetLocation, PlanetAlias, Researches, ResearchesService, Buildings, BuildingsService, Defences, DefencesService])
+@Mock([Player, PlayerAlias, SpyReport, CombatReport, RecycleReport, MissileReport, UniverseService, ServerGroup, Universe, ServerGroupService, ReportKeyService, Planet, PlanetService, CoordinateService, Coordinate, PlanetLocation, PlanetAlias, Researches, ResearchesService, Buildings, BuildingsService, Defences, DefencesService, Fleet, FleetService])
 @TestMixin(GrailsUnitTestMixin)
 class UserscriptControllerSpec extends Specification {
     UniverseService universeService
@@ -51,6 +53,7 @@ class UserscriptControllerSpec extends Specification {
         universeService(UniverseService)
         buildingsService(BuildingsService)
         defencesService(DefencesService)
+        fleetService(FleetService)
         planetService(PlanetService)
         coordinateService(CoordinateService)
     }
@@ -65,6 +68,8 @@ class UserscriptControllerSpec extends Specification {
         planetService.buildingsService = buildingsService
         def defencesService = grailsApplication.mainContext.getBean("defencesService")
         planetService.defencesService = defencesService
+        def fleetService = grailsApplication.mainContext.getBean("fleetService")
+        planetService.fleetService = fleetService
     }
 
     def cleanup() {

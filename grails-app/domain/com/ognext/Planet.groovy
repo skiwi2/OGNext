@@ -45,6 +45,7 @@ class Planet {
 
     Buildings buildings
     Defences defences
+    Fleet fleet
 
     Date dateCreated
     Date lastUpdated

@@ -12,7 +12,7 @@ import java.time.temporal.ChronoUnit
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(PlanetService)
-@Mock([Planet, ServerGroup, Universe, Player, Coordinate, CoordinateService, PlanetLocation, PlanetAlias, ServerGroup, ServerGroupService, PlayerAlias, Researches, ResearchesService, Buildings, BuildingsService, Defences, DefencesService])
+@Mock([Planet, ServerGroup, Universe, Player, Coordinate, CoordinateService, PlanetLocation, PlanetAlias, ServerGroup, ServerGroupService, PlayerAlias, Researches, ResearchesService, Buildings, BuildingsService, Defences, DefencesService, Fleet, FleetService])
 class PlanetServiceSpec extends Specification {
     Universe universe
     Universe universe2
