@@ -10,6 +10,7 @@ class UserscriptController {
     def researchesService
     def buildingsService
     def defencesService
+    def fleetService
 
     static allowedMethods = [
         keys: "POST",
@@ -17,7 +18,8 @@ class UserscriptController {
         researches: "POST",
         resourceBuildings: "POST",
         facilityBuildings: "POST",
-        defences: "POST"
+        defences: "POST",
+        fleet: "POST"
     ]
 
     def keys() {
@@ -174,6 +176,33 @@ class UserscriptController {
         def defencesMap = json.defences.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
         def defencesNumbers = [401, 402, 403, 404, 405, 406, 407, 408, 502, 503].collect { defencesMap[it] }
         defencesService.updatePlanetDefences(planet, *defencesNumbers)
+
+        render(contentType: "application/json") {
+            result(success: true)
+        }
+    }
+
+    def fleet() {
+        def json = request.JSON
+
+        def serverGroupCountryCode = json.serverGroup
+        def universeId = json.universe.toInteger()
+        def universe = universeService.getUniverse(serverGroupCountryCode, universeId)
+
+        def playerId = json.playerId.toInteger()
+        def playerName = json.playerName
+        def player = playerService.findPlayer(universe, playerId) ?: playerService.createPlayer(universe, playerId, playerName)
+
+        def planetId = json.planetId.toInteger()
+        def planetName = json.planetName
+        def planetGalaxy = json.planetGalaxy.toInteger()
+        def planetSolarSystem = json.planetSolarSystem.toInteger()
+        def planetPosition = json.planetPosition.toInteger()
+        def planet = planetService.findPlanet(universe, planetId) ?: planetService.createPlanet(player, planetId, planetGalaxy, planetSolarSystem, planetPosition, planetName)
+
+        def fleetMap = json.fleet.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
+        def fleetNumbers = [204, 205, 206, 207, 202, 203, 208, 215, 211, 213, 214, 209, 210].collect { fleetMap[it] }
+        fleetService.updatePlanetFleet(planet, *fleetNumbers)
 
         render(contentType: "application/json") {
             result(success: true)

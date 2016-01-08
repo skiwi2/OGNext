@@ -419,6 +419,57 @@ class UserscriptControllerSpec extends Specification {
         planet.defences.interplanetaryMissiles == 0
     }
 
+    void "post fleet"() {
+        when: "post fleet request has been made"
+        request.json = [
+            serverGroup: "en",
+            universe: "136",
+            playerId: "100153",
+            playerName: "skiwi",
+            planetId: "33623391",
+            planetName: "Homeworld",
+            planetGalaxy: "1",
+            planetSolarSystem: "204",
+            planetPosition: "8",
+            fleet: [
+                [id: "204", level: "0"],
+                [id: "205", level: "0"],
+                [id: "206", level: "106"],
+                [id: "207", level: "20"],
+                [id: "202", level: "63"],
+                [id: "203", level: "25"],
+                [id: "208", level: "0"],
+                [id: "215", level: "0"],
+                [id: "211", level: "5"],
+                [id: "213", level: "0"],
+                [id: "214", level: "0"],
+                [id: "209", level: "35"],
+                [id: "210", level: "12"]
+            ]
+        ] as JSON
+        request.method = "POST"
+        request.contentType = "text/json"
+        controller.fleet()
+
+        then: "fleet should be persisted"
+        response.json.result.success == true
+        def universe = universeService.getUniverse("en", 136)
+        def planet = planetService.findPlanet(universe, 33623391)
+        planet.fleet.lightFighter == 0
+        planet.fleet.heavyFighter == 0
+        planet.fleet.cruiser == 106
+        planet.fleet.battleship == 20
+        planet.fleet.smallCargo == 63
+        planet.fleet.largeCargo == 25
+        planet.fleet.colonyShip == 0
+        planet.fleet.battlecruiser == 0
+        planet.fleet.bomber == 5
+        planet.fleet.destroyer == 0
+        planet.fleet.deathstar == 0
+        planet.fleet.recycler == 35
+        planet.fleet.espionageProbe == 12
+    }
+
     void planetMatches(Player player, Integer planetId, String name, int galaxy, int solarSystem, int position) {
         def planet = Planet.findByPlayerAndPlanetId(player, planetId)
         def now = Instant.now()
