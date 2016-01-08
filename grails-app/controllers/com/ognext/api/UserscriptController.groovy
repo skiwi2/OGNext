@@ -19,7 +19,8 @@ class UserscriptController {
         resourceBuildings: "POST",
         facilityBuildings: "POST",
         defences: "POST",
-        fleet: "POST"
+        fleet: "POST",
+        shipyard: "POST"
     ]
 
     def keys() {
@@ -203,6 +204,35 @@ class UserscriptController {
         def fleetMap = json.fleet.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
         def fleetNumbers = [204, 205, 206, 207, 202, 203, 208, 215, 211, 213, 214, 209, 210].collect { fleetMap[it] }
         fleetService.updatePlanetFleet(planet, *fleetNumbers)
+
+        render(contentType: "application/json") {
+            result(success: true)
+        }
+    }
+
+    def shipyard() {
+        def json = request.JSON
+
+        def serverGroupCountryCode = json.serverGroup
+        def universeId = json.universe.toInteger()
+        def universe = universeService.getUniverse(serverGroupCountryCode, universeId)
+
+        def playerId = json.playerId.toInteger()
+        def playerName = json.playerName
+        def player = playerService.findPlayer(universe, playerId) ?: playerService.createPlayer(universe, playerId, playerName)
+
+        def planetId = json.planetId.toInteger()
+        def planetName = json.planetName
+        def planetGalaxy = json.planetGalaxy.toInteger()
+        def planetSolarSystem = json.planetSolarSystem.toInteger()
+        def planetPosition = json.planetPosition.toInteger()
+        def planet = planetService.findPlanet(universe, planetId) ?: planetService.createPlanet(player, planetId, planetGalaxy, planetSolarSystem, planetPosition, planetName)
+
+        def shipyardMap = json.shipyard.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
+        def shipyardNumbers = [204, 205, 206, 207, 202, 203, 208, 215, 211, 213, 214, 209, 210].collect { shipyardMap[it] }
+        def solarSatellites = shipyardMap[212]
+        fleetService.updatePlanetFleet(planet, *shipyardNumbers)
+        buildingsService.updatePlanetSolarSatellite(planet, solarSatellites)
 
         render(contentType: "application/json") {
             result(success: true)
