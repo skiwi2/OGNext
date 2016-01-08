@@ -32,4 +32,9 @@ class BuildingsService {
         planet.buildings.terraformer = terraformer
         planet.save()
     }
+
+    void updatePlanetSolarSatellite(Planet planet, Integer solarSatellite) {
+        planet.buildings.solarSatellite = solarSatellite
+        planet.save()
+    }
 }

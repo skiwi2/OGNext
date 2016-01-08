@@ -76,4 +76,12 @@ class BuildingsServiceSpec extends Specification {
         planet.buildings.naniteFactory == 0
         planet.buildings.terraformer == 0
     }
+
+    void "test update planet solar satellite"() {
+        when: "update planet solar satellite"
+        service.updatePlanetSolarSatellite(planet, 5)
+
+        then: "planet solar satellite should be updated"
+        planet.buildings.solarSatellite == 5
+    }
 }
