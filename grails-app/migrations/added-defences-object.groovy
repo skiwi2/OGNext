@@ -94,7 +94,7 @@ inserted_defences AS (
         col_interplanetary_missiles,
         col_date_created,
         col_last_updated)
-    SELECT planet_id, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+    SELECT planet_id, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
     FROM null_defences RETURNING temp_col_planet_id AS planet_id, col_id AS defences_id
     )
 UPDATE table_planet
