@@ -174,7 +174,7 @@ class UserscriptController {
         def planetPosition = json.planetPosition.toInteger()
         def planet = planetService.findPlanet(universe, planetId) ?: planetService.createPlanet(player, planetId, planetGalaxy, planetSolarSystem, planetPosition, planetName)
 
-        def defencesMap = json.defences.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
+        def defencesMap = json.defences.collectEntries { [it.id.toInteger(), it.amount.toInteger()] }
         def defencesNumbers = [401, 402, 403, 404, 405, 406, 407, 408, 502, 503].collect { defencesMap[it] }
         defencesService.updatePlanetDefences(planet, *defencesNumbers)
 
@@ -201,7 +201,7 @@ class UserscriptController {
         def planetPosition = json.planetPosition.toInteger()
         def planet = planetService.findPlanet(universe, planetId) ?: planetService.createPlanet(player, planetId, planetGalaxy, planetSolarSystem, planetPosition, planetName)
 
-        def fleetMap = json.fleet.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
+        def fleetMap = json.fleet.collectEntries { [it.id.toInteger(), it.amount.toInteger()] }
         def fleetNumbers = [204, 205, 206, 207, 202, 203, 208, 215, 211, 213, 214, 209, 210].collect { fleetMap[it] }
         fleetService.updatePlanetFleet(planet, *fleetNumbers)
 
@@ -228,7 +228,7 @@ class UserscriptController {
         def planetPosition = json.planetPosition.toInteger()
         def planet = planetService.findPlanet(universe, planetId) ?: planetService.createPlanet(player, planetId, planetGalaxy, planetSolarSystem, planetPosition, planetName)
 
-        def shipyardMap = json.shipyard.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
+        def shipyardMap = json.shipyard.collectEntries { [it.id.toInteger(), it.amount.toInteger()] }
         def shipyardNumbers = [204, 205, 206, 207, 202, 203, 208, 215, 211, 213, 214, 209, 210].collect { shipyardMap[it] }
         def solarSatellites = shipyardMap[212]
         fleetService.updatePlanetFleet(planet, *shipyardNumbers)

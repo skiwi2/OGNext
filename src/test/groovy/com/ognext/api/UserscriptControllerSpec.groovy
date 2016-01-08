@@ -387,16 +387,16 @@ class UserscriptControllerSpec extends Specification {
             planetSolarSystem: "204",
             planetPosition: "8",
             defences: [
-                [id: "401", level: "69"],
-                [id: "402", level: "158"],
-                [id: "403", level: "12"],
-                [id: "404", level: "14"],
-                [id: "405", level: "0"],
-                [id: "406", level: "1"],
-                [id: "407", level: "1"],
-                [id: "408", level: "1"],
-                [id: "502", level: "20"],
-                [id: "503", level: "0"]
+                [id: "401", amount: "69"],
+                [id: "402", amount: "158"],
+                [id: "403", amount: "12"],
+                [id: "404", amount: "14"],
+                [id: "405", amount: "0"],
+                [id: "406", amount: "1"],
+                [id: "407", amount: "1"],
+                [id: "408", amount: "1"],
+                [id: "502", amount: "20"],
+                [id: "503", amount: "0"]
             ]
         ] as JSON
         request.method = "POST"
@@ -432,19 +432,19 @@ class UserscriptControllerSpec extends Specification {
             planetSolarSystem: "204",
             planetPosition: "8",
             fleet: [
-                [id: "204", level: "0"],
-                [id: "205", level: "0"],
-                [id: "206", level: "106"],
-                [id: "207", level: "20"],
-                [id: "202", level: "63"],
-                [id: "203", level: "25"],
-                [id: "208", level: "0"],
-                [id: "215", level: "0"],
-                [id: "211", level: "5"],
-                [id: "213", level: "0"],
-                [id: "214", level: "0"],
-                [id: "209", level: "35"],
-                [id: "210", level: "12"]
+                [id: "204", amount: "0"],
+                [id: "205", amount: "0"],
+                [id: "206", amount: "106"],
+                [id: "207", amount: "20"],
+                [id: "202", amount: "63"],
+                [id: "203", amount: "25"],
+                [id: "208", amount: "0"],
+                [id: "215", amount: "0"],
+                [id: "211", amount: "5"],
+                [id: "213", amount: "0"],
+                [id: "214", amount: "0"],
+                [id: "209", amount: "35"],
+                [id: "210", amount: "12"]
             ]
         ] as JSON
         request.method = "POST"
@@ -483,20 +483,20 @@ class UserscriptControllerSpec extends Specification {
             planetSolarSystem: "204",
             planetPosition: "8",
             shipyard: [
-                [id: "204", level: "0"],
-                [id: "205", level: "0"],
-                [id: "206", level: "106"],
-                [id: "207", level: "20"],
-                [id: "202", level: "63"],
-                [id: "203", level: "25"],
-                [id: "208", level: "0"],
-                [id: "215", level: "0"],
-                [id: "211", level: "5"],
-                [id: "213", level: "0"],
-                [id: "214", level: "0"],
-                [id: "209", level: "35"],
-                [id: "210", level: "12"],
-                [id: "212", level: "5"]
+                [id: "204", amount: "0"],
+                [id: "205", amount: "0"],
+                [id: "206", amount: "106"],
+                [id: "207", amount: "20"],
+                [id: "202", amount: "63"],
+                [id: "203", amount: "25"],
+                [id: "208", amount: "0"],
+                [id: "215", amount: "0"],
+                [id: "211", amount: "5"],
+                [id: "213", amount: "0"],
+                [id: "214", amount: "0"],
+                [id: "209", amount: "35"],
+                [id: "210", amount: "12"],
+                [id: "212", amount: "5"]
             ]
         ] as JSON
         request.method = "POST"
