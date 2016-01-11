@@ -318,7 +318,7 @@ class UserscriptControllerSpec extends Specification {
         ] as JSON
         request.method = "POST"
         request.contentType = "text/json"
-        controller.resourceBuildings()
+        controller.planetResourceBuildings()
 
         then: "resource buildings should be persisted"
         response.json.result.success == true
@@ -359,7 +359,7 @@ class UserscriptControllerSpec extends Specification {
         ] as JSON
         request.method = "POST"
         request.contentType = "text/json"
-        controller.facilityBuildings()
+        controller.planetFacilityBuildings()
 
         then: "facility buildings should be persisted"
         response.json.result.success == true
@@ -401,7 +401,7 @@ class UserscriptControllerSpec extends Specification {
         ] as JSON
         request.method = "POST"
         request.contentType = "text/json"
-        controller.defences()
+        controller.planetDefences()
 
         then: "defences should be persisted"
         response.json.result.success == true
@@ -449,7 +449,7 @@ class UserscriptControllerSpec extends Specification {
         ] as JSON
         request.method = "POST"
         request.contentType = "text/json"
-        controller.fleet()
+        controller.planetFleet()
 
         then: "fleet should be persisted"
         response.json.result.success == true
@@ -501,7 +501,7 @@ class UserscriptControllerSpec extends Specification {
         ] as JSON
         request.method = "POST"
         request.contentType = "text/json"
-        controller.shipyard()
+        controller.planetShipyard()
 
         then: "shipyard should be persisted"
         response.json.result.success == true

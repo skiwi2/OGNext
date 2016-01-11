@@ -16,11 +16,11 @@ class UserscriptController {
         keys: "POST",
         planets: "POST",
         researches: "POST",
-        resourceBuildings: "POST",
-        facilityBuildings: "POST",
-        defences: "POST",
-        fleet: "POST",
-        shipyard: "POST"
+        planetResourceBuildings: "POST",
+        planetFacilityBuildings: "POST",
+        planetDefences: "POST",
+        planetFleet: "POST",
+        planetShipyard: "POST"
     ]
 
     def keys() {
@@ -102,7 +102,7 @@ class UserscriptController {
         }
     }
 
-    def resourceBuildings() {
+    def planetResourceBuildings() {
         def json = request.JSON
 
         def serverGroupCountryCode = json.serverGroup
@@ -129,7 +129,7 @@ class UserscriptController {
         }
     }
 
-    def facilityBuildings() {
+    def planetFacilityBuildings() {
         def json = request.JSON
 
         def serverGroupCountryCode = json.serverGroup
@@ -156,7 +156,7 @@ class UserscriptController {
         }
     }
 
-    def defences() {
+    def planetDefences() {
         def json = request.JSON
 
         def serverGroupCountryCode = json.serverGroup
@@ -183,7 +183,7 @@ class UserscriptController {
         }
     }
 
-    def fleet() {
+    def planetFleet() {
         def json = request.JSON
 
         def serverGroupCountryCode = json.serverGroup
@@ -210,7 +210,7 @@ class UserscriptController {
         }
     }
 
-    def shipyard() {
+    def planetShipyard() {
         def json = request.JSON
 
         def serverGroupCountryCode = json.serverGroup
