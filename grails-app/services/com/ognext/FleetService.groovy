@@ -25,4 +25,21 @@ class FleetService {
         planet.fleet.espionageProbe = espionageProbe
         planet.save()
     }
+
+    void updateMoonFleet(Moon moon, Integer lightFighter, Integer heavyFighter, Integer cruiser, Integer battleship, Integer smallCargo, Integer largeCargo, Integer colonyShip, Integer battlecruiser, Integer bomber, Integer destroyer, Integer deathstar, Integer recycler, Integer espionageProbe) {
+        moon.fleet.lightFighter = lightFighter
+        moon.fleet.heavyFighter = heavyFighter
+        moon.fleet.cruiser = cruiser
+        moon.fleet.battleship = battleship
+        moon.fleet.smallCargo = smallCargo
+        moon.fleet.largeCargo = largeCargo
+        moon.fleet.colonyShip = colonyShip
+        moon.fleet.battlecruiser = battlecruiser
+        moon.fleet.bomber = bomber
+        moon.fleet.destroyer = destroyer
+        moon.fleet.deathstar = deathstar
+        moon.fleet.recycler = recycler
+        moon.fleet.espionageProbe = espionageProbe
+        moon.save()
+    }
 }

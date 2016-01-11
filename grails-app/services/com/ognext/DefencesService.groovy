@@ -22,4 +22,18 @@ class DefencesService {
         planet.defences.interplanetaryMissiles = interplanetaryMissiles
         planet.save()
     }
+
+    void updateMoonDefences(Moon moon, Integer rocketLauncher, Integer lightLaser, Integer heavyLaser, Integer gaussCannon, Integer ionCannon, Integer plasmaTurret, Integer smallShieldDome, Integer largeShieldDome, Integer antiBallisticMissiles, Integer interplanetaryMissiles) {
+        moon.defences.rocketLauncher = rocketLauncher
+        moon.defences.lightLaser = lightLaser
+        moon.defences.heavyLaser = heavyLaser
+        moon.defences.gaussCannon = gaussCannon
+        moon.defences.ionCannon = ionCannon
+        moon.defences.plasmaTurret = plasmaTurret
+        moon.defences.smallShieldDome = smallShieldDome
+        moon.defences.largeShieldDome = largeShieldDome
+        moon.defences.antiBallisticMissiles = antiBallisticMissiles
+        moon.defences.interplanetaryMissiles = interplanetaryMissiles
+        moon.save()
+    }
 }

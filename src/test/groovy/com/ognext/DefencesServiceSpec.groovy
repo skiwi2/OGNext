@@ -8,9 +8,10 @@ import spock.lang.Specification
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(DefencesService)
-@Mock([Defences, ServerGroup, ServerGroupService, Universe, Player, PlayerAlias, Researches, ResearchesService, Planet, PlanetAlias, PlanetLocation, Coordinate, CoordinateService, PlanetBuildings, PlanetBuildingsService, Fleet, FleetService])
+@Mock([Defences, ServerGroup, ServerGroupService, Universe, Player, PlayerAlias, Researches, ResearchesService, Planet, PlanetAlias, PlanetLocation, Coordinate, CoordinateService, PlanetBuildings, PlanetBuildingsService, Fleet, FleetService, Moon, MoonAlias, MoonLocation, MoonBuildings, MoonBuildingsService])
 class DefencesServiceSpec extends Specification {
     Planet planet
+    Moon moon
 
     def setup() {
         def universeService = mockService(UniverseService)
@@ -19,6 +20,8 @@ class DefencesServiceSpec extends Specification {
         def player = playerService.createPlayer(universe, 100153, "skiwi")
         def planetService = mockService(PlanetService)
         planet = planetService.createPlanet(player, 1001, 1, 204, 8, "Homeworld")
+        def moonService = mockService(MoonService)
+        moon = moonService.createMoon(player, 1002, 1, 204, 8, "Moon")
     }
 
     def cleanup() {
@@ -56,5 +59,22 @@ class DefencesServiceSpec extends Specification {
         planet.defences.largeShieldDome == 1
         planet.defences.antiBallisticMissiles == 20
         planet.defences.interplanetaryMissiles == 0
+    }
+
+    void "test update moon defences"() {
+        when: "update moon defences"
+        service.updateMoonDefences(moon, 69, 158, 12, 14, 0, 1, 1, 1, 20, 0)
+
+        then: "moon defences should be updated"
+        moon.defences.rocketLauncher == 69
+        moon.defences.lightLaser == 158
+        moon.defences.heavyLaser == 12
+        moon.defences.gaussCannon == 14
+        moon.defences.ionCannon == 0
+        moon.defences.plasmaTurret == 1
+        moon.defences.smallShieldDome == 1
+        moon.defences.largeShieldDome == 1
+        moon.defences.antiBallisticMissiles == 20
+        moon.defences.interplanetaryMissiles == 0
     }
 }

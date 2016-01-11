@@ -8,9 +8,10 @@ import spock.lang.Specification
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(FleetService)
-@Mock([Fleet, ServerGroup, ServerGroupService, Universe, Player, PlayerAlias, Researches, ResearchesService, Planet, PlanetAlias, PlanetLocation, Coordinate, CoordinateService, PlanetBuildings, PlanetBuildingsService, Defences, DefencesService])
+@Mock([Fleet, ServerGroup, ServerGroupService, Universe, Player, PlayerAlias, Researches, ResearchesService, Planet, PlanetAlias, PlanetLocation, Coordinate, CoordinateService, PlanetBuildings, PlanetBuildingsService, Defences, DefencesService, Moon, MoonAlias, MoonLocation, MoonBuildings, MoonBuildingsService])
 class FleetServiceSpec extends Specification {
     Planet planet
+    Moon moon
 
     def setup() {
         def universeService = mockService(UniverseService)
@@ -19,6 +20,8 @@ class FleetServiceSpec extends Specification {
         def player = playerService.createPlayer(universe, 100153, "skiwi")
         def planetService = mockService(PlanetService)
         planet = planetService.createPlanet(player, 1001, 1, 204, 8, "Homeworld")
+        def moonService = mockService(MoonService)
+        moon = moonService.createMoon(player, 1002, 1, 204, 8, "Moon")
     }
 
     def cleanup() {
@@ -62,5 +65,25 @@ class FleetServiceSpec extends Specification {
         planet.fleet.deathstar == 0
         planet.fleet.recycler == 20
         planet.fleet.espionageProbe == 11
+    }
+
+    void "test update moon fleet"() {
+        when: "update moon fleet"
+        service.updateMoonFleet(moon, 0, 0, 31, 14, 49, 9, 0, 0, 5, 0, 0, 20, 11)
+
+        then: "moon fleet should be updated"
+        moon.fleet.lightFighter == 0
+        moon.fleet.heavyFighter == 0
+        moon.fleet.cruiser == 31
+        moon.fleet.battleship == 14
+        moon.fleet.smallCargo == 49
+        moon.fleet.largeCargo == 9
+        moon.fleet.colonyShip == 0
+        moon.fleet.battlecruiser == 0
+        moon.fleet.bomber == 5
+        moon.fleet.destroyer == 0
+        moon.fleet.deathstar == 0
+        moon.fleet.recycler == 20
+        moon.fleet.espionageProbe == 11
     }
 }
