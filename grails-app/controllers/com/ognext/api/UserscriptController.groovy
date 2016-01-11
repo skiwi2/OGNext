@@ -8,7 +8,7 @@ class UserscriptController {
     def reportKeyService
     def planetService
     def researchesService
-    def buildingsService
+    def planetBuildingsService
     def defencesService
     def fleetService
 
@@ -122,7 +122,7 @@ class UserscriptController {
 
         def buildingMap = json.buildings.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
         def buildingLevels = [1, 2, 3, 4, 12, 212, 22, 23, 24].collect { buildingMap[it] }
-        buildingsService.updatePlanetResourceBuildings(planet, *buildingLevels)
+        planetBuildingsService.updatePlanetResourceBuildings(planet, *buildingLevels)
 
         render(contentType: "application/json") {
             result(success: true)
@@ -149,7 +149,7 @@ class UserscriptController {
 
         def buildingMap = json.buildings.collectEntries { [it.id.toInteger(), it.level.toInteger()] }
         def buildingLevels = [14, 21, 31, 34, 44, 15, 33].collect { buildingMap[it] }
-        buildingsService.updatePlanetFacilityBuildings(planet, *buildingLevels)
+        planetBuildingsService.updatePlanetFacilityBuildings(planet, *buildingLevels)
 
         render(contentType: "application/json") {
             result(success: true)
@@ -232,7 +232,7 @@ class UserscriptController {
         def shipyardNumbers = [204, 205, 206, 207, 202, 203, 208, 215, 211, 213, 214, 209, 210].collect { shipyardMap[it] }
         def solarSatellites = shipyardMap[212]
         fleetService.updatePlanetFleet(planet, *shipyardNumbers)
-        buildingsService.updatePlanetSolarSatellite(planet, solarSatellites)
+        planetBuildingsService.updatePlanetSolarSatellite(planet, solarSatellites)
 
         render(contentType: "application/json") {
             result(success: true)

@@ -3,10 +3,10 @@ package com.ognext
 import grails.transaction.Transactional
 
 @Transactional
-class BuildingsService {
-    Buildings createDefaultBuildings() {
-        def buildings = new Buildings(metalMine: 0, crystalMine: 0, deuteriumSynthesizer: 0, solarPlant: 0, fusionReactor: 0, solarSatellite: 0, metalStorage: 0, crystalStorage: 0, deuteriumTank: 0, roboticsFactory: 0, shipyard: 0, researchLab: 0, allianceDepot: 0, missileSilo: 0, naniteFactory: 0, terraformer: 0)
-        buildings.save()
+class PlanetBuildingsService {
+    PlanetBuildings createDefaultPlanetBuildings() {
+        def planetBuildings = new PlanetBuildings(metalMine: 0, crystalMine: 0, deuteriumSynthesizer: 0, solarPlant: 0, fusionReactor: 0, solarSatellite: 0, metalStorage: 0, crystalStorage: 0, deuteriumTank: 0, roboticsFactory: 0, shipyard: 0, researchLab: 0, allianceDepot: 0, missileSilo: 0, naniteFactory: 0, terraformer: 0)
+        planetBuildings.save()
     }
 
     void updatePlanetResourceBuildings(Planet planet, Integer metalMine, Integer crystalMine, Integer deuteriumSynthesizer, Integer solarPlant, Integer fusionReactor, Integer solarSatellite, Integer metalStorage, Integer crystalStorage, Integer deuteriumTank) {

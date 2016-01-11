@@ -43,7 +43,7 @@ class Planet {
     Boolean deleted = false
     Date dateDeleted
 
-    Buildings buildings
+    PlanetBuildings buildings
     Defences defences
     Fleet fleet
 

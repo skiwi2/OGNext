@@ -13,15 +13,15 @@ import java.time.temporal.ChronoUnit
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
 @TestFor(Planet)
-@Mock([Coordinate, PlanetAlias, PlanetLocation, Universe, Buildings, Defences, Fleet])
+@Mock([Coordinate, PlanetAlias, PlanetLocation, Universe, PlanetBuildings, Defences, Fleet])
 @TestMixin(GrailsUnitTestMixin)
 class PlanetSpec extends Specification {
-    BuildingsService buildingsService
+    PlanetBuildingsService planetBuildingsService
     DefencesService defencesService
     FleetService fleetService
     PlanetService planetService
     CoordinateService coordinateService
-    Buildings defaultBuildings
+    PlanetBuildings defaultPlanetBuildings
     Defences defaultDefences
     Fleet defaultFleet
 
@@ -32,7 +32,7 @@ class PlanetSpec extends Specification {
     def player2 = new Player(universe: universe2, playerId: 103168)
 
     static doWithSpring = {
-        buildingsService(BuildingsService)
+        planetBuildingsService(PlanetBuildingsService)
         defencesService(DefencesService)
         fleetService(FleetService)
         planetService(PlanetService)
@@ -40,16 +40,16 @@ class PlanetSpec extends Specification {
     }
 
     def setup() {
-        buildingsService = grailsApplication.mainContext.getBean("buildingsService")
+        planetBuildingsService = grailsApplication.mainContext.getBean("planetBuildingsService")
         defencesService = grailsApplication.mainContext.getBean("defencesService")
         fleetService = grailsApplication.mainContext.getBean("fleetService")
         planetService = grailsApplication.mainContext.getBean("planetService")
-        planetService.buildingsService = buildingsService
+        planetService.planetBuildingsService = planetBuildingsService
         planetService.defencesService = defencesService
         planetService.fleetService = fleetService
         coordinateService = grailsApplication.mainContext.getBean("coordinateService")
         planetService.coordinateService = coordinateService
-        defaultBuildings = buildingsService.createDefaultBuildings()
+        defaultPlanetBuildings = planetBuildingsService.createDefaultPlanetBuildings()
         defaultDefences = defencesService.createDefaultDefences()
         defaultFleet = fleetService.createDefaultFleet()
     }
@@ -59,7 +59,7 @@ class PlanetSpec extends Specification {
 
     void "save valid planet"() {
         when: "planet is valid"
-        def planet = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
 
         then: "planet should be saved"
         planet.save()
@@ -67,7 +67,7 @@ class PlanetSpec extends Specification {
 
     void "universe equals player universe when updating"() {
         when: "planet is valid"
-        def planet = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
         planet.save()
 
         then: "universe should be equal to player universe"
@@ -93,8 +93,8 @@ class PlanetSpec extends Specification {
 
     void "save two planets with same planetId in same universe"() {
         when: "planets have same planetId in same universe"
-        def planet = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
-        def planet2 = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet2 = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
 
         then: "second planet should not be saved"
         planet.save(flush: true)
@@ -103,8 +103,8 @@ class PlanetSpec extends Specification {
 
     void "save two planets with same planetId in different universe"() {
         when: "planets have same planetId in different universe"
-        def planet = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
-        def planet2 = new Planet(player: player2, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet2 = new Planet(player: player2, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
 
         then: "both planets should be saved"
         planet.save()
@@ -113,8 +113,8 @@ class PlanetSpec extends Specification {
 
     void "save valid planets belonging to same player"() {
         when: "planets are valid and belong to same player"
-        def planet = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
-        def planet2 = new Planet(player: player, planetId: 1001, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet2 = new Planet(player: player, planetId: 1001, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
 
         then: "both planets should be saved"
         planet.save()
@@ -124,7 +124,7 @@ class PlanetSpec extends Specification {
     void "save valid planet with single location"() {
         when: "planet has single location"
         def now = Instant.now()
-        def planet = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
         planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12), begin: Instant.ofEpochSecond(0), end: now.plus(50000, ChronoUnit.DAYS)))
 
         then: "planet should be saved"
@@ -134,7 +134,7 @@ class PlanetSpec extends Specification {
     void "save valid planet with non-intersecting locations"() {
         when: "planet has non-intersecting locations"
         def now = Instant.now()
-        def planet = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
         planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12), begin: Instant.ofEpochSecond(0), end: now))
         planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 123, position: 12), begin: now, end: now.plus(50000, ChronoUnit.DAYS)))
 
@@ -145,7 +145,7 @@ class PlanetSpec extends Specification {
     void "save invalid planet with intersecting locations"() {
         when: "planet has intersecting locations"
         def now = Instant.now()
-        def planet = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
         planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12), begin: Instant.ofEpochSecond(0), end: now.plus(1, ChronoUnit.HOURS)))
         planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 123, position: 12), begin: now, end: now.plus(50000, ChronoUnit.DAYS)))
 
@@ -156,7 +156,7 @@ class PlanetSpec extends Specification {
     void "save valid planet with same coordinate again"() {
         when: "planet has changed its coordinate back again after having changed it"
         def now = Instant.now()
-        def planet = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
         planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12), begin: Instant.ofEpochSecond(0), end: now))
         planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 123, position: 12), begin: now, end: now.plus(10, ChronoUnit.DAYS)))
         planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12), begin: now.plus(10, ChronoUnit.DAYS), end: now.plus(50000, ChronoUnit.DAYS)))
@@ -169,10 +169,10 @@ class PlanetSpec extends Specification {
         when: "planets are in same universes and are on the same location"
         def now = Instant.now()
 
-        def planet = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
         planet.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12), begin: Instant.ofEpochSecond(0), end: now))
 
-        def planet2 = new Planet(player: player2, planetId: 1001, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet2 = new Planet(player: player2, planetId: 1001, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
         planet2.addToLocations(new PlanetLocation(coordinate: new Coordinate(galaxy: 2, solarSystem: 122, position: 12), begin: Instant.ofEpochSecond(0), end: now))
 
         then: "saving second planet should fail"
@@ -199,7 +199,7 @@ class PlanetSpec extends Specification {
     void "save valid planet with single alias"() {
         when: "planet has single alias"
         def now = Instant.now()
-        def planet = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
         planet.addToAliases(new PlanetAlias(name: "Homeworld", begin: Instant.ofEpochSecond(0), end: now.plus(50000, ChronoUnit.DAYS)))
 
         then: "planet should be saved"
@@ -209,7 +209,7 @@ class PlanetSpec extends Specification {
     void "save valid planet with non-intersecting aliases"() {
         when: "planet has non-intersecting aliases"
         def now = Instant.now()
-        def planet = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
         planet.addToAliases(new PlanetAlias(name: "Homeworld", begin: Instant.ofEpochSecond(0), end: now))
         planet.addToAliases(new PlanetAlias(name: "Homeworld2", begin: now, end: now.plus(50000, ChronoUnit.DAYS)))
 
@@ -220,7 +220,7 @@ class PlanetSpec extends Specification {
     void "save invalid planet with intersecting aliases"() {
         when: "planet has intersecting aliases"
         def now = Instant.now()
-        def planet = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
         planet.addToAliases(new PlanetAlias(name: "Homeworld", begin: Instant.ofEpochSecond(0), end: now.plus(1, ChronoUnit.HOURS)))
         planet.addToAliases(new PlanetAlias(name: "Homeworld2", begin: now, end: now.plus(50000, ChronoUnit.DAYS)))
 
@@ -231,7 +231,7 @@ class PlanetSpec extends Specification {
     void "save valid planet with same name again"() {
         when: "planet has changed its name back again after having changed it"
         def now = Instant.now()
-        def planet = new Planet(player: player, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        def planet = new Planet(player: player, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
         planet.addToAliases(new PlanetAlias(name: "Homeworld", begin: Instant.ofEpochSecond(0), end: now))
         planet.addToAliases(new PlanetAlias(name: "Homeworld2", begin: now, end: now.plus(10, ChronoUnit.DAYS)))
         planet.addToAliases(new PlanetAlias(name: "Homeworld", begin: now.plus(10, ChronoUnit.DAYS), end: now.plus(50000, ChronoUnit.DAYS)))
@@ -266,12 +266,12 @@ class PlanetSpec extends Specification {
         def planetAlias2 = new PlanetAlias(name: "Homeworld2", begin: Instant.ofEpochSecond(0), end: Instant.now().plus(50000, ChronoUnit.DAYS))
 
         expect:
-        new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet) == new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
-        new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet) != new Planet(player: player2, universe: universe, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
-        new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet) != new Planet(player: player, universe: universe2, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
-        new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet) != new Planet(player: player, universe: universe, planetId: 1001, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet)
+        new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet) == new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
+        new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet) != new Planet(player: player2, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
+        new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet) != new Planet(player: player, universe: universe2, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
+        new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet) != new Planet(player: player, universe: universe, planetId: 1001, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet)
 
-        new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet).addToLocations(planetLocation) == new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet).addToLocations(planetLocation2)
-        new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet).addToAliases(planetAlias) == new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultBuildings, defences: defaultDefences, fleet: defaultFleet).addToAliases(planetAlias2)
+        new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet).addToLocations(planetLocation) == new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet).addToLocations(planetLocation2)
+        new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet).addToAliases(planetAlias) == new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet).addToAliases(planetAlias2)
     }
 }

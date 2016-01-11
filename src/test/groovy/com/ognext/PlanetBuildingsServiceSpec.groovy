@@ -7,9 +7,9 @@ import spock.lang.Specification
 /**
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestFor(BuildingsService)
-@Mock([Buildings, ServerGroup, ServerGroupService, Universe, Player, PlayerAlias, Researches, ResearchesService, Planet, PlanetAlias, PlanetLocation, Coordinate, CoordinateService, Defences, DefencesService, Fleet, FleetService])
-class BuildingsServiceSpec extends Specification {
+@TestFor(PlanetBuildingsService)
+@Mock([PlanetBuildings, ServerGroup, ServerGroupService, Universe, Player, PlayerAlias, Researches, ResearchesService, Planet, PlanetAlias, PlanetLocation, Coordinate, CoordinateService, Defences, DefencesService, Fleet, FleetService])
+class PlanetBuildingsServiceSpec extends Specification {
     Planet planet
 
     def setup() {
@@ -26,25 +26,25 @@ class BuildingsServiceSpec extends Specification {
 
     void "test create default buildings"() {
         when: "create default buildings"
-        def defaultBuildings = service.createDefaultBuildings()
+        def defaultPlanetBuildings = service.createDefaultPlanetBuildings()
 
         then: "default buildings should be created"
-        defaultBuildings.metalMine == 0
-        defaultBuildings.crystalMine == 0
-        defaultBuildings.deuteriumSynthesizer == 0
-        defaultBuildings.solarPlant == 0
-        defaultBuildings.fusionReactor == 0
-        defaultBuildings.solarSatellite == 0
-        defaultBuildings.metalStorage == 0
-        defaultBuildings.crystalStorage == 0
-        defaultBuildings.deuteriumTank == 0
-        defaultBuildings.roboticsFactory == 0
-        defaultBuildings.shipyard == 0
-        defaultBuildings.researchLab == 0
-        defaultBuildings.allianceDepot == 0
-        defaultBuildings.missileSilo == 0
-        defaultBuildings.naniteFactory == 0
-        defaultBuildings.terraformer == 0
+        defaultPlanetBuildings.metalMine == 0
+        defaultPlanetBuildings.crystalMine == 0
+        defaultPlanetBuildings.deuteriumSynthesizer == 0
+        defaultPlanetBuildings.solarPlant == 0
+        defaultPlanetBuildings.fusionReactor == 0
+        defaultPlanetBuildings.solarSatellite == 0
+        defaultPlanetBuildings.metalStorage == 0
+        defaultPlanetBuildings.crystalStorage == 0
+        defaultPlanetBuildings.deuteriumTank == 0
+        defaultPlanetBuildings.roboticsFactory == 0
+        defaultPlanetBuildings.shipyard == 0
+        defaultPlanetBuildings.researchLab == 0
+        defaultPlanetBuildings.allianceDepot == 0
+        defaultPlanetBuildings.missileSilo == 0
+        defaultPlanetBuildings.naniteFactory == 0
+        defaultPlanetBuildings.terraformer == 0
     }
 
     void "test update planet resource buildings"() {

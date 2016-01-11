@@ -1,6 +1,6 @@
 package com.ognext
 
-class Buildings {
+class PlanetBuildings {
     static constraints = {
         metalMine min: 0
         crystalMine min: 0

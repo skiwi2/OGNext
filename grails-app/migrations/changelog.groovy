@@ -313,4 +313,5 @@ databaseChangeLog = {
     include file: 'added-buildings-object.groovy'
     include file: 'added-defences-object.groovy'
     include file: 'added-fleet-object.groovy'
+    include file: 'rename-buildings-to-planet-buildings.groovy'
 }
