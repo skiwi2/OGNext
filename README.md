@@ -62,6 +62,7 @@ Deployment
 Additional requirement when deploying a server:
 
 - [Tomcat](https://tomcat.apache.org/) or similar
+- The `CATALINA_HOME` environment variable should be set to the top-level directory of the Tomcat installation.
 
 OGNext has been tested to both work with Tomcat 7 and Tomcat 8.
 
