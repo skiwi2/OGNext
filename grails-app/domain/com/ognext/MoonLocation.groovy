@@ -4,7 +4,11 @@ import java.time.Instant
 
 class MoonLocation {
     static constraints = {
-        end validator: { end, object -> end >= object.begin }
+        end validator: { end, object ->
+            if (end < object.begin) {
+                'invalidRange'
+            }
+        }
         coordinate unique: true
     }
 

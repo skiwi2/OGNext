@@ -15,7 +15,10 @@ class Player {
                 return true
             }
             def addedAlias = aliases[-1]
-            aliases[0..<-1].every { !it.intervalIntersects(addedAlias) }
+            def aliasIntersects = aliases[0..<-1].any { it.intervalIntersects(addedAlias) }
+            if (aliasIntersects) {
+                'aliasIntersects'
+            }
         }
     }
 

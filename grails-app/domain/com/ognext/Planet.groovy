@@ -10,7 +10,9 @@ class Planet {
 
     static constraints = {
         universe validator: { universe, object ->
-            universe == object.player.universe
+            if (universe != object.player.universe) {
+                'universeDoesNotMatch'
+            }
         }
         planetId unique: "universe"
         locations validator: { locations, object ->
@@ -18,19 +20,25 @@ class Planet {
                 return true
             }
             def addedLocation = locations[-1]
-            locations[0..<-1].every { !it.intervalIntersects(addedLocation) } &&
+            def locationIntersects = locations[0..<-1].any { it.intervalIntersects(addedLocation) } ||
                 Planet.findAllByUniverse(object.universe).stream()
                     .filter({ it != object })
                     .flatMap({ it.locations.stream() })
                     .filter({location -> location.coordinate == addedLocation.coordinate})
-                    .allMatch { !it.intervalIntersects(addedLocation) }
+                    .anyMatch { it.intervalIntersects(addedLocation) }
+            if (locationIntersects) {
+                'locationIntersects'
+            }
         }
         aliases validator: { aliases, object ->
             if (!aliases) {
                 return true
             }
             def addedAlias = aliases[-1]
-            aliases[0..<-1].every { !it.intervalIntersects(addedAlias) }
+            def aliasIntersects = aliases[0..<-1].any { it.intervalIntersects(addedAlias) }
+            if (aliasIntersects) {
+                'aliasIntersects'
+            }
         }
         dateDeleted nullable: true
     }
