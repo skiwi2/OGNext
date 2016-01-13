@@ -43,4 +43,9 @@ class MissileReportSpec extends Specification {
         new MissileReport(player: player, key: key) != new MissileReport(player: player2, key: key)
         new MissileReport(player: player, key: key) != new MissileReport(player: player, key: key2)
     }
+
+    void "test to string"() {
+        expect:
+        new MissileReport(player: player, key: key).toString() == "MissileReport(null, Player(null, null, 103168), mr-en-135-b47906dc63fafa3c47185e09c23908945c802781)"
+    }
 }

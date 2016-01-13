@@ -72,4 +72,9 @@ class UniverseSpec extends Specification {
 
         new Universe(serverGroup: serverGroup, universeId: 135, name: "test1") == new Universe(serverGroup: serverGroup, universeId: 135, name: "test2")
     }
+
+    void "test to string"() {
+        expect:
+        new Universe(serverGroup: new ServerGroup(countryCode: "en"), universeId: 135).toString() == "Universe(null, en, 135)"
+    }
 }

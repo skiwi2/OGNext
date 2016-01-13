@@ -274,4 +274,9 @@ class MoonSpec extends Specification {
         new Moon(player: player, universe: universe, moonId: 1000, buildings: defaultMoonBuildings, defences: defaultDefences, fleet: defaultFleet).addToLocations(moonLocation) == new Moon(player: player, universe: universe, moonId: 1000, buildings: defaultMoonBuildings, defences: defaultDefences, fleet: defaultFleet).addToLocations(moonLocation2)
         new Moon(player: player, universe: universe, moonId: 1000, buildings: defaultMoonBuildings, defences: defaultDefences, fleet: defaultFleet).addToAliases(moonAlias) == new Moon(player: player, universe: universe, moonId: 1000, buildings: defaultMoonBuildings, defences: defaultDefences, fleet: defaultFleet).addToAliases(moonAlias2)
     }
+
+    void "test to string"() {
+        expect:
+        new Moon(player: player, universe: universe, moonId: 1000, buildings: defaultMoonBuildings, defences: defaultDefences, fleet: defaultFleet).toString() == "Moon(null, Player(null, Universe(null, en, 135), 103168), 1000)"
+    }
 }

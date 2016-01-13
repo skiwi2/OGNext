@@ -22,4 +22,9 @@ class MoonLocation {
     boolean inInterval(Instant instant) {
         begin <= instant && instant < end
     }
+
+    @Override
+    String toString() {
+        "${this.class.simpleName}($id, $coordinate, $begin, $end)"
+    }
 }

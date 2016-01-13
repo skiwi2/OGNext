@@ -18,4 +18,9 @@ class Coordinate {
 
     Date dateCreated
     Date lastUpdated
+
+    @Override
+    String toString() {
+        "${this.class.simpleName}($id, $universe, $galaxy, $solarSystem, $position)"
+    }
 }

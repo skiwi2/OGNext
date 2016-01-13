@@ -43,4 +43,9 @@ class SpyReportSpec extends Specification {
         new SpyReport(player: player, key: key) != new SpyReport(player: player2, key: key)
         new SpyReport(player: player, key: key) != new SpyReport(player: player, key: key2)
     }
+
+    void "test to string"() {
+        expect:
+        new SpyReport(player: player, key: key).toString() == "SpyReport(null, Player(null, null, 103168), sr-en-135-73536e717b84e3ebd7cc6c415a3b3675cc1af166)"
+    }
 }

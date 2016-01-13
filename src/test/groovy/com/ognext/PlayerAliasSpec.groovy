@@ -63,4 +63,14 @@ class PlayerAliasSpec extends Specification {
         playerAlias.inInterval(now.plus(2, ChronoUnit.HOURS))
         !playerAlias.inInterval(now.plus(4, ChronoUnit.HOURS))
     }
+
+    void "test to string"() {
+        given: "the dates"
+        def now = Instant.now()
+        def begin = now
+        def end = now.plus(1, ChronoUnit.HOURS)
+
+        expect:
+        new PlayerAlias(name: "skiwi", begin: begin, end: end).toString() == "PlayerAlias(null, skiwi, $begin, $end)".toString()
+    }
 }

@@ -43,4 +43,9 @@ class RecycleReportSpec extends Specification {
         new RecycleReport(player: player, key: key) != new RecycleReport(player: player2, key: key)
         new RecycleReport(player: player, key: key) != new RecycleReport(player: player, key: key2)
     }
+
+    void "test to string"() {
+        expect:
+        new RecycleReport(player: player, key: key).toString() == "RecycleReport(null, Player(null, null, 103168), rr-en-135-3105606a1fdb509f9f51459b5ddf0d36afc8a074)"
+    }
 }

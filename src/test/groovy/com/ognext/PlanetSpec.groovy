@@ -274,4 +274,9 @@ class PlanetSpec extends Specification {
         new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet).addToLocations(planetLocation) == new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet).addToLocations(planetLocation2)
         new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet).addToAliases(planetAlias) == new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet).addToAliases(planetAlias2)
     }
+
+    void "test to string"() {
+        expect:
+        new Planet(player: player, universe: universe, planetId: 1000, buildings: defaultPlanetBuildings, defences: defaultDefences, fleet: defaultFleet).toString() == "Planet(null, Player(null, Universe(null, en, 135), 103168), 1000)"
+    }
 }

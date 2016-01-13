@@ -37,4 +37,9 @@ class Player {
     String getNameAt(Instant instant) {
         playerService.getPlayerAlias(this, instant).name
     }
+
+    @Override
+    String toString() {
+        "${this.class.simpleName}($id, $universe, $playerId)"
+    }
 }

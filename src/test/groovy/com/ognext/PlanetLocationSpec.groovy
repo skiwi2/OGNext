@@ -68,4 +68,14 @@ class PlanetLocationSpec extends Specification {
         planetLocation.inInterval(now.plus(2, ChronoUnit.HOURS))
         !planetLocation.inInterval(now.plus(4, ChronoUnit.HOURS))
     }
+
+    void "test to string"() {
+        given: "the dates"
+        def now = Instant.now()
+        def begin = now
+        def end = now.plus(1, ChronoUnit.HOURS)
+
+        expect:
+        new PlanetLocation(coordinate: coordinate, begin: begin, end: end).toString() == "PlanetLocation(null, Coordinate(null, Universe(null, en, 135), 2, 122, 12), $begin, $end)".toString()
+    }
 }

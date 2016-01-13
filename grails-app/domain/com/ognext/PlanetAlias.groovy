@@ -21,4 +21,9 @@ class PlanetAlias {
     boolean inInterval(Instant instant) {
         begin <= instant && instant < end
     }
+
+    @Override
+    String toString() {
+        "${this.class.simpleName}($id, $name, $begin, $end)"
+    }
 }

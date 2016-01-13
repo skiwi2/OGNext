@@ -37,4 +37,9 @@ class ServerGroupSpec extends Specification {
         new ServerGroup(countryCode: "en") == new ServerGroup(countryCode: "en")
         new ServerGroup(countryCode: "en") != new ServerGroup(countryCode: "nl")
     }
+
+    void "test to string"() {
+        expect:
+        new ServerGroup(countryCode: "en").toString() == "ServerGroup(null, en)"
+    }
 }

@@ -74,4 +74,9 @@ class Planet {
     String getNameAt(Instant instant) {
         planetService.getPlanetAlias(this, instant).name
     }
+
+    @Override
+    String toString() {
+        "${this.class.simpleName}($id, $player, $planetId)"
+    }
 }

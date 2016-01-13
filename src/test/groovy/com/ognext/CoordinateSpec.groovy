@@ -42,4 +42,9 @@ class CoordinateSpec extends Specification {
         new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 12) != new Coordinate(universe: universe, galaxy: 2, solarSystem: 123, position: 12)
         new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 12) != new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 13)
     }
+
+    void "test to string"() {
+        expect:
+        new Coordinate(universe: universe, galaxy: 2, solarSystem: 122, position: 12).toString() == "Coordinate(null, Universe(null, en, 135), 2, 122, 12)"
+    }
 }

@@ -74,4 +74,9 @@ class Moon {
     String getNameAt(Instant instant) {
         moonService.getMoonAlias(this, instant).name
     }
+
+    @Override
+    String toString() {
+        "${this.class.simpleName}($id, $player, $moonId)"
+    }
 }

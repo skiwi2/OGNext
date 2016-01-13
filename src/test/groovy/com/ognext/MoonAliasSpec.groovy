@@ -63,4 +63,14 @@ class MoonAliasSpec extends Specification {
         moonAlias.inInterval(now.plus(2, ChronoUnit.HOURS))
         !moonAlias.inInterval(now.plus(4, ChronoUnit.HOURS))
     }
+
+    void "test to string"() {
+        given: "the dates"
+        def now = Instant.now()
+        def begin = now
+        def end = now.plus(1, ChronoUnit.HOURS)
+
+        expect:
+        new MoonAlias(name: "Moon", begin: begin, end: end).toString() == "MoonAlias(null, Moon, $begin, $end)".toString()
+    }
 }

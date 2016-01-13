@@ -43,4 +43,9 @@ class CombatReportSpec extends Specification {
         new CombatReport(player: player, key: key) != new CombatReport(player: player2, key: key)
         new CombatReport(player: player, key: key) != new CombatReport(player: player, key: key2)
     }
+
+    void "test to string"() {
+        expect:
+        new CombatReport(player: player, key: key).toString() == "CombatReport(null, Player(null, null, 103168), cr-en-135-3be2512d98e266343c100f71d6c14b7a68e639f4)"
+    }
 }

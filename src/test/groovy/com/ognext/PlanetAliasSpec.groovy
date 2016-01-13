@@ -63,4 +63,14 @@ class PlanetAliasSpec extends Specification {
         planetAlias.inInterval(now.plus(2, ChronoUnit.HOURS))
         !planetAlias.inInterval(now.plus(4, ChronoUnit.HOURS))
     }
+
+    void "test to string"() {
+        given: "the dates"
+        def now = Instant.now()
+        def begin = now
+        def end = now.plus(1, ChronoUnit.HOURS)
+
+        expect:
+        new PlanetAlias(name: "Homeworld", begin: begin, end: end).toString() == "PlanetAlias(null, Homeworld, $begin, $end)".toString()
+    }
 }

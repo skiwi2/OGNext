@@ -15,4 +15,9 @@ class Universe {
 
     Date dateCreated
     Date lastUpdated
+
+    @Override
+    String toString() {
+        "${this.class.simpleName}($id, ${serverGroup.countryCode}, $universeId)"
+    }
 }

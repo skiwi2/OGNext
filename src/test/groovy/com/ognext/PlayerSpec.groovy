@@ -49,6 +49,8 @@ class PlayerSpec extends Specification {
         when: "player is valid"
         def player = new Player(universe: universe, playerId: 103168, researches: defaultResearches)
 
+        println player
+
         then: "player should be saved"
         player.save()
     }
@@ -156,5 +158,10 @@ class PlayerSpec extends Specification {
         new Player(universe: universe, playerId: 103168, researches: defaultResearches) != new Player(universe: universe, playerId: 103169, researches: defaultResearches)
 
         new Player(universe: universe, playerId: 103168, researches: defaultResearches).addToAliases(playerAlias) == new Player(universe: universe, playerId: 103168, researches: defaultResearches).addToAliases(playerAlias2)
+    }
+
+    void "test to string"() {
+        expect:
+        new Player(universe: universe, playerId: 103168, researches: defaultResearches).toString() == "Player(null, Universe(1, en, 1), 103168)"
     }
 }

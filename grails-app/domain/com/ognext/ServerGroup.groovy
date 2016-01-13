@@ -12,4 +12,9 @@ class ServerGroup {
 
     Date dateCreated
     Date lastUpdated
+
+    @Override
+    String toString() {
+        "${this.class.simpleName}($id, $countryCode)"
+    }
 }
