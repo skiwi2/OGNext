@@ -15,8 +15,5 @@ class PlanetControllerSpec extends Specification {
     def cleanup() {
     }
 
-    void "test something"() {
-        expect: "fix me"
-        true == false
-    }
+    //TODO write tests
 }
