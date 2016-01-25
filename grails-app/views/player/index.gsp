@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
+    <title>Players - OLog</title>
     <style type="text/css">
         .researches-cell {
             text-align: center;
@@ -8,7 +9,6 @@
     </style>
 </head>
 <body>
-    <p><b>Players</b></p>
     <table>
         <tr>
             <th>Player</th>
