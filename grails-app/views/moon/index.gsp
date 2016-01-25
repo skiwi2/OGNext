@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>Planets - OLog</title>
+    <title>Moons - OLog</title>
     <style type="text/css">
         .buildings-cell {
             text-align: center;
