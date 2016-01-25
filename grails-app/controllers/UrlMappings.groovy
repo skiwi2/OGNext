@@ -5,6 +5,7 @@ class UrlMappings {
 
         "/players/$serverGroupCountryCode/$universeId/$action?/$id?" (controller: "player")
         "/planets/$serverGroupCountryCode/$universeId/$action?/$id?" (controller: "planet")
+        "/moons/$serverGroupCountryCode/$universeId/$action?/$id?" (controller: "moon")
         "/spyreport/$serverGroupCountryCode/$universeId/$playerId/$action?/$id?" (controller: "spyReport")
         "/info/$action?/$id?" (controller: "info")
 
