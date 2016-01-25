@@ -3,6 +3,7 @@ class UrlMappings {
     static mappings = {
         "/api/userscript/$action/$id?" (controller: "userscript")
 
+        "/players/$serverGroupCountryCode/$universeId/$action?/$id?" (controller: "player")
         "/spyreport/$serverGroupCountryCode/$universeId/$playerId/$action?/$id?" (controller: "spyReport")
         "/info/$action?/$id?" (controller: "info")
 
